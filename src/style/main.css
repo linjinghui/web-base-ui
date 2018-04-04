@@ -1,0 +1,3 @@
+@import 'normalize.css';
+/*必须引入组件图标字体*/
+@import "../fonts/iconfont.css";
