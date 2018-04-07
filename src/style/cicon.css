@@ -1,3 +1,130 @@
 /**
 * 纯css图标
 */
+[class^=cicon-] {
+	position: relative;
+	display: inline-block;
+	font-size: 50px;
+	width: 1em;
+	height: 1em;
+	color: #fff;
+}
+
+[class*=-cpt] {
+	cursor: pointer;
+}
+
+[class*=-chr]:hover {
+	opacity: 0.8;
+}
+
+[class^=cicon-]:before, 
+[class^=cicon-]:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	pointer-events: none;
+	border-style: solid;
+	border-color: inherit;
+	border-width: 0;
+}
+
+[class^=cicon-sub]:before, 
+[class^=cicon-plus]:before, 
+[class^=cicon-plus]:after,
+[class^=cicon-cross]:before, 
+[class^=cicon-cross]:after {
+	width: 0.8em;
+	height: 0;
+	border-top-width: 2px;
+}
+
+[class^=cicon-cross]:before {
+	transform: rotate(90deg);
+}
+
+[class^=cicon-plus]:before {
+	transform: rotate(45deg);
+}
+
+[class^=cicon-plus]:after {
+	transform: rotate(-45deg);
+}
+
+[class^=cicon-tick]:before {
+	top: -0.2em;
+	width: 0.6em;
+	height: 0.3em;
+	border-width: 2px;
+	border-top: 0;
+	border-right: 0;
+	transform: rotate(-45deg);
+}
+
+[class^=cicon-search]:before {
+	top: -0.2em;
+  left: -0.2em;
+  width: 0.4em;
+  height: 0.4em;
+  border-width: 2px;
+  border-radius: 50%;
+}
+
+[class^=cicon-search]:after {
+		top: 0.35em;
+    right: 0.2em;
+    left: auto;
+	  width: 0.3em;
+    height: 0;
+    border-top-width: 4px;
+    transform: rotate(45deg);
+}
+
+
+[class^=cicon-search-2]:before {
+	top: -0.2em;
+  left: 0.2em;
+}
+
+
+[class^=cicon-search-2]:after {
+	left: -0.1em;
+  transform: rotate(-45deg);
+}
+
+[class^=cicon-play]:before,
+[class^=cicon-arrow]:before {
+	width: 0;
+	height: 0;
+	border-width: 0.4em 0 0.4em 0.64em;
+	border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+
+[class^=cicon-arrow]:before {
+	border-width: 0.4em 0 0.4em 0.44em;
+}
+
+[class^=cicon-arrow-left]:before {
+	border-width: 0.4em 0.44em 0.4em 0;
+}
+
+[class^=cicon-arrow-top]:before {
+	border-width: 0 0.4em 0.44em 0.4em;
+	border-top-color: inherit;
+  border-bottom-color: inherit;
+	border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+[class^=cicon-arrow-bottom]:before {
+	border-width: 0.44em 0.4em 0 0.4em;
+	border-top-color: inherit;
+  border-bottom-color: inherit;
+	border-left-color: transparent;
+  border-right-color: transparent;
+}
