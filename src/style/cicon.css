@@ -11,6 +11,15 @@
 	color: #fff;
 }
 
+[class^=cicon-] span {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1em;
+	height: 1em;
+	
+}
+
 [class*=-crle] {
 	border-radius: 50%;
 	border-style: solid;
@@ -26,7 +35,9 @@
 }
 
 [class^=cicon-]:before, 
-[class^=cicon-]:after {
+[class^=cicon-]:after,
+[class^=cicon-] span:before, 
+[class^=cicon-] span:after {
 	content: '';
 	position: absolute;
 	top: 0;
@@ -210,4 +221,66 @@
 
 [class^=cicon-arrow-bottom]:after {
 	transform: rotate(-45deg);
+}
+
+[class^=cicon-loading]:before,
+[class^=cicon-loading]:after,
+[class^=cicon-loading] span:before,
+[class^=cicon-loading] span:after {
+	width: 0.2em;
+	height: 0;	
+	border-top-width: 2px;
+}
+
+[class^=cicon-loading]:before {
+	left: 0.1em;
+	right: auto;
+}
+
+[class^=cicon-loading]:after {
+	right: 0.1em;
+	left: auto;
+}
+
+[class^=cicon-loading] > span:nth-of-type(1):before {
+	top: 0.2em;
+	bottom: auto;
+	transform: rotate(-90deg);	
+}
+[class^=cicon-loading] > span:nth-of-type(1):after {
+	bottom: 0.2em;
+	top: auto;
+	transform: rotate(90deg);	
+}
+
+[class^=cicon-loading] > span:nth-of-type(2):before {
+  top: 0.25em;
+  left: 0.2em;
+  right: auto;
+  bottom: auto;
+  transform: rotate(45deg);
+}
+
+[class^=cicon-loading] > span:nth-of-type(2):after {
+	bottom: 0.25em;
+  right: 0.2em;
+  left: auto;
+  top: auto;
+  transform: rotate(45deg);
+}
+
+[class^=cicon-loading] > span:nth-of-type(3):before {
+  top: 0.25em;
+  right: 0.2em;
+  left: auto;
+  bottom: auto;
+  transform: rotate(-45deg);
+}
+
+[class^=cicon-loading] > span:nth-of-type(3):after {
+  bottom: 0.25em;
+  left: 0.2em;
+  right: auto;
+  top: auto;
+  transform: rotate(-45deg);
 }

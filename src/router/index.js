@@ -2,7 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Demo from '../../example/demo';
 
-import DemoButton from '../../example/demo_button';
+import DemoCicon from '../../example/demo_cicon.vue';
+import DemoButton from '../../example/demo_button.vue';
 
 Vue.use(Router);
 
@@ -13,6 +14,11 @@ export default new Router({
       path: '/',
       name: 'demo',
       component: Demo
+    },
+    {
+      path: '/demoCicon',
+      name: 'demoCicon',
+      component: DemoCicon
     },
     {
       path: '/demoButton',

@@ -1,5 +1,6 @@
 <template>
   <div style="padding: 50px;">
+    <a href="#/demoCicon">css icon</a>
     <a href="#/demoButton">button</a>
   </div>
 </template>
