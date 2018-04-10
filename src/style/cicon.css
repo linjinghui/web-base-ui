@@ -8,7 +8,7 @@
 	width: 1em;
 	height: 1em;
 	vertical-align: middle;
-	color: #fff;
+	color: inherit;
 }
 
 [class^=cicon-] span {
