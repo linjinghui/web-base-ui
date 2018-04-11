@@ -4,6 +4,7 @@
 [class^=cicon-] {
 	position: relative;
 	display: inline-block;
+	font-style: normal;
 	font-size: 50px;
 	width: 1em;
 	height: 1em;
@@ -20,10 +21,15 @@
 	
 }
 
-[class*=-crle] {
+/*[class*=-crle] {*/
+[class^=cicon-] {
 	border-radius: 50%;
+}
+
+/*[class*=-cbdr] {*/
+[class^=cicon-] {
 	border-style: solid;
-	border-width: 2px;
+	border-width: 1px;
 }
 
 [class*=-cpt] {
@@ -73,7 +79,7 @@
 	transform: rotate(-45deg);
 }
 
-[class^=cicon-cross-2] {
+/*[class^=cicon-cross-2] {
 	border-radius: 50%;
 	background-color: #c0c4cc;
 }
@@ -88,7 +94,7 @@
 [class^=cicon-cross-2]:hover {
 	border-radius: 50%;
 	background-color: #999;
-}
+}*/
 
 [class^=cicon-tick]:before {
 	top: -0.2em;
@@ -179,21 +185,30 @@
 	border-top-width: 2px;
 }
 
-[class^=cicon-arrow-left]:before, 
-[class^=cicon-arrow-right]:before {
+[class^=cicon-arrow]:before {
 	bottom: auto;
-	top: 0.3em;
+	top: 0.29em;
 	transform: rotate(45deg);
 } 
 
-[class^=cicon-arrow-left]:after,
-[class^=cicon-arrow-right]:after {
-	top: auto;
-	bottom: 0.3em;
+[class^=cicon-arrow]:after {
+	bottom: auto;
+	top: 0.65em;
 	transform: rotate(-45deg);
 }
 
-[class^=cicon-arrow-left]:before {
+[class^=cicon-arrow-bottom] {
+	transform: rotate(90deg);	
+}
+
+[class^=cicon-arrow-left] {
+	transform: rotate(180deg);	
+}
+
+[class^=cicon-arrow-top] {
+	transform: rotate(270deg);	
+}
+/*[class^=cicon-arrow-left]:before {
 	transform: rotate(-45deg);
 } 
 
@@ -221,7 +236,7 @@
 
 [class^=cicon-arrow-bottom]:after {
 	transform: rotate(-45deg);
-}
+}*/
 
 [class^=cicon-loading]:before,
 [class^=cicon-loading]:after,
@@ -283,4 +298,11 @@
   right: auto;
   top: auto;
   transform: rotate(-45deg);
+}
+
+[class^=cicon-exclamation]:before {
+  content: '!';
+  text-align: center;
+  font-size: 0.8em;
+  line-height: 1.2em;
 }
