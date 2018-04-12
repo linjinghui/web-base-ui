@@ -10,8 +10,12 @@
   <button class="button" 
   :style="{'background-color': backColor}" 
   :id="id"
-  :disabled="disabled"
+  :disabled="_disabled"
   :data-clipboard-text="copyData">
+    <label class="lbl-file" :for="'file_' + id" v-if="!_disabled && typeof fileOption!=='undefined'" @click.stop>
+      <input type="file" :id="'file_' + id">
+      <!-- <input type="file" name="sfile" ref="sfile" :id="bfFileId" :accept="bfAccept" :multiple="bfMultiple" @change="fileChange"> -->
+    </label>
     <slot></slot>
   </button>
 </template>
@@ -34,7 +38,8 @@
       disabled: {
         default: false
       },
-      copyData: ''
+      copyData: '',
+      fileOption: ''
     },
     watch: {
       // 
@@ -50,6 +55,16 @@
         };
 
         return obj[this.theme] || this.theme;
+      },
+      _disabled: function () {
+        let result = '';
+
+        if (typeof this.disabled === 'string') {
+          result = this.disabled === 'true';
+        } else {
+          result = this.disabled;
+        }
+        return result;
       }
     },
     beforeDestroy: function () {
@@ -96,6 +111,19 @@
     box-sizing: border-box;
     transition-property: all;
     overflow: visible;outline: medium;text-transform: none;-webkit-appearance: button;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);cursor: pointer;
+    
+    >.lbl-file {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+
+      >input[type='file'] {
+        display: none;
+      }
+    }
   }
 
   .button[disabled] {
