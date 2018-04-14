@@ -7,17 +7,29 @@
  -->
 
 <template>
-  <button class="button" 
-  :style="{'background-color': backColor}" 
-  :id="id"
-  :disabled="_disabled"
-  :data-clipboard-text="copyData">
-    <label class="lbl-file" :for="'file_' + id" v-if="!_disabled && typeof fileOption!=='undefined'" @click.stop>
-      <input type="file" :id="'file_' + id">
-      <!-- <input type="file" name="sfile" ref="sfile" :id="bfFileId" :accept="bfAccept" :multiple="bfMultiple" @change="fileChange"> -->
-    </label>
+  <button class="button" v-if="typeof fileOption==='undefined'"
+    :style="{'background-color': backColor}" 
+    :id="id"
+    :disabled="_disabled"
+    :data-clipboard-text="copyData"
+    @click="clk">
     <slot></slot>
   </button>
+  <!-- 选择文件专用∨ -->
+  <label class="button" v-else
+    :style="{'background-color': backColor}" 
+    :id="id"
+    :disabled="_disabled"
+    :for="'file_' + id">
+      <input type="file" 
+        :id="'file_' + id" 
+        :disabled="_disabled"
+        :accept="fileOption.accept"
+        :multiple="fileOption.multiple"
+        @change="file_change">
+      <slot></slot>
+  </label>
+  <!-- 选择文件专用∧ -->
 </template>
 
 <script type="text/babel">
@@ -72,10 +84,15 @@
     },
     mounted: function () {
       // 初始化剪贴板
-      this.initCopyButton();
+      this.init_copy_btn();
     },
     methods: {
-      initCopyButton: function () {
+      clk: function () {
+        if (!this.copyData) {
+          this.$emit('click');
+        }
+      },
+      init_copy_btn: function () {
         let _this = this;
 
         if (this.copyData) {
@@ -88,6 +105,30 @@
             _this.$emit('cbk_copy', 'error');
           });
         }
+      },
+      file_change: function (e) {
+        let el = e.target;
+        let files = [];
+
+        if (el.files) {
+          for (let i = 0;i < el.files.length;i++) {
+            let file = el.files[i];
+            let name = file.webkitRelativePath || file.relativePath || file.name;
+            let suffix = (name && name.split('.').length > 1) ? (name.split('.')[name.split('.').length - 1]) : '';
+
+            files.push({
+              size: file.size,
+              name: name,
+              type: file.type,
+              suffix: suffix,
+              file,
+              el
+            });
+          }
+        }
+        this.$emit('cbk_file', files);
+        // 清除input记录
+        el.value = '';
       }
     }
   };
@@ -110,19 +151,15 @@
     border: 1px solid transparent;
     box-sizing: border-box;
     transition-property: all;
-    overflow: visible;outline: medium;text-transform: none;-webkit-appearance: button;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);cursor: pointer;
+    overflow: visible;
+    outline: medium;
+    text-transform: none;
+    // -webkit-appearance: button;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
     
-    >.lbl-file {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      cursor: pointer;
-
-      >input[type='file'] {
-        display: none;
-      }
+    input[type='file'] {
+      display: none;
     }
   }
 
