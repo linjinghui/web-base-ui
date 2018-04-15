@@ -4,6 +4,7 @@
     <a href="#/demoButton">button</a>
     <a href="#/demoCheckbox">checkbox</a>
     <a href="#/demoRadio">radio</a>
+    <a href="#/demoInput">input</a>
   </div>
 </template>
 
