@@ -13,7 +13,7 @@
     :disabled="pdisabled"
     :data-clipboard-text="copyData"
     @click="clk">
-    <template v-if="value > 0">{{value}} s</template>
+    <template v-if="value > 0"><span style="font-size: 14px;">{{value}}</span> s</template>
     <slot v-else></slot>
   </button>
   <!-- 选择文件专用∨ -->

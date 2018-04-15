@@ -17,7 +17,7 @@
     <cmp-button theme="info" disabled="false" :fileOption="fileOption" @cbk_file="cbk_file">选择文件</cmp-button>
     <hr style="margin: 10px 0;">
     <!-- 点击后失效 -->
-    <cmp-button style="width: 100px;" theme="primary" disabled="false" v-model="second" @click="clk_send">点击发送</cmp-button>
+    <cmp-button style="width: 100px;height: 34px;" theme="primary" disabled="false" v-model="second" @click="clk_send">点击发送</cmp-button>
     
   </div>
 </template>
