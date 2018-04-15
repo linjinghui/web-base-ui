@@ -5,6 +5,7 @@ import Demo from '../../example/demo';
 import DemoCicon from '../../example/demo_cicon.vue';
 import DemoButton from '../../example/demo_button.vue';
 import DemoCheckbox from '../../example/demo_checkbox.vue';
+import DemoRadio from '../../example/demo_radio.vue';
 
 Vue.use(Router);
 
@@ -30,6 +31,11 @@ export default new Router({
       path: '/demoCheckbox',
       name: 'demoCheckbox',
       component: DemoCheckbox
+    },
+    {
+      path: '/demoRadio',
+      name: 'demoRadio',
+      component: DemoRadio
     }
   ]
 });

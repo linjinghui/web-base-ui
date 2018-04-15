@@ -3,6 +3,7 @@
     <a href="#/demoCicon">css icon</a>
     <a href="#/demoButton">button</a>
     <a href="#/demoCheckbox">checkbox</a>
+    <a href="#/demoRadio">radio</a>
   </div>
 </template>
 
