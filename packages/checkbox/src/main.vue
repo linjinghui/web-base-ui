@@ -20,7 +20,7 @@
     name: 'Checkbox',
     data: function () {
       return {
-        id: 'ckb_' + new Date().getTime() + parseInt(Math.random() * 100)
+        // 
       };
     },
     props: {
