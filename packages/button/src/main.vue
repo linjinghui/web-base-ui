@@ -2,7 +2,7 @@
 功能介绍：
 1、普通按钮（主题：主要|成功|信息|警告|危险）
 2、复制到剪贴版按钮（成功: 返回剪贴内容，错误：error）
-3、选择文件按钮
+3、选择文件按钮（返回文件参数）
 4、计时器按钮
  -->
 
@@ -10,20 +10,21 @@
   <button class="button" v-if="typeof fileOption==='undefined'"
     :style="{'background-color': backColor}" 
     :id="id"
-    :disabled="_disabled"
+    :disabled="pdisabled"
     :data-clipboard-text="copyData"
     @click="clk">
-    <slot></slot>
+    <template v-if="value > 0">{{value}} s</template>
+    <slot v-else></slot>
   </button>
   <!-- 选择文件专用∨ -->
   <label class="button" v-else
     :style="{'background-color': backColor}" 
     :id="id"
-    :disabled="_disabled"
+    :disabled="pdisabled"
     :for="'file_' + id">
       <input type="file" 
         :id="'file_' + id" 
-        :disabled="_disabled"
+        :disabled="pdisabled"
         :accept="fileOption.accept"
         :multiple="fileOption.multiple"
         @change="file_change">
@@ -39,7 +40,8 @@
     name: 'Button',
     data: function () {
       return {
-        id: 'btn_' + new Date().getTime() + parseInt(Math.random() * 100)
+        id: 'btn_' + new Date().getTime() + parseInt(Math.random() * 100),
+        pdisabled: ''
       };
     },
     props: {
@@ -51,10 +53,27 @@
         default: false
       },
       copyData: '',
-      fileOption: ''
+      fileOption: '',
+      // 计时器
+      value: {
+        type: Number,
+        default: 0
+      }
     },
     watch: {
-      // 
+      disabled: function (val) {
+        this.pdisabled = this.parseDisabled();
+      },
+      value: function (val) {
+        if (val > 0) {
+          // 开始计时
+          this.pdisabled = true;
+          this.sub_count_down();
+        } else {
+          // 结束计时
+          this.pdisabled = false;
+        }
+      }
     },
     computed: {
       backColor: function () {
@@ -67,8 +86,24 @@
         };
 
         return obj[this.theme] || this.theme;
+      }
+    },
+    beforeDestroy: function () {
+      // 
+    },
+    mounted: function () {
+      this.pdisabled = this.parseDisabled();
+      // 初始化剪贴板
+      this.init_copy_btn();
+    },
+    methods: {
+      clk: function () {
+        // 控制复制和倒计时状态不允许点击
+        if (!this.copyData) {
+          this.$emit('click');
+        }
       },
-      _disabled: function () {
+      parseDisabled: function () {
         let result = '';
 
         if (typeof this.disabled === 'string') {
@@ -77,20 +112,6 @@
           result = this.disabled;
         }
         return result;
-      }
-    },
-    beforeDestroy: function () {
-      // 
-    },
-    mounted: function () {
-      // 初始化剪贴板
-      this.init_copy_btn();
-    },
-    methods: {
-      clk: function () {
-        if (!this.copyData) {
-          this.$emit('click');
-        }
       },
       init_copy_btn: function () {
         let _this = this;
@@ -129,6 +150,13 @@
         this.$emit('cbk_file', files);
         // 清除input记录
         el.value = '';
+      },
+      sub_count_down: function () {
+        let _this = this;
+
+        setTimeout(function () {
+          _this.$emit('input', _this.value - 1);
+        }, 1000);
       }
     }
   };
