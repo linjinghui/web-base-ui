@@ -1,4 +1,5 @@
 import Button from './button/index';
+import Checkbox from './checkbox/index';
 
 import Vue from 'vue';
 
@@ -13,4 +14,4 @@ const install = function (Vue) {
   });
 }
 
-export {Button};
+export {Button, Checkbox};

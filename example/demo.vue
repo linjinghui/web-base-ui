@@ -2,6 +2,7 @@
   <div style="padding: 50px;">
     <a href="#/demoCicon">css icon</a>
     <a href="#/demoButton">button</a>
+    <a href="#/demoCheckbox">checkbox</a>
   </div>
 </template>
 

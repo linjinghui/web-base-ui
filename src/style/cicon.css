@@ -38,6 +38,14 @@
 	opacity: 0.8;
 }
 
+[class*=-cemt]:before,
+[class*=-cemt]:after {
+	width: 0!important;
+	height: 0!important;
+	border: 0!important;
+	transform: rotate(0deg)!important;
+}
+
 [class^=cicon-]:before, 
 [class^=cicon-]:after,
 [class^=cicon-] span:before, 
