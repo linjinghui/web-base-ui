@@ -4,11 +4,11 @@
   <!-- disabled: 是否禁用 -->
   <!-- beforeClk: 需要二次确认操作 - true|false -->
   <div>
-    <cmp-radio v-model="selected" label="1" :beforeClk="beforeClk">足球</cmp-radio>
-    <cmp-radio v-model="selected" label="2" :beforeClk="beforeClk">篮球</cmp-radio>
+    <cmp-radio v-model="selected" label="1" :beforeclk="beforeClk">足球</cmp-radio>
+    <cmp-radio v-model="selected" label="2" :beforeclk="beforeClk">篮球</cmp-radio>
     <hr>
-    <cmp-radio v-model="food" label="1" :beforeClk="beforeClk">冰激凌</cmp-radio>
-    <cmp-radio v-model="food" label="2" :beforeClk="beforeClk">苹果</cmp-radio>
+    <cmp-radio v-model="food" label="1" :beforeclk="beforeClk">冰激凌</cmp-radio>
+    <cmp-radio v-model="food" label="2" :beforeclk="beforeClk">苹果</cmp-radio>
   </div>
 </template>
 

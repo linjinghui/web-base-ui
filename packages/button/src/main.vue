@@ -7,11 +7,11 @@
  -->
 
 <template>
-  <button class="button" v-if="typeof fileOption==='undefined'"
+  <button class="button" v-if="typeof fileoption==='undefined'"
     :style="{'background-color': backColor}" 
     :id="id"
     :disabled="pdisabled"
-    :data-clipboard-text="copyData"
+    :data-clipboard-text="copydata"
     @click="clk">
     <template v-if="value > 0"><span style="font-size: 14px;">{{value}}</span> s</template>
     <slot v-else></slot>
@@ -25,8 +25,8 @@
       <input type="file" 
         :id="'file_' + id" 
         :disabled="pdisabled"
-        :accept="fileOption.accept"
-        :multiple="fileOption.multiple"
+        :accept="fileoption.accept"
+        :multiple="fileoption.multiple"
         @change="file_change">
       <slot></slot>
   </label>
@@ -52,8 +52,8 @@
       disabled: {
         default: false
       },
-      copyData: '',
-      fileOption: '',
+      copydata: '',
+      fileoption: '',
       // 计时器
       value: {
         type: Number,
@@ -99,7 +99,7 @@
     methods: {
       clk: function () {
         // 控制复制和倒计时状态不允许点击
-        if (!this.copyData) {
+        if (!this.copydata) {
           this.$emit('click');
         }
       },
@@ -116,10 +116,10 @@
       init_copy_btn: function () {
         let _this = this;
 
-        if (this.copyData) {
+        if (this.copydata) {
           this.clipboard = new ClipboardJS('#' + this.id);
           this.clipboard.on('success', function (e) {
-            _this.$emit('cbk_copy', _this.copyData);
+            _this.$emit('cbk_copy', _this.copydata);
           });
 
           this.clipboard.on('error', function (e) {

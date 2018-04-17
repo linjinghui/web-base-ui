@@ -2,7 +2,7 @@
 功能介绍：
 1、支持自定义背景色（theme - 'red'）
 2、禁用（disabled - true|false）
-3、确认点击前执行事件（beforeClk - function）
+3、确认点击前执行事件（beforeclk - function）
  -->
 
 <template>
@@ -29,7 +29,7 @@
         type: String,
         default: '#0079ff'
       },
-      beforeClk: {
+      beforeclk: {
         type: Function
       },
       label: ''
@@ -54,8 +54,8 @@
     methods: {
       clk: function () {
         if (this.disabled + '' !== 'true') {
-          if (this.beforeClk) {
-            this.beforeClk() && this.$emit('input', this.label); 
+          if (this.beforeclk) {
+            this.beforeclk() && this.$emit('input', this.label); 
           } else {
             this.$emit('input', this.label); 
           }

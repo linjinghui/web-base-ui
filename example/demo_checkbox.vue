@@ -4,7 +4,7 @@
     <!-- theme: 控制选中后的背景色 -->
     <!-- disabled: 是否禁用 -->
     <!-- beforeClk: 需要二次确认操作 - true|false -->
-    <cmp-checkbox disabled="false" v-model="selected" theme="#0079ff" :beforeClk="beforeClk">旅游</cmp-checkbox>    
+    <cmp-checkbox disabled="false" v-model="selected" theme="#0079ff" :beforeclk="beforeClk">旅游</cmp-checkbox>    
   </div>
 </template>
 

@@ -11,10 +11,10 @@
     <cmp-button theme="danger" disabled="false" @click="clk">你好世界</cmp-button>
     <hr style="margin: 10px 0;">
     <!-- 复制到剪贴板 @click无效 -->
-    <cmp-button theme="warning" disabled="false" copyData="啦啦啦" @cbk_copy="cbk_copy">复制到剪贴板</cmp-button>
+    <cmp-button theme="warning" disabled="false" copydata="啦啦啦" @cbk_copy="cbk_copy">复制到剪贴板</cmp-button>
     <hr style="margin: 10px 0;">
     <!-- 选择文件 @click无效 -->
-    <cmp-button theme="info" disabled="false" :fileOption="fileOption" @cbk_file="cbk_file">选择文件</cmp-button>
+    <cmp-button theme="info" disabled="false" :fileoption="fileOption" @cbk_file="cbk_file">选择文件</cmp-button>
     <hr style="margin: 10px 0;">
     <!-- 点击后失效 -->
     <cmp-button style="width: 100px;height: 34px;" theme="primary" disabled="false" v-model="second" @click="clk_send">点击发送</cmp-button>
