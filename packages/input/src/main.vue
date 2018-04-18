@@ -47,7 +47,9 @@
       disabled: '',
       clear: {
         default: true
-      }
+      },
+      // number|mobile|fix|email|url|letter|chinese
+      rule: ''
     },
     watch: {
       val: function (val) {
@@ -94,6 +96,7 @@
         this.$emit('focus');
       },
       evn_blur: function () {
+        this.do_reg_value();
         this.$emit('blur');
       },
       evn_keyup: function (event) {
@@ -108,6 +111,37 @@
       is_auto_focus: function () {
         if (this.autofocus + '' === 'true') {
           this.do_focus();
+        }
+      },
+      do_reg_value: function () {
+        let value = this.val;
+
+        if (this.rule === 'number') {
+          this.val = value.replace(/[\D]+/g, '');
+        } else if (this.rule === 'mobile') {
+          value = value.replace(/[\D]+/g, '');
+          if (value.indexOf('1') !== 0) {
+            this.val = '1' + value.substring(0, 10);
+          } else {
+            this.val = value.substring(0, 11);
+          }
+        } else if (this.rule === 'fix') {
+          this.val = value.replace(/[^0-9-]+/g, '');
+        } else if (this.rule === 'email') {
+          value = value.replace(/^@+|@+$/g, '').replace(/\s+/g, '');
+          if (value.indexOf('@') < 0) {
+            this.val = value + '@qq.com';
+          }
+        } else if (this.rule === 'url') {
+          if (value.indexOf('http://') !== 0 && value.indexOf('https://') !== 0) {
+            this.val = 'http://' + value;
+          }
+        } else if (this.rule === 'letter') {
+          this.val = value.replace(/[^a-zA-Z]+/g, '');
+        } else if (this.rule === 'chinese') {
+          this.val = value.replace(/[^\u4e00-\u9fa5]+/g, '');
+        } else if (typeof this.rule === 'string') {
+          this.val = value.replace(new RegExp(this.rule, 'g'), '');
         }
       }
     }

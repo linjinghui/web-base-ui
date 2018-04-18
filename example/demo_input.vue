@@ -1,6 +1,28 @@
 <template>
   <div>
-    <cmp-input v-model="name" type="text" maxlength="1111" placeholder="请输入名称" nopaste="false" autofocus="true" disabled="false" clear="true"
+    <!-- 
+    可自定义左右两侧的图标
+    type: 文本类型 - text|password
+    maxlength: 文本长度
+    placeholder: 占位符
+    nopaste: 不允许粘贴 - true|false
+    disabled: 禁用 - 默认false|true
+    clear: 是否使用清空按钮 - 默认true|false
+    rule: number|mobile|fix|email|url|letter|chinese
+    @focus: 聚焦回调
+    @keyup: 按起回调返回keycode
+    @enter: 回车回调
+     -->
+    <cmp-input 
+    v-model="name" 
+    type="text" 
+    maxlength="1111" 
+    placeholder="请输入名称" 
+    nopaste="false" 
+    autofocus="true" 
+    disabled="false" 
+    clear="false"
+    rule="chinese"
     @focus="cbk_focus"
     @blur="cbk_blur"
     @keyup="cbk_keyup"
