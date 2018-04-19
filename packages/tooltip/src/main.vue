@@ -26,6 +26,14 @@
       },
       theme: function (val) {
         this.reRendDomAttr('', val);
+      },
+      'tooltipDom.top': {
+        deep: true,
+        handler: function (val) {
+          alert(val);
+          this.tooltipDom.dom.style.top = val + 'px';
+          // dom.setAttribute('style', 'background-color: ' + this.theme);
+        }
       }
     },
     computed: {
@@ -37,16 +45,18 @@
           return c && c.tag;
         })[0];
       }(this.$slots.default));
-
-      if (dom.elm) {
-        this.slotDom = {
-          dom: dom.elm,
-          left: dom.elm.offsetLeft,
-          top: dom.elm.offsetTop,
-          width: dom.elm.offsetWidth,
-          height: dom.elm.offsetHeight
-        };
-      }
+      
+      this.$nextTick(function () {
+        if (dom.elm) {
+          this.slotDom = {
+            dom: dom.elm,
+            left: dom.elm.offsetLeft,
+            top: dom.elm.offsetTop,
+            width: dom.elm.offsetWidth,
+            height: dom.elm.offsetHeight
+          };
+        }
+      });
       return dom;
     },
     beforeDestroy: function () {
@@ -56,9 +66,14 @@
       this.removeDom();
     },
     mounted: function () {
-      this.rendDom();
+      this.$nextTick(function () {
+        this.rendDom();
+      });
     },
     methods: {
+      // 1、渲染提示框
+      // 2、设置计算提示框位置
+      // 
       // 手动渲染提示 DOM
       rendDom: function () {
         let dom = document.createElement('p');
@@ -80,15 +95,14 @@
         // 获取提示 DOM的基本属性
         this.tooltipDom = {
           dom: dom,
-          left: '',
-          top: '',
           width: dom.offsetWidth,
           height: dom.offsetHeight
         };
+        this.setTooltipPostn();
       },
       // 获取slot元素
       getSlotDom: function () {
-        return document.getElementById(this.id);
+        return this.tooltipDom.dom;
       },
       // 手动移除提示 DOM
       removeDom: function () {
@@ -109,13 +123,18 @@
           triangle && (triangle.setAttribute('style', 'color: ' + theme));
         }
       },
-      // 获取slot元素的绝对位置
-      getSlotDomPostn: function () {
-        let dom = this.getSlotDom();
-        // let left = dom.postion.left;
-        // let top = dom.offset().top;
+      // 计算提示 DOM的相对位置
+      setTooltipPostn: function (type) {
+        // this.slotDom.left;
+        // this.slotDom.top;
+        // this.slotDom.width;
+        // this.slotDom.height;
 
-        console.log(dom);
+        // this.tooltipDom.width;
+        // this.tooltipDom.height;
+        // alert(this.slotDom.top);
+        this.tooltipDom.top = this.slotDom.top + (this.slotDom.height - this.tooltipDom.height) / 2;
+        // console.log(dom);
         // console.log(left);
       }
     }
