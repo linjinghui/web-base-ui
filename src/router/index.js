@@ -8,6 +8,7 @@ import DemoCheckbox from '../../example/demo_checkbox.vue';
 import DemoRadio from '../../example/demo_radio.vue';
 import DemoInput from '../../example/demo_input.vue';
 import DemoSwith from '../../example/demo_swith.vue';
+import DemoTooltip from '../../example/demo_tooltip.vue';
 
 Vue.use(Router);
 
@@ -48,6 +49,11 @@ export default new Router({
       path: '/demoSwith',
       name: 'demoSwith',
       component: DemoSwith
+    },
+    {
+      path: '/demoTooltip',
+      name: 'demoTooltip',
+      component: DemoTooltip
     }
   ]
 });

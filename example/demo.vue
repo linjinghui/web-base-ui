@@ -6,6 +6,7 @@
     <a href="#/demoRadio">radio</a>
     <a href="#/demoInput">input</a>
     <a href="#/demoSwith">swith</a>
+    <a href="#/demoTooltip">tooltip</a>
   </div>
 </template>
 
