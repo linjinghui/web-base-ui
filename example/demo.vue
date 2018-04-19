@@ -5,6 +5,7 @@
     <a href="#/demoCheckbox">checkbox</a>
     <a href="#/demoRadio">radio</a>
     <a href="#/demoInput">input</a>
+    <a href="#/demoSwith">swith</a>
   </div>
 </template>
 
@@ -18,7 +19,7 @@ export default {
     };
   },
   components: {
-    // 
+    //
   },
   methods: {
     callback: function (val) {

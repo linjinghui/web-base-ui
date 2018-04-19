@@ -2,6 +2,7 @@ import Button from './button/index';
 import Checkbox from './checkbox/index';
 import Radio from './radio/index';
 import Input from './input/index';
+import Swith from './swith/index';
 
 import Vue from 'vue';
 
@@ -16,4 +17,4 @@ const install = function (Vue) {
   });
 }
 
-export {Button, Checkbox, Radio, Input};
+export {Button, Checkbox, Radio, Input, Swith};

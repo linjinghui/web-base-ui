@@ -11,14 +11,17 @@ export default {
   name: 'demoButton',
   data: function () {
     return {
-      // 
+      //
     };
   },
   components: {
     'cmpButton': Button
   },
+  watch: {
+    //
+  },
   methods: {
-    // 
+    //
   }
 };
 </script>
