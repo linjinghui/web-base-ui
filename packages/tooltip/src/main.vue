@@ -2,6 +2,8 @@
 功能介绍：
 1、自定义提示内容 - text
 2、自定义主题背景 - theme(默认#303133)
+3、显示方位 - position：top|right|bottom|left
+4、触发方式 - model: hover|click
  -->
 
 <script type="text/babel">
@@ -10,42 +12,34 @@
     data: function () {
       return {
         id: 'tooltip_' + new Date().getTime() + parseInt(Math.random() * 100),
-        slotDom: '',
-        tooltipDom: ''
+        // 目标元素对象
+        slotDom: {},
+        // 提示框对象
+        tooltipDom: {},
+        // 箭头对象
+        triangleDom: {}
       };
     },
     props: {
       text: '',
       theme: {
         default: '#303133'
+      },
+      position: {
+        default: 'top'
+      },
+      model: {
+        default: 'click'
       }
     },
-    watch: {
-      text: function (val) {
-        this.reRendDomAttr(val);
-      },
-      theme: function (val) {
-        this.reRendDomAttr('', val);
-      },
-      'tooltipDom.top': {
-        deep: true,
-        handler: function (val) {
-          alert(val);
-          this.tooltipDom.dom.style.top = val + 'px';
-          // dom.setAttribute('style', 'background-color: ' + this.theme);
-        }
-      }
-    },
-    computed: {
-      //
-    },
+    // 1、构造目标元素 并 获取目标元素长、宽、相对位置left、top
     render: function (createElement) {
       let dom = (function (children) {
         return children && children.filter(c => {
           return c && c.tag;
         })[0];
       }(this.$slots.default));
-      
+
       this.$nextTick(function () {
         if (dom.elm) {
           this.slotDom = {
@@ -60,35 +54,49 @@
       return dom;
     },
     beforeDestroy: function () {
-      //
+      if (this.model === 'click') {
+        window.removeEventListener('click', this.doToggleTooltip);
+      }
     },
     destroyed: function () {
-      this.removeDom();
+      this.removeTooltipDom();
     },
     mounted: function () {
+      // 2、构造出tooltip dom节点 并 获取text dom节点长、宽
       this.$nextTick(function () {
-        this.rendDom();
+        this.rendTooltipDom();
+        this.slotDomEvent();
       });
     },
     methods: {
-      // 1、渲染提示框
-      // 2、设置计算提示框位置
-      // 
       // 手动渲染提示 DOM
-      rendDom: function () {
+      rendTooltipDom: function () {
         let dom = document.createElement('p');
-        let triangle = document.createElement('i');
+        let triangle = '';
 
         dom.setAttribute('id', this.id);
         dom.setAttribute('class', 'tooltip');
         dom.setAttribute('style', 'background-color: ' + this.theme);
-        dom.innerText = this.text;
+        dom.innerHTML = this.text;
 
+        triangle = document.createElement('i');
         triangle.setAttribute('class', 'cicon-triangle-right');
-        triangle.setAttribute('style', JSON.stringify({
-          'color': this.theme,
-          'top': '130px'
-        }).replace(/[{}"]/g, '').replace(/,/g, ';'));
+        triangle.setAttribute('style', 'color: ' + this.theme);
+        dom.appendChild(triangle);
+
+        triangle = document.createElement('i');
+        triangle.setAttribute('class', 'cicon-triangle-bottom');
+        triangle.setAttribute('style', 'color: ' + this.theme);
+        dom.appendChild(triangle);
+
+        triangle = document.createElement('i');
+        triangle.setAttribute('class', 'cicon-triangle-left');
+        triangle.setAttribute('style', 'color: ' + this.theme);
+        dom.appendChild(triangle);
+
+        triangle = document.createElement('i');
+        triangle.setAttribute('class', 'cicon-triangle-top');
+        triangle.setAttribute('style', 'color: ' + this.theme);
         dom.appendChild(triangle);
 
         document.body.appendChild(dom);
@@ -98,44 +106,123 @@
           width: dom.offsetWidth,
           height: dom.offsetHeight
         };
-        this.setTooltipPostn();
+        // 2-2、计算text dom节点 基于 目标元素 四周的 相对位置left、top
+        // 2-3、计算text dom > 箭头 节点 基于 目标元素 四周的 相对位置left、top
+        this.countTooltipPostn();
+        // 3、设置text dom节点所在方位
+        this.setTooltipPostn(this.position);
       },
       // 获取slot元素
-      getSlotDom: function () {
+      getTooltipDom: function () {
         return this.tooltipDom.dom;
       },
       // 手动移除提示 DOM
-      removeDom: function () {
-        let dom = this.getSlotDom();
+      removeTooltipDom: function () {
+        let dom = this.getTooltipDom();
 
         dom && document.body.removeChild(dom);
       },
-      // 手动更新提示内容
-      reRendDomAttr: function (text, theme) {
-        let dom = this.getSlotDom();
-        let triangle = dom && dom.querySelector('[class^=cicon-triangle]');
+      // 计算提示 DOM的相对位置
+      countTooltipPostn: function () {
+        let left = '';
 
-        if (text) {
-          dom && (dom.innerText = text);
-        }
-        if (theme) {
-          dom && (dom.setAttribute('style', 'background-color: ' + theme));
-          triangle && (triangle.setAttribute('style', 'color: ' + theme));
+        this.tooltipDom.psnTop = {
+          left: this.slotDom.left,
+          top: this.slotDom.top - this.tooltipDom.height - (26 - 16 + 5)
+        };
+        this.triangleDom.psnTop = {
+          // left: this.slotDom.left - this.tooltipDom.psnTop.left + this.slotDom.width / 2 - 26 / 2
+          left: 5
+        };
+
+        this.tooltipDom.psnBottom = {
+          left: this.slotDom.left,
+          top: this.slotDom.top + this.slotDom.height + (26 - 16 + 5)
+        };
+        this.triangleDom.psnBottom = {
+          // left: this.slotDom.left - this.tooltipDom.psnTop.left + this.slotDom.width / 2 - 26 / 2
+          left: 5
+        };
+
+        left = this.slotDom.left + this.slotDom.width + (26 - 16 + 5);
+        this.tooltipDom.psnRight = {
+          left: left,
+          top: this.slotDom.top
+        };
+        this.triangleDom.psnRight = {
+          // top: this.slotDom.top + this.slotDom.height / 2 - this.tooltipDom.psnRight.top - 26 / 2
+          top: 5
+        };
+
+        left = this.slotDom.left - this.tooltipDom.width - (26 - 16 + 5);
+        this.tooltipDom.psnLeft = {
+          left: left < 0 ? 0 : left,
+          top: this.slotDom.top,
+          maxWidth: left < 0 ? (this.tooltipDom.width + left) : ''
+        };
+        this.triangleDom.psnLeft = {
+          // top: this.slotDom.top + this.slotDom.height / 2 - this.tooltipDom.psnRight.top - 26 / 2
+          top: 5
+        };
+        console.log(this.tooltipDom);
+        console.log(this.triangleDom);
+      },
+      // 设置text dom节点所在方位
+      setTooltipPostn: function (type) {
+        let dom = this.getTooltipDom();
+        let triangle = '';
+        let className = dom.className.replace(/top|left|bottom|right/g, '');
+
+        dom.className = className + ' ' + type;
+        // 默认隐藏
+        dom.style.display = 'none';
+        if (type === 'top') {
+          triangle = dom.querySelector('.cicon-triangle-bottom');
+          dom.style.top = this.tooltipDom.psnTop.top + 'px';
+          dom.style.left = this.tooltipDom.psnTop.left + 'px';
+          triangle.style.left = this.triangleDom.psnTop.left + 'px';
+        } else if (type === 'right') {
+          triangle = dom.querySelector('.cicon-triangle-left');
+          dom.style.top = this.tooltipDom.psnRight.top + 'px';
+          dom.style.left = this.tooltipDom.psnRight.left + 'px';
+          triangle.style.top = this.triangleDom.psnRight.top + 'px';
+        } else if (type === 'bottom') {
+          triangle = dom.querySelector('.cicon-triangle-top');
+          dom.style.top = this.tooltipDom.psnBottom.top + 'px';
+          dom.style.left = this.tooltipDom.psnBottom.left + 'px';
+          triangle.style.left = this.triangleDom.psnBottom.left + 'px';
+        } else if (type === 'left') {
+          triangle = dom.querySelector('.cicon-triangle-right');
+          dom.style.top = this.tooltipDom.psnLeft.top + 'px';
+          dom.style.left = this.tooltipDom.psnLeft.left + 'px';
+          triangle.style.top = this.triangleDom.psnLeft.top + 'px';
+          if (this.tooltipDom.psnLeft.maxWidth) {
+            dom.style.maxWidth = this.tooltipDom.psnLeft.maxWidth + 'px';
+          }
         }
       },
-      // 计算提示 DOM的相对位置
-      setTooltipPostn: function (type) {
-        // this.slotDom.left;
-        // this.slotDom.top;
-        // this.slotDom.width;
-        // this.slotDom.height;
+      // 给目标元素添加事件
+      slotDomEvent: function () {
+        let _this = this;
 
-        // this.tooltipDom.width;
-        // this.tooltipDom.height;
-        // alert(this.slotDom.top);
-        this.tooltipDom.top = this.slotDom.top + (this.slotDom.height - this.tooltipDom.height) / 2;
-        // console.log(dom);
-        // console.log(left);
+        if (this.model === 'hover') {
+          this.$el.addEventListener('mouseenter', function () {
+            _this.doToggleTooltip('show');
+          });
+          this.$el.addEventListener('mouseleave', function () {
+            _this.doToggleTooltip();
+          });
+        } else if (this.model === 'click') {
+          this.$el.addEventListener('click', function (e) {
+            (e || window.event).stopPropagation();
+            _this.doToggleTooltip('show');
+          });
+          window.addEventListener('click', this.doToggleTooltip);
+        }
+      },
+      // 显示、隐藏text dom节点 - type: show(显示)，其他(隐藏)
+      doToggleTooltip: function (type) {
+        this.getTooltipDom().style.display = type === 'show' ? '' : 'none';
       }
     }
   };
@@ -153,225 +240,41 @@
     z-index: 101;
 
     >[class^=cicon-triangle] {
+      display: none;
       position: absolute;
       font-size: 26px;
     }
 
     >.cicon-triangle-right {
-      margin: auto;
       right: -16px;
-      top: 0;
-      bottom: 0;
+    }
+
+    >.cicon-triangle-bottom {
+      bottom: -16px;
+    }
+
+    >.cicon-triangle-left {
+      left: -16px;
+    }
+
+    >.cicon-triangle-top {
+      top: -16px;
     }
   }
+
+  .tooltip.top >.cicon-triangle-bottom {
+    display: inherit;
+  }
+
+  .tooltip.right >.cicon-triangle-left {
+    display: inherit;
+  }
+
+  .tooltip.bottom >.cicon-triangle-top {
+    display: inherit;
+  }
+
+  .tooltip.left >.cicon-triangle-right {
+    display: inherit;
+  }
 </style>
-
-// import Popper from 'element-ui/src/utils/vue-popper';
-// import debounce from 'throttle-debounce/debounce';
-// import { addClass, removeClass, on, off } from 'element-ui/src/utils/dom';
-// import { getFirstComponentChild } from 'element-ui/src/utils/vdom';
-// import { generateId } from 'element-ui/src/utils/util';
-// import Vue from 'vue';
-
-//   export default {
-//     name: 'ElTooltip',
-//     props: {
-//       openDelay: {
-//         type: Number,
-//         default: 0
-//       },
-//       disabled: Boolean,
-//       manual: Boolean,
-//       effect: {
-//         type: String,
-//         default: 'dark'
-//       },
-//       arrowOffset: {
-//         type: Number,
-//         default: 0
-//       },
-//       popperClass: String,
-//       content: String,
-//       visibleArrow: {
-//         default: true
-//       },
-//       transition: {
-//         type: String,
-//         default: 'el-fade-in-linear'
-//       },
-//       popperOptions: {
-//         default() {
-//           return {
-//             boundariesPadding: 10,
-//             gpuAcceleration: false
-//           };
-//         }
-//       },
-//       enterable: {
-//         type: Boolean,
-//         default: true
-//       },
-//       hideAfter: {
-//         type: Number,
-//         default: 0
-//       }
-//     },
-//     data() {
-//       return {
-//         timeoutPending: null,
-//         focusing: false
-//       };
-//     },
-//     computed: {
-//       tooltipId() {
-//         return `el-tooltip-${generateId()}`;
-//       }
-//     },
-//     beforeCreate() {
-//       if (this.$isServer) return;
-
-//       this.popperVM = new Vue({
-//         data: { node: '' },
-//         render(h) {
-//           return this.node;
-//         }
-//       }).$mount();
-
-//       this.debounceClose = debounce(200, () => this.handleClosePopper());
-//     },
-//     render(h) {
-//       if (this.popperVM) {
-//         this.popperVM.node = (
-//           <transition
-//             name={ this.transition }
-//             onAfterLeave={ this.doDestroy }>
-//             <div
-//               onMouseleave={ () => { this.setExpectedState(false); this.debounceClose(); } }
-//               onMouseenter= { () => { this.setExpectedState(true); } }
-//               ref="popper"
-//               role="tooltip"
-//               id={this.tooltipId}
-//               aria-hidden={ (this.disabled || !this.showPopper) ? 'true' : 'false' }
-//               v-show={!this.disabled && this.showPopper}
-//               class={
-//                 ['el-tooltip__popper', 'is-' + this.effect, this.popperClass]
-//               }>
-//               { this.$slots.content || this.content }
-//             </div>
-//           </transition>);
-//       }
-
-//       if (!this.$slots.default || !this.$slots.default.length) return this.$slots.default;
-
-//       const vnode = getFirstComponentChild(this.$slots.default);
-
-//       if (!vnode) return vnode;
-
-//       const data = vnode.data = vnode.data || {};
-//       data.staticClass = this.concatClass(data.staticClass, 'el-tooltip');
-
-//       return vnode;
-//     },
-//     mounted() {
-//       this.referenceElm = this.$el;
-//       if (this.$el.nodeType === 1) {
-//         this.$el.setAttribute('aria-describedby', this.tooltipId);
-//         this.$el.setAttribute('tabindex', 0);
-//         on(this.referenceElm, 'mouseenter', this.show);
-//         on(this.referenceElm, 'mouseleave', this.hide);
-//         on(this.referenceElm, 'focus', () => {
-//           if (!this.$slots.default || !this.$slots.default.length) {
-//             this.handleFocus();
-//             return;
-//           }
-//           const instance = this.$slots.default[0].componentInstance;
-//           if (instance && instance.focus) {
-//             instance.focus();
-//           } else {
-//             this.handleFocus();
-//           }
-//         });
-//         on(this.referenceElm, 'blur', this.handleBlur);
-//         on(this.referenceElm, 'click', this.removeFocusing);
-//       }
-//     },
-//     watch: {
-//       focusing(val) {
-//         if (val) {
-//           addClass(this.referenceElm, 'focusing');
-//         } else {
-//           removeClass(this.referenceElm, 'focusing');
-//         }
-//       }
-//     },
-//     methods: {
-//       show() {
-//         this.setExpectedState(true);
-//         this.handleShowPopper();
-//       },
-
-//       hide() {
-//         this.setExpectedState(false);
-//         this.debounceClose();
-//       },
-//       handleFocus() {
-//         this.focusing = true;
-//         this.show();
-//       },
-//       handleBlur() {
-//         this.focusing = false;
-//         this.hide();
-//       },
-//       removeFocusing() {
-//         this.focusing = false;
-//       },
-
-//       concatClass(a, b) {
-//         if (a && a.indexOf(b) > -1) return a;
-//         return a ? b ? (a + ' ' + b) : a : (b || '');
-//       },
-
-//       handleShowPopper() {
-//         if (!this.expectedState || this.manual) return;
-//         clearTimeout(this.timeout);
-//         this.timeout = setTimeout(() => {
-//           this.showPopper = true;
-//         }, this.openDelay);
-
-//         if (this.hideAfter > 0) {
-//           this.timeoutPending = setTimeout(() => {
-//             this.showPopper = false;
-//           }, this.hideAfter);
-//         }
-//       },
-
-//       handleClosePopper() {
-//         if (this.enterable && this.expectedState || this.manual) return;
-//         clearTimeout(this.timeout);
-
-//         if (this.timeoutPending) {
-//           clearTimeout(this.timeoutPending);
-//         }
-//         this.showPopper = false;
-
-//         if (this.disabled) {
-//           this.doDestroy();
-//         }
-//       },
-
-//       setExpectedState(expectedState) {
-//         if (expectedState === false) {
-//           clearTimeout(this.timeoutPending);
-//         }
-//         this.expectedState = expectedState;
-//       }
-//     },
-//     destroyed() {
-//       const reference = this.referenceElm;
-//       off(reference, 'mouseenter', this.show);
-//       off(reference, 'mouseleave', this.hide);
-//       off(reference, 'focus', this.handleFocus);
-//       off(reference, 'blur', this.handleBlur);
-//       off(reference, 'click', this.removeFocusing);
-//     }
-//   };
