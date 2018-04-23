@@ -7,6 +7,7 @@
     <a href="#/demoInput">input</a>
     <a href="#/demoSwith">swith</a>
     <a href="#/demoTooltip">tooltip</a>
+    <a href="#/demoLoading">loading</a>
   </div>
 </template>
 

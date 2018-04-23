@@ -4,6 +4,7 @@ import Radio from './radio/index';
 import Input from './input/index';
 import Swith from './swith/index';
 import Tooltip from './tooltip/index';
+import Loading from './loading/index';
 
 import Vue from 'vue';
 
@@ -18,4 +19,4 @@ const install = function (Vue) {
   });
 }
 
-export {Button, Checkbox, Radio, Input, Swith, Tooltip};
+export {Button, Checkbox, Radio, Input, Swith, Tooltip, Loading};
