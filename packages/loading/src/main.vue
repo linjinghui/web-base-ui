@@ -8,11 +8,11 @@
 
 <template>
   <keep-alive>
-    <div class="loading center-hv" 
-      v-if="('true' === value + '')" 
+    <div class="loading center-hv"
+      v-if="('true' === value + '')"
       :style="{'z-index': zIndex + 1}">
       <i class="cicon-loading move-loop"><span></span><span></span><span></span></i>
-      <span>{{text}}</span>
+      <span>{{ptext}}</span>
     </div>
   </keep-alive>
 </template>
@@ -24,10 +24,14 @@
       return {
         id: 'loading_' + new Date().getTime() + parseInt(Math.random() * 100),
         zIndex: 1000,
-        domZz: ''
+        domZz: '',
+        ptext: this.text
       };
     },
     props: {
+      eventName: {
+        default: 'Loading'
+      },
       value: '',
       // 是否模态，即是否产生遮罩效果
       modal: {
@@ -51,6 +55,9 @@
         } else {
           this.removeZz();
         }
+      },
+      text: function (val) {
+        this.ptext = val;
       }
     },
     computed: {
@@ -59,15 +66,29 @@
     beforeDestroy: function () {
       window.removeEventListener('keydown', this.escEvent);
       this.removeZz();
+      window.EVENTBUS.$off(this.eventName);
     },
     mounted: function () {
+      let _this = this;
+
       window.addEventListener('keydown', this.escEvent);
       this.creatZz();
+      window.EVENTBUS.$on(this.eventName, function (data) {
+        if (typeof data.display !== 'undefined') {
+          _this.changeDisplay(data.display);
+        }
+        if (data.text) {
+          _this.ptext = data.text;
+        }
+      });
     },
     methods: {
       hideLoading: function () {
         this.removeZz();
-        this.$emit('input', false);
+        this.changeDisplay(false);
+      },
+      changeDisplay: function (type) {
+        this.$emit('input', type);
       },
       escEvent: function (e) {
         let event = e || window.event;
@@ -103,11 +124,13 @@
     padding: 0 10px;
     line-height: 40px;
     text-align: center;
-    color: #fff;
-    background-color: #000;
     border-radius: 4px;
+    font-size: 14px;
     user-select: none;
     overflow: hidden;
+    color: #333;
+    background-color: #fff;
+    box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);
 
     >i {
       font-size: 34px;
@@ -120,7 +143,9 @@
       padding-bottom: 6px;
       width: 120px;
       height: 100px;
-      font-size: 14px;
+      color: #fff;
+      background-color: #000;
+      box-shadow: none;
 
       >i {
         font-size: 44px;
