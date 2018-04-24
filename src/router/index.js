@@ -11,6 +11,7 @@ import DemoSwith from '../../example/demo_swith.vue';
 import DemoTooltip from '../../example/demo_tooltip.vue';
 import DemoLoading from '../../example/demo_loading.vue';
 import DemoProgress from '../../example/demo_progress.vue';
+import DemoSlider from '../../example/demo_slider.vue';
 
 Vue.use(Router);
 
@@ -66,6 +67,11 @@ export default new Router({
       path: '/demoProgress',
       name: 'demoProgress',
       component: DemoProgress
+    },
+    {
+      path: '/demoSlider',
+      name: 'demoSlider',
+      component: DemoSlider
     }
   ]
 });

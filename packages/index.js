@@ -6,6 +6,7 @@ import Swith from './swith/index';
 import Tooltip from './tooltip/index';
 import Loading from './loading/index';
 import Progress from './progress/index';
+import Slider from './slider/index';
 
 import Vue from 'vue';
 
@@ -20,4 +21,4 @@ const install = function (Vue) {
   });
 }
 
-export {Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress};
+export {Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider};

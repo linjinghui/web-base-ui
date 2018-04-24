@@ -9,6 +9,7 @@
     <a href="#/demoTooltip">tooltip</a>
     <a href="#/demoLoading">loading</a>
     <a href="#/demoProgress">progress</a>
+    <a href="#/demoSlider">slider</a>
   </div>
 </template>
 
