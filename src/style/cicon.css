@@ -18,7 +18,7 @@
 	left: 0;
 	width: 1em;
 	height: 1em;
-	
+
 }
 
 [class*=-crle] {
@@ -46,9 +46,9 @@
 	transform: rotate(0deg)!important;
 }
 
-[class^=cicon-]:before, 
+[class^=cicon-]:before,
 [class^=cicon-]:after,
-[class^=cicon-] span:before, 
+[class^=cicon-] span:before,
 [class^=cicon-] span:after {
 	content: '';
 	position: absolute;
@@ -63,10 +63,10 @@
 	border-width: 0;
 }
 
-[class^=cicon-sub]:before, 
-[class^=cicon-plus]:before, 
+[class^=cicon-sub]:before,
+[class^=cicon-plus]:before,
 [class^=cicon-plus]:after,
-[class^=cicon-cross]:before, 
+[class^=cicon-cross]:before,
 [class^=cicon-cross]:after {
 	width: 0.8em;
 	height: 0;
@@ -90,7 +90,7 @@
 	background-color: #c0c4cc;
 }
 
-[class^=cicon-cross-2]:before, 
+[class^=cicon-cross-2]:before,
 [class^=cicon-cross-2]:after {
 	width: 0.6em;
 	height: 0;
@@ -184,7 +184,7 @@
   border-right-color: transparent;
 }
 
-[class^=cicon-arrow]:before, 
+[class^=cicon-arrow]:before,
 [class^=cicon-arrow]:after {
 	width: 0.54em;
 	height: 0;
@@ -195,7 +195,7 @@
 	bottom: auto;
 	top: 0.29em;
 	transform: rotate(45deg);
-} 
+}
 
 [class^=cicon-arrow]:after {
 	bottom: auto;
@@ -204,30 +204,30 @@
 }
 
 [class^=cicon-arrow-bottom] {
-	transform: rotate(90deg);	
+	transform: rotate(90deg);
 }
 
 [class^=cicon-arrow-left] {
-	transform: rotate(180deg);	
+	transform: rotate(180deg);
 }
 
 [class^=cicon-arrow-top] {
-	transform: rotate(270deg);	
+	transform: rotate(270deg);
 }
 /*[class^=cicon-arrow-left]:before {
 	transform: rotate(-45deg);
-} 
+}
 
 [class^=cicon-arrow-left]:after {
 	transform: rotate(45deg);
 }
 
-[class^=cicon-arrow-top]:before, 
+[class^=cicon-arrow-top]:before,
 [class^=cicon-arrow-bottom]:before {
 	right: auto;
 	left: 0.05em;
 	transform: rotate(-45deg);
-} 
+}
 
 [class^=cicon-arrow-top]:after,
 [class^=cicon-arrow-bottom]:after {
@@ -238,7 +238,7 @@
 
 [class^=cicon-arrow-bottom]:before {
 	transform: rotate(45deg);
-} 
+}
 
 [class^=cicon-arrow-bottom]:after {
 	transform: rotate(-45deg);
@@ -249,7 +249,7 @@
 [class^=cicon-loading] span:before,
 [class^=cicon-loading] span:after {
 	width: 0.2em;
-	height: 0;	
+	height: 0;
 	border-top-width: 2px;
 }
 
@@ -266,12 +266,12 @@
 [class^=cicon-loading] > span:nth-of-type(1):before {
 	top: 0.2em;
 	bottom: auto;
-	transform: rotate(-90deg);	
+	transform: rotate(-90deg);
 }
 [class^=cicon-loading] > span:nth-of-type(1):after {
 	bottom: 0.2em;
 	top: auto;
-	transform: rotate(90deg);	
+	transform: rotate(90deg);
 }
 
 [class^=cicon-loading] > span:nth-of-type(2):before {
@@ -311,4 +311,18 @@
   text-align: center;
   font-size: 0.8em;
   line-height: 1.2em;
+}
+
+[class^=cicon-circle-loading]:before {
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  border-width: 2px;
+}
+
+[class^=cicon-circle-loading]:after {
+  bottom: auto;
+  width: 4px;
+  height: 0.5em;
+  background-color: inherit;
 }
