@@ -8,6 +8,7 @@
     <a href="#/demoSwith">swith</a>
     <a href="#/demoTooltip">tooltip</a>
     <a href="#/demoLoading">loading</a>
+    <a href="#/demoProgress">progress</a>
   </div>
 </template>
 
