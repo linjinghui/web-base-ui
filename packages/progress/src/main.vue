@@ -128,7 +128,7 @@
       transition: width .6s ease;
 
       .text {
-        width: 100px;
+        width: 50px;
         height: 20px;
       }
     }

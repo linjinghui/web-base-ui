@@ -21,7 +21,7 @@ export default {
   name: 'demoProgress',
   data: function () {
     return {
-      progress: 110
+      progress: 2
     };
   },
   components: {
