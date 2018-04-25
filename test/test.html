@@ -2,13 +2,153 @@
 <html>
 <head>
     <title></title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <style type="text/css">
+        .slider {
+            position: relative;
+            width: 100%;
+            user-select: none;
+            overflow: hidden;
+        }
+
+        .slider > .runway {
+            position: relative;
+            margin: 16px;
+            height: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #e4e7ed;
+        }
+
+        .slider > .runway > .bar {
+            position: relative;
+            height: 6px;
+            border-style: solid;
+            border-width: 0;
+            border-radius: inherit;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .slider > .runway > .bar > .btn {
+            position: absolute;
+            top: -16px;
+            right: 0;
+            height: 36px;
+            width: 36px;
+            transform: translateX(50%);
+            border: inherit;
+            border-width: 1px;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .slider > .runway > .bar > .btn:after {
+            content: '';
+            position: absolute;
+            margin: auto;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 16px;
+            height: 16px;
+            border: inherit;
+            border-width: 2px;
+            background-color: #fff;
+            border-radius: 50%;
+            transition: .2s;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <div class="el-progress-circle" style="height: 126px; width: 126px;border: solid 1px;">
-        <svg viewBox="0 0 100 100">
-            <path d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" fill="none" stroke-width="4.8" stroke="#e5e9f2"></path>
-            <path d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" stroke-linecap="round" fill="none" stroke-width="4.8" stroke="#20a0ff" style="stroke-dasharray: 299.08px, 299.08px; stroke-dashoffset: 20px; transition: stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease 0s;"></path>
-        </svg>
+    <div class="slider" style="background-color: red;">
+        <div class="runway">
+            <div class="bar" style="width: 10%;border-color: #409eff;background-color: #409eff;">
+                <span class="btn"></span>
+            </div>
+        </div>
     </div>
 </body>
+<script type="text/javascript">
+
+    // setPosition(80);
+    // setInterval(function () {
+    //     mousePosition();
+    // }, 1000);
+
+
+    var domRunway = document.querySelector('.slider > .runway');
+    var domBar = document.querySelector('.slider > .runway > .bar');
+    var domBarBtn = document.querySelector('.slider > .runway > .bar > .btn');
+    var max = 50
+
+    /*监听跑道点击事件*/
+    domRunway.addEventListener('click', function (e) {
+        let p = getMousexOnBar(e);
+
+        setPosition(p);
+        console.log('当前位置:' + p + '%' + ', ' + (p / 100) * max);
+    });
+
+    /*设置位置*/
+    function setPosition (percent) {
+        if (domBar) {
+            domBar.style.width = percent + '%';
+        }
+    }
+
+    /*获取跑道相对位置*/
+    function getRunwayPosition () {
+        return {
+            left: domRunway.offsetLeft,
+            top: domRunway.offsetTop
+        };
+    }
+
+    /*获取鼠标所在位置所占目标区域的百分比*/
+    function getMousexOnBar (event) {
+        let rwp = getRunwayPosition();
+        let mp = mousePosition(event);
+        let runwayWidth = domRunway.offsetWidth;
+        let percent = (mp.x - rwp.left) / runwayWidth * 100;
+
+        percent = percent < 0 ? 0 : percent > 100 ? 100 : percent;
+        return Math.round(percent);
+    }
+
+    /*获取鼠标坐标*/
+    function mousePosition (event) {
+        let e = event || window.event;
+
+        return {
+            x: e.pageX || e.x,
+            y: e.pageY || e.y
+        };
+
+    }
+
+    // ==========================================================================
+    /*监听按钮拖拽事件*/
+    domBarBtn.addEventListener('mousedown', function (e) {
+        window.addEventListener('mousemove', onDragging);
+    });
+
+    window.addEventListener('mouseup', function (e) {
+        window.removeEventListener('mousemove', onDragging);
+    });
+    // 当按钮开始拖拽
+    function onDragging (e) {
+        let p = getMousexOnBar(e);
+
+        setPosition(p);
+        console.log('当前位置:' + p + '%' + ', ' + (p / 100) * max);
+    }
+</script>
 </html>
