@@ -1,218 +1,164 @@
 <template>
-  <div
-    class="el-slider__button-wrapper"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-    @mousedown="onButtonDown"
-    @touchstart="onButtonDown"
-    :class="{ 'hover': hovering, 'dragging': dragging }"
-    :style="wrapperStyle"
-    ref="button"
-    tabindex="0"
-    @focus="handleMouseEnter"
-    @blur="handleMouseLeave"
-    @keydown.left="onLeftKeyDown"
-    @keydown.right="onRightKeyDown"
-    @keydown.down.prevent="onLeftKeyDown"
-    @keydown.up.prevent="onRightKeyDown"
-  >
-    <!-- <el-tooltip
-      placement="top"
-      ref="tooltip"
-      :popper-class="tooltipClass"
-      :disabled="!showTooltip">
-      <span slot="content">{{ formatValue }}</span>
-      <div class="el-slider__button" :class="{ 'hover': hovering, 'dragging': dragging }"></div>
-    </el-tooltip> -->
+  <div class="slider">
+    <div class="runway" ref="runway" @click="setPositionByMouse">
+      <div class="bar" :style="{'width': value + '%', 'border-color': theme, 'background-color': theme}">
+        <span class="btn" 
+          @mousedown="toggleWindowEvent('add')" 
+          @touchstart="toggleWindowEvent('add')"></span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-  // import ElTooltip from 'element-ui/packages/tooltip';
-
   export default {
     name: 'Slider',
     components: {
-      // ElTooltip
+      // 
     },
     props: {
       value: {
-        type: Number,
         default: 0
       },
-      vertical: {
-        type: Boolean,
-        default: false
-      },
-      tooltipClass: String
+      theme: {
+        default: '#409eff'
+      }
     },
     data () {
       return {
-        hovering: false,
-        dragging: false,
-        isClick: false,
-        startX: 0,
-        currentX: 0,
-        startY: 0,
-        currentY: 0,
-        startPosition: 0,
-        newPosition: null,
-        oldValue: this.value
+        // 
       };
     },
     computed: {
-      disabled () {
-        return this.$parent.sliderDisabled;
-      },
-
-      max () {
-        return this.$parent.max;
-      },
-      min () {
-        return this.$parent.min;
-      },
-      step () {
-        return this.$parent.step;
-      },
-      showTooltip () {
-        return this.$parent.showTooltip;
-      },
-      precision () {
-        return this.$parent.precision;
-      },
-      currentPosition () {
-        return `${(this.value - this.min) / (this.max - this.min) * 100}%`;
-      },
-      enableFormat () {
-        return this.$parent.formatTooltip instanceof Function;
-      },
-      formatValue () {
-        return (this.enableFormat && this.$parent.formatTooltip(this.value)) || this.value;
-      },
-      wrapperStyle () {
-        return this.vertical ? { bottom: this.currentPosition } : { left: this.currentPosition };
-      }
+      // 
     },
     watch: {
-      dragging (val) {
-        this.$parent.dragging = val;
-      }
+      // 
+    },
+    beforeDestroy: function () {
+      window.removeEventListener('mouseup', this.toggleWindowEvent);
+      window.removeEventListener('touchend', this.toggleWindowEvent);
+    },
+    mounted: function () {
+      window.addEventListener('mouseup', this.toggleWindowEvent);
+      window.addEventListener('touchend', this.toggleWindowEvent);
     },
     methods: {
-      displayTooltip () {
-        this.$refs.tooltip && (this.$refs.tooltip.showPopper = true);
-      },
+      /* 根据鼠标位置设置滑块位置 */
+      setPositionByMouse: function (e) {
+        let p = this.getMousexOnBar(e);
 
-      hideTooltip () {
-        this.$refs.tooltip && (this.$refs.tooltip.showPopper = false);
+        this.setPosition(p);
+        // console.log('当前位置:' + p + '%' + ', ' + (p / 100) * max);
       },
+      /* 设置滑块位置 */
+      setPosition: function (percent) {
+        this.$emit('input', percent);
+        // if (domBar) {
+        //   domBar.style.width = percent + '%';
+        // }
+      },
+      /* 获取跑道相对位置 */
+      getRunwayPosition: function () {
+        let domRunway = this.$refs.runway;
 
-      handleMouseEnter () {
-        this.hovering = true;
-        this.displayTooltip();
+        return {
+          left: domRunway.offsetLeft,
+          top: domRunway.offsetTop
+        };
       },
-      handleMouseLeave () {
-        this.hovering = false;
-        this.hideTooltip();
+      /* 获取鼠标所在位置所占目标区域的百分比 */
+      getMousexOnBar: function (event) {
+        let domRunway = this.$refs.runway;
+        let rwp = this.getRunwayPosition();
+        let mp = this.mousePosition(event);
+        let runwayWidth = domRunway.offsetWidth;
+        let percent = (mp.x - rwp.left) / runwayWidth * 100;
+        
+        percent = percent < 0 ? 0 : percent > 100 ? 100 : percent;
+        return Math.round(percent);
       },
-      onButtonDown (event) {
-        if (this.disabled) return;
-        event.preventDefault();
-        this.onDragStart(event);
-        window.addEventListener('mousemove', this.onDragging);
-        window.addEventListener('touchmove', this.onDragging);
-        window.addEventListener('mouseup', this.onDragEnd);
-        window.addEventListener('touchend', this.onDragEnd);
-        window.addEventListener('contextmenu', this.onDragEnd);
-      },
-      onLeftKeyDown () {
-        if (this.disabled) return;
-        this.newPosition = parseFloat(this.currentPosition) - this.step / (this.max - this.min) * 100;
-        this.setPosition(this.newPosition);
-      },
-      onRightKeyDown () {
-        if (this.disabled) return;
-        this.newPosition = parseFloat(this.currentPosition) + this.step / (this.max - this.min) * 100;
-        this.setPosition(this.newPosition);
-      },
-      onDragStart (event) {
-        this.dragging = true;
-        this.isClick = true;
-        if (event.type === 'touchstart') {
-          event.clientY = event.touches[0].clientY;
-          event.clientX = event.touches[0].clientX;
+      /* 获取鼠标坐标 */
+      mousePosition: function (event) {
+        let e = event || window.event;
+
+        if (e.type === 'touchmove') {
+          e.clientY = e.touches[0].clientY;
+          e.clientX = e.touches[0].clientX;
         }
-        if (this.vertical) {
-          this.startY = event.clientY;
+        return {
+          x: e.clientX || e.pageX || e.x,
+          y: e.clientY || e.pageY || e.y
+        };
+      },
+      toggleWindowEvent: function (type) {
+        if (type === 'add') {
+          window.addEventListener('mousemove', this.setPositionByMouse);
+          window.addEventListener('touchmove', this.setPositionByMouse);
         } else {
-          this.startX = event.clientX;
-        }
-        this.startPosition = parseFloat(this.currentPosition);
-        this.newPosition = this.startPosition;
-      },
-      onDragging (event) {
-        if (this.dragging) {
-          this.isClick = false;
-          this.displayTooltip();
-          this.$parent.resetSize();
-          let diff = 0;
-          
-          if (event.type === 'touchmove') {
-            event.clientY = event.touches[0].clientY;
-            event.clientX = event.touches[0].clientX;
-          }
-          if (this.vertical) {
-            this.currentY = event.clientY;
-            diff = (this.startY - this.currentY) / this.$parent.sliderSize * 100;
-          } else {
-            this.currentX = event.clientX;
-            diff = (this.currentX - this.startX) / this.$parent.sliderSize * 100;
-          }
-          this.newPosition = this.startPosition + diff;
-          this.setPosition(this.newPosition);
-        }
-      },
-      onDragEnd () {
-        if (this.dragging) {
-          /*
-           * 防止在 mouseup 后立即触发 click，导致滑块有几率产生一小段位移
-           * 不使用 preventDefault 是因为 mouseup 和 click 没有注册在同一个 DOM 上
-           */
-          setTimeout(() => {
-            this.dragging = false;
-            this.hideTooltip();
-            if (!this.isClick) {
-              this.setPosition(this.newPosition);
-              this.$parent.emitChange();
-            }
-          }, 0);
-          window.removeEventListener('mousemove', this.onDragging);
-          window.removeEventListener('touchmove', this.onDragging);
-          window.removeEventListener('mouseup', this.onDragEnd);
-          window.removeEventListener('touchend', this.onDragEnd);
-          window.removeEventListener('contextmenu', this.onDragEnd);
-        }
-      },
-      setPosition (newPosition) {
-        if (newPosition === null) return;
-        if (newPosition < 0) {
-          newPosition = 0;
-        } else if (newPosition > 100) {
-          newPosition = 100;
-        }
-        const lengthPerStep = 100 / ((this.max - this.min) / this.step);
-        const steps = Math.round(newPosition / lengthPerStep);
-        let value = steps * lengthPerStep * (this.max - this.min) * 0.01 + this.min;
-
-        value = parseFloat(value.toFixed(this.precision));
-        this.$emit('input', value);
-        this.$nextTick(() => {
-          this.$refs.tooltip && this.$refs.tooltip.updatePopper();
-        });
-        if (!this.dragging && this.value !== this.oldValue) {
-          this.oldValue = this.value;
+          window.removeEventListener('mousemove', this.setPositionByMouse);  
+          window.removeEventListener('touchmove', this.setPositionByMouse);
         }
       }
     }
   };
 </script>
+
+<style type="text/css" scoped>
+  .slider {
+    position: relative;
+    width: 100%;
+    user-select: none;
+    overflow: hidden;
+  }
+
+  .slider > .runway {
+    position: relative;
+    margin: 16px;
+    height: 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #e4e7ed;
+  }
+
+  .slider > .runway > .bar {
+    position: relative;
+    height: 6px;
+    border-style: solid;
+    border-width: 0;
+    border-radius: inherit;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .slider > .runway > .bar > .btn {
+    position: absolute;
+    top: -16px;
+    right: 0;
+    height: 36px;
+    width: 36px;
+    transform: translateX(50%);
+    border: inherit;
+    border-width: 1px;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  .slider > .runway > .bar > .btn:after {
+    content: '';
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    border: inherit;
+    border-width: 2px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: .2s;
+    cursor: pointer;
+  }
+  </style>

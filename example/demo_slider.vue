@@ -1,6 +1,6 @@
 <template>
-  <div style="height: 30px;width: 3000px;border: solid 1px;">
-    <cmp-slider></cmp-slider>
+  <div style="width: 300px;background-color: red;">
+    <cmp-slider v-model="percent" theme="yellow"></cmp-slider>
   </div>
 </template>
 
@@ -11,7 +11,7 @@ export default {
   name: 'demoSlider',
   data: function () {
     return {
-      //
+      percent: 10
     };
   },
   components: {
