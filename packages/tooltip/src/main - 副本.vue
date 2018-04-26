@@ -12,8 +12,6 @@
     data: function () {
       return {
         id: 'tooltip_' + new Date().getTime() + parseInt(Math.random() * 100),
-        pstns: ['top', 'right', 'bottom', 'left'],
-        markNum: 0,
         // 目标元素对象
         slotDom: {},
         // 提示框对象
@@ -31,7 +29,7 @@
         default: 'top'
       },
       model: {
-        default: 'hover'
+        default: 'click'
       }
     },
     // 1、构造目标元素 并 获取目标元素长、宽、相对位置left、top
@@ -44,9 +42,13 @@
 
       this.$nextTick(function () {
         if (dom.elm) {
-          this.slotDom = { dom: dom.elm };
-          // 获取slotDom 位置信息
-          this.getSlotDomAttr();
+          this.slotDom = {
+            dom: dom.elm,
+            left: dom.elm.offsetLeft,
+            top: dom.elm.offsetTop,
+            width: dom.elm.offsetWidth,
+            height: dom.elm.offsetHeight
+          };
         }
       });
       return dom;
@@ -58,11 +60,6 @@
     },
     destroyed: function () {
       this.removeTooltipDom();
-    },
-    watch: {
-      text: function () {
-        this.resetToopText();
-      }
     },
     mounted: function () {
       // 2、构造出tooltip dom节点 并 获取text dom节点长、宽
@@ -76,16 +73,11 @@
       rendTooltipDom: function () {
         let dom = document.createElement('p');
         let triangle = '';
-        let font = '';
 
         dom.setAttribute('id', this.id);
         dom.setAttribute('class', 'tooltip');
         dom.setAttribute('style', 'background-color: ' + this.theme);
-
-        font = document.createElement('span');
-        font.setAttribute('class', 'text');
-        font.innerHTML = this.text;
-        dom.appendChild(font);
+        dom.innerHTML = this.text;
 
         triangle = document.createElement('i');
         triangle.setAttribute('class', 'cicon-triangle-right');
@@ -114,8 +106,11 @@
           width: dom.offsetWidth,
           height: dom.offsetHeight
         };
-        this.update();
-        this.doToggleTooltip();
+        // 2-2、计算text dom节点 基于 目标元素 四周的 相对位置left、top
+        // 2-3、计算text dom > 箭头 节点 基于 目标元素 四周的 相对位置left、top
+        this.countTooltipPostn();
+        // 3、设置text dom节点所在方位
+        this.setTooltipPostn(this.position);
       },
       // 获取slot元素
       getTooltipDom: function () {
@@ -127,15 +122,91 @@
 
         dom && document.body.removeChild(dom);
       },
+      // 计算提示 DOM的相对位置
+      countTooltipPostn: function () {
+        let left = '';
+
+        this.tooltipDom.psnTop = {
+          left: this.slotDom.left,
+          top: this.slotDom.top - this.tooltipDom.height - (26 - 16 + 5)
+        };
+        this.triangleDom.psnTop = {
+          // left: this.slotDom.left - this.tooltipDom.psnTop.left + this.slotDom.width / 2 - 26 / 2
+          left: 5
+        };
+
+        this.tooltipDom.psnBottom = {
+          left: this.slotDom.left,
+          top: this.slotDom.top + this.slotDom.height + (26 - 16 + 5)
+        };
+        this.triangleDom.psnBottom = {
+          // left: this.slotDom.left - this.tooltipDom.psnTop.left + this.slotDom.width / 2 - 26 / 2
+          left: 5
+        };
+
+        left = this.slotDom.left + this.slotDom.width + (26 - 16 + 5);
+        this.tooltipDom.psnRight = {
+          left: left,
+          top: this.slotDom.top
+        };
+        this.triangleDom.psnRight = {
+          // top: this.slotDom.top + this.slotDom.height / 2 - this.tooltipDom.psnRight.top - 26 / 2
+          top: 5
+        };
+
+        left = this.slotDom.left - this.tooltipDom.width - (26 - 16 + 5);
+        this.tooltipDom.psnLeft = {
+          left: left < 0 ? 0 : left,
+          top: this.slotDom.top,
+          maxWidth: left < 0 ? (this.tooltipDom.width + left) : ''
+        };
+        this.triangleDom.psnLeft = {
+          // top: this.slotDom.top + this.slotDom.height / 2 - this.tooltipDom.psnRight.top - 26 / 2
+          top: 5
+        };
+        console.log(this.tooltipDom);
+        console.log(this.triangleDom);
+      },
+      // 设置text dom节点所在方位
+      setTooltipPostn: function (type) {
+        let dom = this.getTooltipDom();
+        let triangle = '';
+        let className = dom.className.replace(/top|left|bottom|right/g, '');
+
+        dom.className = className + ' ' + type;
+        // 默认隐藏
+        dom.style.display = 'none';
+        if (type === 'top') {
+          triangle = dom.querySelector('.cicon-triangle-bottom');
+          dom.style.top = this.tooltipDom.psnTop.top + 'px';
+          dom.style.left = this.tooltipDom.psnTop.left + 'px';
+          triangle.style.left = this.triangleDom.psnTop.left + 'px';
+        } else if (type === 'right') {
+          triangle = dom.querySelector('.cicon-triangle-left');
+          dom.style.top = this.tooltipDom.psnRight.top + 'px';
+          dom.style.left = this.tooltipDom.psnRight.left + 'px';
+          triangle.style.top = this.triangleDom.psnRight.top + 'px';
+        } else if (type === 'bottom') {
+          triangle = dom.querySelector('.cicon-triangle-top');
+          dom.style.top = this.tooltipDom.psnBottom.top + 'px';
+          dom.style.left = this.tooltipDom.psnBottom.left + 'px';
+          triangle.style.left = this.triangleDom.psnBottom.left + 'px';
+        } else if (type === 'left') {
+          triangle = dom.querySelector('.cicon-triangle-right');
+          dom.style.top = this.tooltipDom.psnLeft.top + 'px';
+          dom.style.left = this.tooltipDom.psnLeft.left + 'px';
+          triangle.style.top = this.triangleDom.psnLeft.top + 'px';
+          if (this.tooltipDom.psnLeft.maxWidth) {
+            dom.style.maxWidth = this.tooltipDom.psnLeft.maxWidth + 'px';
+          }
+        }
+      },
       // 给目标元素添加事件
       slotDomEvent: function () {
         let _this = this;
 
         if (this.model === 'hover') {
           this.$el.addEventListener('mouseenter', function () {
-            // 获取slotDom 位置信息
-            _this.getSlotDomAttr();
-            _this.update();
             _this.doToggleTooltip('show');
           });
           this.$el.addEventListener('mouseleave', function () {
@@ -144,9 +215,6 @@
         } else if (this.model === 'click') {
           this.$el.addEventListener('click', function (e) {
             (e || window.event).stopPropagation();
-            // 获取slotDom 位置信息
-            _this.getSlotDomAttr();
-            _this.update();
             _this.doToggleTooltip('show');
           });
           window.addEventListener('click', this.doToggleTooltip);
@@ -155,67 +223,6 @@
       // 显示、隐藏text dom节点 - type: show(显示)，其他(隐藏)
       doToggleTooltip: function (type) {
         this.getTooltipDom().style.display = type === 'show' ? '' : 'none';
-      },
-      getSlotDomAttr: function () {
-        let dom = this.slotDom.dom;
-        let bdcr = dom.getBoundingClientRect();
-
-        this.slotDom.left = bdcr.left;
-        this.slotDom.top = bdcr.top;
-        this.slotDom.bottom = document.body.offsetHeight - dom.offsetHeight - bdcr.top;
-        this.slotDom.right = document.body.offsetWidth - dom.offsetWidth - bdcr.left;
-        this.slotDom.width = dom.offsetWidth;
-        this.slotDom.height = dom.offsetHeight;
-      },
-      setTooltipPstn: function (type) {
-        let dom = this.getTooltipDom();
-        let arrow = 15;
-        let left = 200;
-        let top = 200;
-        let max = this.pstns.length;
-        let bodyHeight = document.body.offsetHeight;
-        let bodyWidth = document.body.offsetWidth;
-        let nextPosnIndex = (function (_this) {
-          let index = _this.pstns.indexOf(type);
-
-          return (index >= max - 1) ? 0 : index + 1;
-        }(this));
-
-        if (type === 'top') {
-          top = this.slotDom.top - this.tooltipDom.height - arrow;
-          left = this.slotDom.left + (this.slotDom.width - this.tooltipDom.width) / 2;
-        } else if (type === 'right') {
-          top = this.slotDom.top + (this.slotDom.height - this.tooltipDom.height) / 2;
-          left = this.slotDom.left + this.slotDom.width + arrow;
-        } else if (type === 'bottom') {
-          top = this.slotDom.top + this.slotDom.height + arrow;
-          left = this.slotDom.left + (this.slotDom.width - this.tooltipDom.width) / 2;
-        } else if (type === 'left') {
-          top = this.slotDom.top + (this.slotDom.height - this.tooltipDom.height) / 2;
-          left = this.slotDom.left - this.tooltipDom.width - arrow;
-        }
-        if (this.markNum < max && (top < 0 || left < 0 || (top + this.tooltipDom.height > bodyHeight) || (left + this.tooltipDom.width > bodyWidth))) {
-          this.markNum += 1;
-          this.setTooltipPstn(this.pstns[nextPosnIndex]);
-        } else {
-          dom.style.left = left + 'px';
-          dom.style.top = top + 'px';
-          this.setTooltipArrowPstn(type);
-        }
-      },
-      setTooltipArrowPstn: function (type) {
-        let dom = this.getTooltipDom();
-
-        dom.setAttribute('class', 'tooltip ' + type);
-      },
-      resetToopText: function () {
-        let dom = this.tooltipDom.dom.querySelector('.text');
-
-        dom.innerHTML = this.text;
-      },
-      update: function () {
-        this.markNum = 0;
-        this.setTooltipPstn(this.position);
       }
     }
   };
@@ -235,32 +242,23 @@
     >[class^=cicon-triangle] {
       display: none;
       position: absolute;
-      margin: auto;
       font-size: 26px;
     }
 
     >.cicon-triangle-right {
       right: -16px;
-      top: 0;
-      bottom: 0;
     }
 
     >.cicon-triangle-bottom {
       bottom: -16px;
-      left: 0;
-      right: 0;
     }
 
     >.cicon-triangle-left {
       left: -16px;
-      top: 0;
-      bottom: 0;
     }
 
     >.cicon-triangle-top {
       top: -16px;
-      left: 0;
-      right: 0;
     }
   }
 

@@ -2,22 +2,27 @@
   <div class="slider">
     <div class="runway" ref="runway" @click="setPositionByMouse">
       <div class="bar" :style="{'width': value + '%', 'border-color': theme, 'background-color': theme}">
-        <span class="btn" 
-          @mousedown="toggleWindowEvent('add')" 
-          @touchstart="toggleWindowEvent('add')"></span>
+        <cmp-tooltip ref="ttp" :text="tipText" model="hover" position="bottom">
+          <span class="btn" @mousedown="toggleWindowEvent('add')" @touchstart="toggleWindowEvent('add')"></span>
+        </cmp-tooltip>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import Tooltip from '../../tooltip/index.js';
+
   export default {
     name: 'Slider',
     components: {
-      // 
+      'cmpTooltip': Tooltip
     },
     props: {
       value: {
+        default: 0
+      },
+      max: {
         default: 0
       },
       theme: {
@@ -26,14 +31,20 @@
     },
     data () {
       return {
-        // 
+        //
       };
     },
     computed: {
-      // 
-    },
-    watch: {
-      // 
+      tipText: function () {
+        let maxData = 0;
+
+        try {
+          maxData = parseInt(this.max);
+        } catch (e) {
+          //
+        }
+        return maxData ? parseInt(this.value / 100 * maxData) : this.value;
+      }
     },
     beforeDestroy: function () {
       window.removeEventListener('mouseup', this.toggleWindowEvent);
@@ -49,14 +60,11 @@
         let p = this.getMousexOnBar(e);
 
         this.setPosition(p);
-        // console.log('当前位置:' + p + '%' + ', ' + (p / 100) * max);
       },
       /* 设置滑块位置 */
       setPosition: function (percent) {
         this.$emit('input', percent);
-        // if (domBar) {
-        //   domBar.style.width = percent + '%';
-        // }
+        this.$refs.ttp.update();
       },
       /* 获取跑道相对位置 */
       getRunwayPosition: function () {
@@ -74,7 +82,7 @@
         let mp = this.mousePosition(event);
         let runwayWidth = domRunway.offsetWidth;
         let percent = (mp.x - rwp.left) / runwayWidth * 100;
-        
+
         percent = percent < 0 ? 0 : percent > 100 ? 100 : percent;
         return Math.round(percent);
       },
@@ -96,7 +104,7 @@
           window.addEventListener('mousemove', this.setPositionByMouse);
           window.addEventListener('touchmove', this.setPositionByMouse);
         } else {
-          window.removeEventListener('mousemove', this.setPositionByMouse);  
+          window.removeEventListener('mousemove', this.setPositionByMouse);
           window.removeEventListener('touchmove', this.setPositionByMouse);
         }
       }
