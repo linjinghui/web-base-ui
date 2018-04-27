@@ -1,4 +1,4 @@
-<!-- 
+<!--
 功能介绍：
 1、支持显示、隐藏清空按钮 - 默认显示
 2、支持自定义左右两侧图标 - （右侧图标会覆盖清空按钮）
@@ -6,14 +6,15 @@
 
 <template>
   <span class="input" :class="{'pdlt': _pdlt, 'pdrt': _showClear || _pdrt}">
-    <input autoComplete="off" 
-    ref="ipt" 
+    <input autoComplete="off"
+    ref="ipt"
     v-model.trim="val"
-    :type="type" 
-    :disabled="(disabled+'')==='true'" 
+    :type="type"
+    :disabled="(disabled+'')==='true'"
     :maxlength="maxlength"
     :placeholder="placeholder"
     :onpaste="(nopaste+''==='true')?'return false':''"
+    :readonly="readonly"
     @focus="evn_focus"
     @blur="evn_blur"
     @keyup="evn_keyup"
@@ -41,6 +42,7 @@
         default: 'text'
       },
       maxlength: '',
+      readonly: '',
       placeholder: '',
       nopaste: '',
       autofocus: '',
@@ -82,7 +84,7 @@
       }
     },
     beforeDestroy: function () {
-      // 
+      //
     },
     mounted: function () {
       this.is_auto_focus();
@@ -177,7 +179,7 @@
       display: none;
     }
 
-    >input:focus {
+    >input:not([readonly]):focus {
       border-color: #0079ff;
     }
 
