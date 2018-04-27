@@ -169,7 +169,7 @@
       },
       setTooltipPstn: function (type) {
         let dom = this.getTooltipDom();
-        let arrow = 15;
+        let arrow = 12;
         let left = 200;
         let top = 200;
         let max = this.pstns.length;

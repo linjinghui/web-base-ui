@@ -1,7 +1,10 @@
 <template>
-  <div style="width: 300px;background-color: red;">
+  <div style="width: 300px;">
+    <!--  percent: 百分比位置 -->
     <!--  theme：自定义主题色 -->
-    <cmp-slider v-model="percent"></cmp-slider>
+    <!-- disabled：是否禁用 -->
+    <!-- max：最大值 -->
+    <cmp-slider v-model="percent" max="110"></cmp-slider>
   </div>
 </template>
 

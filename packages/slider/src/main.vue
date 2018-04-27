@@ -1,7 +1,14 @@
+<!--
+功能介绍：
+1、自定义百分比位置 - percent - 实时返回
+2、自定义主题色 - theme
+3、禁用 - disabled
+4、最大值 - max - 用于tip提示
+ -->
 <template>
-  <div class="slider">
+  <div class="slider" :disabled="disabled">
     <div class="runway" ref="runway" @click="setPositionByMouse">
-      <div class="bar" :style="{'width': value + '%', 'border-color': theme, 'background-color': theme}">
+      <div class="bar" :style="{'width': value + '%', 'border-color': ctheme, 'background-color': ctheme}">
         <cmp-tooltip ref="ttp" :text="tipText" model="hover" position="bottom">
           <span class="btn" @mousedown="toggleWindowEvent('add')" @touchstart="toggleWindowEvent('add')"></span>
         </cmp-tooltip>
@@ -21,6 +28,9 @@
     props: {
       value: {
         default: 0
+      },
+      disabled: {
+        default: false
       },
       max: {
         default: 0
@@ -44,6 +54,9 @@
           //
         }
         return maxData ? parseInt(this.value / 100 * maxData) : this.value;
+      },
+      ctheme: function () {
+        return this.disabled ? '#c0c4cc' : this.theme;
       }
     },
     beforeDestroy: function () {
@@ -63,8 +76,10 @@
       },
       /* 设置滑块位置 */
       setPosition: function (percent) {
-        this.$emit('input', percent);
-        this.$refs.ttp.update();
+        if (!this.disabled) {
+          this.$emit('input', percent);
+          this.$refs.ttp.update();
+        }
       },
       /* 获取跑道相对位置 */
       getRunwayPosition: function () {
@@ -118,6 +133,7 @@
     width: 100%;
     user-select: none;
     overflow: hidden;
+    opacity: 1!important;
   }
 
   .slider > .runway {
@@ -125,8 +141,11 @@
     margin: 16px;
     height: 6px;
     border-radius: 4px;
-    cursor: pointer;
     background-color: #e4e7ed;
+  }
+
+  .slider:not([disabled]) > .runway {
+    cursor: pointer;
   }
 
   .slider > .runway > .bar {
@@ -147,7 +166,7 @@
     width: 36px;
     transform: translateX(50%);
     border: inherit;
-    border-width: 1px;
+    /*border-width: 1px;*/
     cursor: pointer;
     z-index: 1;
   }
@@ -167,6 +186,14 @@
     background-color: #fff;
     border-radius: 50%;
     transition: .2s;
-    cursor: pointer;
+    cursor: grab;
+  }
+
+  .slider > .runway > .bar > .btn:active:after {
+    cursor: grabbing;
+  }
+
+  .slider[disabled] > .runway > .bar > .btn:after {
+    cursor: not-allowed;
   }
   </style>
