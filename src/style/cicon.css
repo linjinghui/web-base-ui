@@ -326,3 +326,44 @@
   height: 0.5em;
   background-color: inherit;
 }
+
+[class^=cicon-calendar] span {
+  margin: auto;
+  bottom: 0;
+  right: 0;
+  width: 0.7em;
+  height: 0.6em;
+  border: solid 1px;
+  border-radius: 2px;
+}
+
+[class^=cicon-calendar]:before {
+  margin: inherit;
+  top: 0.35em;
+  left: 0.25em;
+  width: 0.08em;
+  height: 0.08em;
+  box-shadow: inset 0 0
+  0 32px,
+  0.14em 0,
+  0.28em 0,
+  0.42em 0,
+  0 0.12em,
+  0.14em 0.12em,
+  0.28em 0.12em,
+  0.42em 0.12em,
+  0 0.24em,
+  0.14em 0.24em,
+  0.28em 0.24em,
+  0.42em 0.24em;
+}
+
+[class^=cicon-calendar]:after {
+  margin: inherit;
+  top: 0.14em;
+  left: 0.31em;
+  width: 0.06em;
+  height: 0.16em;
+  box-shadow: inset 0 0 0 0.1em, 0.3em 0;
+  border-radius: 4px;
+}

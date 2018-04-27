@@ -22,6 +22,9 @@
     </i>
     <i class="cicon-exclamation-crle-cbdr" style=""></i>
     <i class="cicon-circle-loading move-loop1" style="background-color: blue;color: #fff;"></i>
+    <i class="cicon-calendar" style="background-color: purple;">
+      <span></span>
+    </i>
   </div>
 </template>
 

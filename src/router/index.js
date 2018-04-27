@@ -12,6 +12,7 @@ import DemoTooltip from '../../example/demo_tooltip.vue';
 import DemoLoading from '../../example/demo_loading.vue';
 import DemoProgress from '../../example/demo_progress.vue';
 import DemoSlider from '../../example/demo_slider.vue';
+import DemoDatePicker from '../../example/demo_date_picker.vue';
 
 Vue.use(Router);
 
@@ -72,6 +73,11 @@ export default new Router({
       path: '/demoSlider',
       name: 'demoSlider',
       component: DemoSlider
+    },
+    {
+      path: '/demoDatePicker',
+      name: 'demoDatePicker',
+      component: DemoDatePicker
     }
   ]
 });
