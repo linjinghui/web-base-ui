@@ -50,7 +50,7 @@
         }
       },
       modal: function (val) {
-        if (val + '' === 'true') {
+        if (val + '' === 'true' && this.value + '' === 'true') {
           this.creatZz();
         } else {
           this.removeZz();
