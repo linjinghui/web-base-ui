@@ -9,12 +9,13 @@
     <input autoComplete="off"
     ref="ipt"
     v-model.trim="val"
+    :id="id"
     :type="type"
     :disabled="(disabled+'')==='true'"
     :maxlength="maxlength"
     :placeholder="placeholder"
     :onpaste="(nopaste+''==='true')?'return false':''"
-    :readonly="readonly"
+    :readonly="(readonly+'')==='true'"
     @focus="evn_focus"
     @blur="evn_blur"
     @keyup="evn_keyup"
@@ -32,11 +33,13 @@
     name: 'Input',
     data: function () {
       return {
-        id: 'btn_' + new Date().getTime() + parseInt(Math.random() * 100),
         val: this.value
       };
     },
     props: {
+      id: {
+        default: ''
+      },
       value: '',
       type: {
         default: 'text'
@@ -56,6 +59,9 @@
     watch: {
       val: function (val) {
         this.$emit('input', val);
+      },
+      value: function (val) {
+        this.val = val;
       },
       autofocus: function () {
         this.is_auto_focus();

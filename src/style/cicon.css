@@ -338,7 +338,7 @@
 }
 
 [class^=cicon-calendar]:before {
-  margin: inherit;
+  margin: unset;
   top: 0.35em;
   left: 0.25em;
   width: 0.08em;
@@ -359,7 +359,7 @@
 }
 
 [class^=cicon-calendar]:after {
-  margin: inherit;
+  margin: unset;
   top: 0.14em;
   left: 0.31em;
   width: 0.06em;

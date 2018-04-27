@@ -24,7 +24,7 @@
     disabled="false"
     clear="false"
     rule="chinese"
-    readonly="true"
+    readonly="false"
     @focus="cbk_focus"
     @blur="cbk_blur"
     @keyup="cbk_keyup"
@@ -53,6 +53,13 @@ export default {
     name: function (val) {
       console.log(val);
     }
+  },
+  mounted: function () {
+    let _this = this;
+
+    setTimeout(function () {
+      _this.name = '淡淡的';
+    }, 3000);
   },
   methods: {
     cbk_focus: function () {
