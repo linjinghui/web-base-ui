@@ -12,6 +12,7 @@
     <a href="#/demoSlider">slider</a>
     <a href="#/demoDatePicker">datePicker</a>
     <a href="#/demoRangeMenu">rangeMenu</a>
+    <a href="#/demoShuttle">shuttle</a>
   </div>
 </template>
 

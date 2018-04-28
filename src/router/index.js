@@ -14,6 +14,7 @@ import DemoProgress from '../../example/demo_progress.vue';
 import DemoSlider from '../../example/demo_slider.vue';
 import DemoDatePicker from '../../example/demo_date_picker.vue';
 import DemoRangeMenu from '../../example/demo_range_menu.vue';
+import DemoShuttle from '../../example/demo_shuttle.vue';
 
 Vue.use(Router);
 
@@ -84,6 +85,11 @@ export default new Router({
       path: '/demoRangeMenu',
       name: 'demoRangeMenu',
       component: DemoRangeMenu
+    },
+    {
+      path: '/demoShuttle',
+      name: 'demoShuttle',
+      component: DemoShuttle
     }
   ]
 });

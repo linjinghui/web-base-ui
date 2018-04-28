@@ -9,6 +9,7 @@ import Progress from './progress/index';
 import Slider from './slider/index';
 import DatePicker from './datePicker/index';
 import RangeMenu from './rangeMenu/index';
+import Shuttle from './shuttle/index';
 
 import Vue from 'vue';
 
@@ -23,4 +24,4 @@ const install = function (Vue) {
   });
 }
 
-export {Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu};
+export {Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle};

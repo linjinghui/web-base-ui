@@ -1,14 +1,14 @@
-<!-- 
+<!--
 功能介绍：
 1、支持自定义背景色（theme - 'red'）
 2、禁用（disabled - true|false）
 3、确认点击前执行事件（beforeclk - function）
  -->
 <template>
-  <label class="checkbox" 
+  <label class="checkbox"
     :disabled="(disabled+'')==='true'"
     @click="clk">
-    <i 
+    <i
       :class="{'cicon-tick-cbdr': value, 'cicon-tick-cbdr-cemt': !value}"
       :style="value?_style:''"></i>
     <slot></slot>
@@ -20,7 +20,7 @@
     name: 'Checkbox',
     data: function () {
       return {
-        // 
+        //
       };
     },
     props: {
@@ -43,15 +43,15 @@
       }
     },
     mounted: function () {
-      // 
+      //
     },
     methods: {
       clk: function () {
         if (this.disabled + '' !== 'true') {
           if (this.beforeclk) {
-            this.beforeclk() && this.$emit('input', !this.value); 
+            this.beforeclk() && this.$emit('input', !this.value);
           } else {
-            this.$emit('input', !this.value); 
+            this.$emit('input', !this.value);
           }
         }
       }
@@ -64,6 +64,7 @@
     display: inline-block;
     user-select: none;
     >i {
+      margin-right: 4px;
       border-radius: 2px;
       font-size: 16px;
       border-color: #dcdfe6;
@@ -73,7 +74,7 @@
       border-color: #fff;
     }
   }
-  
+
   .checkbox:not([disabled]) {
     cursor: pointer;
   }
