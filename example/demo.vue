@@ -11,6 +11,7 @@
     <a href="#/demoProgress">progress</a>
     <a href="#/demoSlider">slider</a>
     <a href="#/demoDatePicker">datePicker</a>
+    <a href="#/demoRangeMenu">rangeMenu</a>
   </div>
 </template>
 
