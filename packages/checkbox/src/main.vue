@@ -52,6 +52,7 @@
             this.beforeclk() && this.$emit('input', !this.value);
           } else {
             this.$emit('input', !this.value);
+            this.$emit('click');
           }
         }
       }
