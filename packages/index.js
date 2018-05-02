@@ -10,13 +10,14 @@ import Slider from './slider/index';
 import DatePicker from './datePicker/index';
 import RangeMenu from './rangeMenu/index';
 import Shuttle from './shuttle/index';
+import Pagebar from './pagebar/index';
 
 import Vue from 'vue';
 
 // 用于组件通信
 window.EVENTBUS = new Vue();
 
-const components = [Button];
+const components = [Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar];
 const install = function (Vue) {
   if (install.installed) return;
   components.map(function (component) {
@@ -24,4 +25,4 @@ const install = function (Vue) {
   });
 }
 
-export {Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle};
+export {Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar};

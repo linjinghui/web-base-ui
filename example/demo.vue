@@ -13,6 +13,7 @@
     <a href="#/demoDatePicker">datePicker</a>
     <a href="#/demoRangeMenu">rangeMenu</a>
     <a href="#/demoShuttle">shuttle</a>
+    <a href="#/demoPagebar">pagebar</a>
   </div>
 </template>
 
