@@ -5,30 +5,51 @@
 </head>
 <body>
 <script type="text/javascript">
-    // var arr = [1, 2, 3, 0, 5, 6, 4];
-    // alert(arr.indexOf(110));
-
     var data = [
         {
-            id: 1,
-            name: 'name1'
+            'age': 1,
+            'checked': false,
+            'name': 'name1'
         },
         {
-            id: 2,
-            name: 'name2'
+            'age': 2,
+            'checked': true,
+            'name': 'name2'
         },
         {
-            id: 3,
-            name: 'name3'
+            'age': 3,
+            'checked': true,
+            'name': 'name2'
+        },
+        {
+            'age': 4,
+            'checked': true,
+            'name': 'name2'
+        },
+        {
+            'age': 5,
+            'checked': true,
+            'name': 'name3'
+        },
+        {
+            'age': 6,
+            'checked': false,
+            'name': 'name4'
         }
-    ];
+    ]
 
-    data = data.filter(function (item, index) {
-        console.log(index);
-        item['checked'] = false;
-        return item;
-    });
-    console.log(data);
+    var result = utlGetCheckedNum(data);
+    console.log(result);
+
+    function utlGetCheckedNum (data) {
+        let num = 0;
+        let regExp = new RegExp('"checked":true', 'g');
+
+        if (data && data.length > 0) {
+          num = JSON.stringify(data).match(regExp);
+        }
+        return num ? num.length : 0;
+      }
 </script>
 </body>
 </html>

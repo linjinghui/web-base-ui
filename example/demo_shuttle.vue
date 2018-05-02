@@ -1,8 +1,5 @@
 <template>
-  <!-- <div style="margin-left:10px;width: 800px;height: 600px;">
-    <cmp-shuttle></cmp-shuttle>
-  </div> -->
-  <cmp-shuttle :data="dataList"></cmp-shuttle>
+  <cmp-shuttle v-model="option.selected" v-bind="option" @callback="callback"></cmp-shuttle>
 </template>
 
 <script>
@@ -12,14 +9,24 @@ export default {
   name: 'demoShuttle',
   data: function () {
     return {
-      dataList: ''
+      option: {
+        // 完整数据
+        data: [],
+        // 两侧标题
+        titles: ['title1', 'title2'],
+        // 已选中数据下标，不允许重复
+        selected: [4, 3, 2]
+      },
     };
   },
   components: {
     'cmpShuttle': Shuttle
   },
   watch: {
-    //
+    'option.selected': function (val) {
+      console.log('=======watch option.selected========');
+      console.log(val);
+    }
   },
   mounted: function () {
     this.setData();
@@ -28,16 +35,22 @@ export default {
     setData: function () {
       let _this = this;
 
-      this.dataList = [];
+      this.option.data = [];
       setTimeout(function () {
-        for (var i = 0; i < 20; i++) {
-          _this.dataList.push({
+        for (var i = 0; i < 110; i++) {
+          _this.option.data.push({
             'id': i,
             'name': 'name' + i,
             'disabled': false
           });
         }
+        _this.option.data[4].disabled = true;
+        _this.option.data[24].disabled = true;
       }, 1000);
+    },
+    callback: function (data) {
+      console.log('=======callback========');
+      console.log(data);
     }
   }
 };
