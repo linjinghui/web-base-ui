@@ -17,6 +17,7 @@ import DemoRangeMenu from '../../example/demo_range_menu.vue';
 import DemoShuttle from '../../example/demo_shuttle.vue';
 import DemoPagebar from '../../example/demo_pagebar.vue';
 import DemoEcharts from '../../example/demo_echarts.vue';
+import DemoImageCrop from '../../example/demo_image_crop.vue';
 
 Vue.use(Router);
 
@@ -102,6 +103,11 @@ export default new Router({
       path: '/demoEcharts',
       name: 'demoEcharts',
       component: DemoEcharts
+    },
+    {
+      path: '/demoImageCrop',
+      name: 'demoImageCrop',
+      component: DemoImageCrop
     }
   ]
 });

@@ -12,13 +12,14 @@ import RangeMenu from './rangeMenu/index';
 import Shuttle from './shuttle/index';
 import Pagebar from './pagebar/index';
 import Echarts from './echarts/index';
+import ImageCrop from './imageCrop/index';
 
 import Vue from 'vue';
 
 // 用于组件通信
 window.EVENTBUS = new Vue();
 
-const components = [Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts];
+const components = [Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop];
 const install = function (Vue) {
   if (install.installed) return;
   components.map(function (component) {
@@ -26,4 +27,4 @@ const install = function (Vue) {
   });
 }
 
-export {Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts};
+export {Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop};

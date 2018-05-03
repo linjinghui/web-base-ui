@@ -15,6 +15,7 @@
     <a href="#/demoShuttle">shuttle</a>
     <a href="#/demoPagebar">pagebar</a>
     <a href="#/demoEcharts">echarts</a>
+    <a href="#/demoImageCrop">imageCrop</a>
   </div>
 </template>
 
