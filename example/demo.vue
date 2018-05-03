@@ -14,6 +14,7 @@
     <a href="#/demoRangeMenu">rangeMenu</a>
     <a href="#/demoShuttle">shuttle</a>
     <a href="#/demoPagebar">pagebar</a>
+    <a href="#/demoEcharts">echarts</a>
   </div>
 </template>
 

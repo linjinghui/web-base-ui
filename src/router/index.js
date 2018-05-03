@@ -16,6 +16,7 @@ import DemoDatePicker from '../../example/demo_date_picker.vue';
 import DemoRangeMenu from '../../example/demo_range_menu.vue';
 import DemoShuttle from '../../example/demo_shuttle.vue';
 import DemoPagebar from '../../example/demo_pagebar.vue';
+import DemoEcharts from '../../example/demo_echarts.vue';
 
 Vue.use(Router);
 
@@ -96,6 +97,11 @@ export default new Router({
       path: '/demoPagebar',
       name: 'demoPagebar',
       component: DemoPagebar
+    },
+    {
+      path: '/demoEcharts',
+      name: 'demoEcharts',
+      component: DemoEcharts
     }
   ]
 });
