@@ -16,6 +16,7 @@
     <a href="#/demoPagebar">pagebar</a>
     <a href="#/demoEcharts">echarts</a>
     <a href="#/demoImageCrop">imageCrop</a>
+    <a href="#/demoTable">table</a>
   </div>
 </template>
 

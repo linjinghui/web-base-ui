@@ -18,6 +18,7 @@ import DemoShuttle from '../../example/demo_shuttle.vue';
 import DemoPagebar from '../../example/demo_pagebar.vue';
 import DemoEcharts from '../../example/demo_echarts.vue';
 import DemoImageCrop from '../../example/demo_image_crop.vue';
+import DemoTable from '../../example/demo_table.vue';
 
 Vue.use(Router);
 
@@ -108,6 +109,11 @@ export default new Router({
       path: '/demoImageCrop',
       name: 'demoImageCrop',
       component: DemoImageCrop
+    },
+    {
+      path: '/demoTable',
+      name: 'demoTable',
+      component: DemoTable
     }
   ]
 });

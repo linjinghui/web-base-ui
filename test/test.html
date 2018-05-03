@@ -1,55 +1,137 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <title></title>
+    <style type="text/css">
+        /* Styles go here */
+        .table-cont {
+          /**make table can scroll**/
+          max-height: 200px;
+          overflow: auto;
+          /** add some style**/
+          /*padding: 2px;*/
+          background: #ddd;
+          margin: 20px 10px;
+          box-shadow: 0 0 1px 3px #ddd;
+        }
+        thead{
+          background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
-<script type="text/javascript">
-    var data = [
-        {
-            'age': 1,
-            'checked': false,
-            'name': 'name1'
-        },
-        {
-            'age': 2,
-            'checked': true,
-            'name': 'name2'
-        },
-        {
-            'age': 3,
-            'checked': true,
-            'name': 'name2'
-        },
-        {
-            'age': 4,
-            'checked': true,
-            'name': 'name2'
-        },
-        {
-            'age': 5,
-            'checked': true,
-            'name': 'name3'
-        },
-        {
-            'age': 6,
-            'checked': false,
-            'name': 'name4'
-        }
-    ]
+    <div class='table-cont' id='table-cont'>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Username</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Larry</td>
+              <td>the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
 
-    var result = utlGetCheckedNum(data);
-    console.log(result);
-
-    function utlGetCheckedNum (data) {
-        let num = 0;
-        let regExp = new RegExp('"checked":true', 'g');
-
-        if (data && data.length > 0) {
-          num = JSON.stringify(data).match(regExp);
-        }
-        return num ? num.length : 0;
-      }
-</script>
 </body>
+<script type="text/javascript">
+    // Code goes here
+    'use strict'
+    window.onload = function(){
+      var tableCont = document.querySelector('#table-cont')
+      /**
+       * scroll handle
+       * @param {event} e -- scroll event
+       */
+      function scrollHandle (e){
+        var scrollTop = this.scrollTop;
+        console.log(this);
+        console.log(scrollTop);
+        this.querySelector('thead').style.transform = 'translateY(' + scrollTop + 'px)';
+      }
+
+      tableCont.addEventListener('scroll',scrollHandle)
+    }
+</script>
 </html>
