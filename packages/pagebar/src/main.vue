@@ -1,6 +1,8 @@
 <template>
   <div class="pagebar-wrapper" v-if="totalPage > 0">
-    <span class="cmpIconfont icon-left" :disabled="active === 1" @click="goIndex('prev')"></span>
+    <span :disabled="active === 1" @click="goIndex('prev')">
+      <i class="cicon-arrow-left"></i>
+    </span>
     <template v-for="i in arr">
       <span v-if="typeof i==='object'" @click="showIpt(i)">
         <template v-if="i.type === 1">
@@ -12,7 +14,9 @@
       </span>
       <span v-else :class="{'active': i === active}" @click="goIndex(i)">{{i}}</span>
     </template>
-    <span class="cmpIconfont icon-right" :disabled="active === totalPage" @click="goIndex('next')"></span>
+    <span :disabled="active === totalPage" @click="goIndex('next')">
+      <i class="cicon-arrow-right"></i>
+    </span>
   </div>
 </template>
 
@@ -25,7 +29,7 @@
         display2: false,
         value1: '',
         value2: '',
-        active: this.index
+        active: 0
       };
     },
     props: {
@@ -39,7 +43,7 @@
         default: 0
       },
       'totalPage': {
-        default: 20
+        default: 0
       }
     },
     mounted: function () {
@@ -124,9 +128,7 @@
         if (isNaN(val1) || val1 < 1 || val1 > this.totalPage || (val1 + '').indexOf('.') >= 0) {
           this.active = 1;
         }
-        console.log('=========watch active======');
-        console.log(val1);
-        this.$emit('click', this.active);
+        this.$emit('callback', this.active);
       }
     },
     methods: {
@@ -173,23 +175,42 @@
 
 <style scoped lang="scss">
   .pagebar-wrapper {
-    float: left;font-size: 12px;color: #535353;padding-top: 5px;padding-bottom: 5px;user-select: none;
+    float: left;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 12px;
+    color: #535353;
+    user-select: none;
 
     [disabled] {
-      cursor: text;color: #ccc;
+      cursor: text;
+      color: #ccc;
     }
 
-    .cmpIconfont {
+    [class^="cicon-arrow"] {
       font-size: 14px;
+      vertical-align: -3px;
     }
 
     span {
-      position: relative;display: inline-block;margin-left: 5px;width: 20px;height: 20px;line-height: 20px;text-align: center;vertical-align: middle;cursor: pointer;
+      position: relative;
+      display: inline-block;
+      margin-left: 5px;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
+      vertical-align: middle;
+      cursor: pointer;
 
       input {
-        // display: none;
-        position: absolute;left: 0;top: 0;
-        width: 100%;height: 100%;padding: 0;text-align: center;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        text-align: center;
       }
     }
 
@@ -197,8 +218,14 @@
       margin-right: 5px;
     }
 
+    span:last-of-type > .cicon-arrow-right {
+      vertical-align: -2px;
+    }
+
     span.active {
-      border-radius: 50%;color: #fff;background-color: #bbb;
+      border-radius: 50%;
+      color: #fff;
+      background-color: #bbb;
     }
   }
 </style>
