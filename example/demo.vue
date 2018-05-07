@@ -18,6 +18,7 @@
     <a href="#/demoImageCrop">imageCrop</a>
     <a href="#/demoTable">table</a>
     <a href="#/demoSidebar">sidebar</a>
+    <a href="#/demoTextarea">textarea</a>
   </div>
 </template>
 

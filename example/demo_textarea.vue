@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 100px;margin-left: 100px;width: 400px;">
-    <cmp-textarea v-bind="option"></cmp-textarea>
+    <cmp-textarea v-model="address" v-bind="option"></cmp-textarea>
   </div>
 </template>
 
@@ -9,30 +9,34 @@ import {Textarea} from '../packages/index.js';
 
 export default {
   name: 'DemoTextarea',
+  components: {
+    'cmpTextarea': Textarea
+  },
   data: function () {
     return {
+      address: 'ddd',
       option: {
         'placeholder': '请输入内容',
         'rows': '5',
         'maxlength': '10',
-        'model': {
-          'value': '啦啦阿拉'
-        },
         // 不允许粘贴
-        'noPaste': true,
-        'disabled': true
+        'noPaste': false,
+        'disabled': false
       }
     };
   },
-  components: {
-    'cmpTextarea': Textarea
+  watch: {
+    address: function (val) {
+      console.log('=====watch address=====');
+      console.log(val);
+    }
   },
   mounted: function () {
-    let _this = this;
+    // let _this = this;
 
-    setTimeout(function () {
-      alert(_this.option.model.value);
-    }, 3000);
+    // setTimeout(function () {
+    //   alert(_this.option.model.value);
+    // }, 3000);
   },
   methods: {
     callback: function (val) {

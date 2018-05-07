@@ -1,6 +1,6 @@
 <template>
   <div class="text-area" :class="{'focus': isFocus, 'disabled': disabled}">
-    <textarea :placeholder="placeholder" :rows="rows" :maxlength="maxlength" v-model.trim="model.value" :onpaste="noPaste ? 'return false' : ''" :disabled="disabled" @focus="funFocus" @blur="funBlur"></textarea>
+    <textarea :placeholder="placeholder" :rows="rows" :maxlength="maxlength" v-model="pvalue" :onpaste="noPaste ? 'return false' : ''" :disabled="disabled" @focus="fun_focus" @blur="fun_blur"></textarea>
     <p v-if="residualSize >= 0">还能输入{{residualSize}}个字</p>
   </div>
 </template>
@@ -10,10 +10,14 @@
     name: 'Textarea',
     data: function () {
       return {
-        isFocus: false
+        isFocus: false,
+        pvalue: this.value
       };
     },
     props: {
+      value: {
+        default: ''
+      },
       placeholder: {
         default: ''
       },
@@ -21,11 +25,6 @@
         default: 10
       },
       maxlength: '',
-      model: {
-        default: function () {
-          return {};
-        }
-      },
       noPaste: {
         type: Boolean,
         default: false
@@ -35,12 +34,20 @@
         default: false
       }
     },
+    watch: {
+      value: function (val) {
+        this.pvalue = val;
+      },
+      pvalue: function (val) {
+        this.$emit('input', val);
+      }
+    },
     computed: {
-      'residualSize': function () {
+      residualSize: function () {
         let result;
 
         if (this.maxlength) {
-          result = this.maxlength - this.model.value.length;
+          result = this.maxlength - this.value.length;
         }
         return result;
       }
@@ -49,11 +56,11 @@
       //
     },
     methods: {
-      'funFocus': function () {
+      fun_focus: function () {
         this.isFocus = true;
         this.$emit('focus');
       },
-      'funBlur': function () {
+      fun_blur: function () {
         this.isFocus = false;
         this.$emit('blur');
       }

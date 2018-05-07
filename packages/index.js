@@ -15,13 +15,14 @@ import Echarts from './echarts/index';
 import ImageCrop from './imageCrop/index';
 import Table from './table/index';
 import Sidebar from './sidebar/index';
+import Textarea from './textarea/index';
 
 import Vue from 'vue';
 
 // 用于组件通信
 window.EVENTBUS = new Vue();
 
-const components = [Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar];
+const components = [Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar, Textarea];
 const install = function (Vue) {
   if (install.installed) return;
   components.map(function (component) {
@@ -29,4 +30,4 @@ const install = function (Vue) {
   });
 }
 
-export {Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar};
+export {Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar, Textarea};
