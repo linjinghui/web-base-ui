@@ -19,6 +19,7 @@ import DemoPagebar from '../../example/demo_pagebar.vue';
 import DemoEcharts from '../../example/demo_echarts.vue';
 import DemoImageCrop from '../../example/demo_image_crop.vue';
 import DemoTable from '../../example/demo_table.vue';
+import DemoSidebar from '../../example/demo_sidebar.vue';
 
 Vue.use(Router);
 
@@ -114,6 +115,11 @@ export default new Router({
       path: '/demoTable',
       name: 'demoTable',
       component: DemoTable
+    },
+    {
+      path: '/demoSidebar',
+      name: 'demoSidebar',
+      component: DemoSidebar
     }
   ]
 });
