@@ -74,8 +74,8 @@
       window.addEventListener('keydown', this.escEvent);
       this.creatZz();
       window.EVENTBUS.$on(this.eventName, function (data) {
-        if (typeof data.display !== 'undefined') {
-          _this.changeDisplay(data.display);
+        if (typeof data.show !== 'undefined') {
+          _this.changeDisplay(data.show);
         }
         if (data.text) {
           _this.ptext = data.text;

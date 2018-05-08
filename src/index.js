@@ -3,6 +3,7 @@ import Vue from 'vue';
 import VueResource from 'vue-resource';
 import router from './router';
 import App from './App';
+import {install} from '../packages/index.js';
 // import VueLazyload from 'vue-lazyload';
 // import './mock.js';
 
@@ -13,6 +14,9 @@ import App from './App';
 //   attempt: 1
 // });
 Vue.use(VueResource);
+// 注册全局组件
+install(Vue);
+
 
 const app = new Vue({
   router,
