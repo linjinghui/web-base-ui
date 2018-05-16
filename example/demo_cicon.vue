@@ -25,6 +25,7 @@
     <i class="cicon-calendar" style="background-color: purple;">
       <span></span>
     </i>
+    <i class="cicon-radio-crle-cbdr" style="font-size: 18px;color: #333;"></i>
   </div>
 </template>
 
