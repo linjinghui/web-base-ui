@@ -19,6 +19,7 @@
     <a href="#/demoTable">table</a>
     <a href="#/demoSidebar">sidebar</a>
     <a href="#/demoTextarea">textarea</a>
+    <a href="#/demoSelect">select</a>
   </div>
 </template>
 
