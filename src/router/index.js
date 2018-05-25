@@ -21,7 +21,9 @@ import DemoImageCrop from '../../example/demo_image_crop.vue';
 import DemoTable from '../../example/demo_table.vue';
 import DemoSidebar from '../../example/demo_sidebar.vue';
 import DemoTextarea from '../../example/demo_textarea.vue';
-import DemoSelect from '../../example/demo_select.vue';
+import DemoOption from '../../example/demo_option.vue';
+import DemoMenu from '../../example/demo_menu.vue';
+import DemoCascade from '../../example/demo_cascade.vue';
 
 Vue.use(Router);
 
@@ -129,9 +131,19 @@ export default new Router({
       component: DemoTextarea
     },
     {
-      path: '/demoSelect',
-      name: 'demoSelect',
-      component: DemoSelect
+      path: '/demoOption',
+      name: 'demoOption',
+      component: DemoOption
+    },
+    {
+      path: '/demoMenu',
+      name: 'demoMenu',
+      component: DemoMenu
+    },
+    {
+      path: '/demoCascade',
+      name: 'demoCascade',
+      component: DemoCascade
     }
   ]
 });

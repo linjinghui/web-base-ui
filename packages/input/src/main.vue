@@ -122,7 +122,7 @@
         }
       },
       do_reg_value: function () {
-        let value = this.val;
+        let value = this.val || '';
 
         if (this.rule === 'number') {
           this.val = value.replace(/[\D]+/g, '');
