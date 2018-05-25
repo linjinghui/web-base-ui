@@ -4,9 +4,8 @@
  -->
 
 <template>
-  <div class="wrap-cascade" @click.stop>
-    cascade123
-    <cmp-menu :data="data" v-model="show">
+  <div class="wrap-cascade">
+    <cmp-menu type="cascade" ref="casMenu" :data="data" v-model="show">
       <span slot="line" slot-scope="props">{{props.item.name}}</span>
     </cmp-menu>
   </div>
@@ -45,9 +44,9 @@
       //
     },
     methods: {
-      // clk_arrow: function () {
-      //   //
-      // }
+      parse_data: function (data, parseObj) {
+        return this.$refs.casMenu.parse_data(data, parseObj);
+      }
     }
   };
 </script>

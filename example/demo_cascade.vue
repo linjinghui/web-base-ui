@@ -1,13 +1,13 @@
 <template>
   <div @click.stop>
-    <cmp-menu ref="menus" v-bind="option" v-model="option.show">
+    <cmp-cascade ref="menus" v-bind="option" v-model="option.show">
       <span slot="line" slot-scope="props">{{props.item.name}}</span>
-    </cmp-menu>
+    </cmp-cascade>
   </div>
 </template>
 
 <script>
-import {Menu} from '../packages/index.js';
+import {Cascade} from '../packages/index.js';
 
 export default {
   name: 'demoCascade',
@@ -21,13 +21,12 @@ export default {
     };
   },
   components: {
-    'cmpMenu': Menu
+    'cmpCascade': Cascade
   },
   watch: {
     //
   },
   mounted: function () {
-    // this.option.data = this.getData();
     let data = this.$refs.menus.parse_data(this.getData(), {
       children: 'city|area'
     });
