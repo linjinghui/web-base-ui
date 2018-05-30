@@ -279,6 +279,11 @@ disabled：是否禁用
             }
             this.leftData.effNum = this.leftData.data.length - selectArr.length;
             this.rightData.effNum = this.rightData.data.length;
+          } else {
+            this.rightData.data = [];
+            this.leftData.data = [];
+            this.leftData.effNum = 0;
+            this.rightData.effNum = 0;
           }
         });
       },
@@ -436,11 +441,16 @@ disabled：是否禁用
         background-color: #fff;
 
         >.line {
+          float: left;
           display: block;
           padding: 0 14px;
-          width: 100%;
+          min-width: 100%;
           height: 40px;
           line-height: 40px;
+
+          >.checkbox {
+            white-space: nowrap;
+          }
         }
 
         >.line:not(.disabled):hover {

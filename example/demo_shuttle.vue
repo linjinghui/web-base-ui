@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%;height:500px;border: soild 1px;">
-    <cmp-shuttle v-model="option.selected" v-bind="option" @callback="callback"></cmp-shuttle>  
-  </div>  
+    <cmp-shuttle v-model="option.selected" v-bind="option" @callback="callback"></cmp-shuttle>
+  </div>
 </template>
 
 <script>
@@ -42,7 +42,7 @@ export default {
         for (var i = 0; i < 110; i++) {
           _this.option.data.push({
             'id': i,
-            'name': 'name' + i,
+            'name': 'namenamenamenamenamenamenamenamename' + i,
             'disabled': false
           });
         }
