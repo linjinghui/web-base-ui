@@ -22,6 +22,7 @@
     <a href="#/demoOption">option</a>
     <a href="#/demoMenu">menu</a>
     <a href="#/demoCascade">cascade</a>
+    <a href="#/demoTip">tip</a>
   </div>
 </template>
 

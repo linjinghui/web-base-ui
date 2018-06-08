@@ -24,6 +24,7 @@ import DemoTextarea from '../../example/demo_textarea.vue';
 import DemoOption from '../../example/demo_option.vue';
 import DemoMenu from '../../example/demo_menu.vue';
 import DemoCascade from '../../example/demo_cascade.vue';
+import DemoTip from '../../example/demo_tip.vue';
 
 Vue.use(Router);
 
@@ -144,6 +145,11 @@ export default new Router({
       path: '/demoCascade',
       name: 'demoCascade',
       component: DemoCascade
+    },
+    {
+      path: '/demoTip',
+      name: 'demoTip',
+      component: DemoTip
     }
   ]
 });
