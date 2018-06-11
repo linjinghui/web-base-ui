@@ -25,7 +25,11 @@
     <i class="cicon-calendar" style="background-color: purple;">
       <span></span>
     </i>
-    <i class="cicon-radio-crle-cbdr" style="font-size: 18px;color: #333;"></i>
+    <i class="cicon-radio-crle-cbdr" style="color: #333;"></i>
+    <i class="cicon-dbarrow-right" style="background-color: blue;"></i>
+    <i class="cicon-dbarrow-left" style="background-color: yellow;"></i>
+    <i class="cicon-dbarrow-top" style="background-color: green;"></i>
+    <i class="cicon-dbarrow-bottom" style="background-color: purple;"></i>
   </div>
 </template>
 
