@@ -4,7 +4,9 @@
     <!-- theme: 控制选中后的背景色 -->
     <!-- disabled: 是否禁用 -->
     <!-- beforeClk: 需要二次确认操作 - true|false -->
-    <cmp-checkbox disabled="false" v-model="selected" theme="#0079ff" :beforeclk="beforeClk">旅游</cmp-checkbox>    
+    <cmp-checkbox v-for="item in likes" v-model="selected" :val="item.val" :beforeclk="beforeClk">
+      {{item.name}}
+    </cmp-checkbox>
   </div>
 </template>
 
@@ -15,7 +17,21 @@ export default {
   name: 'demoCheckbox',
   data: function () {
     return {
-      selected: true
+      likes: [
+        {
+          'name': '看书',
+          'val': 'book'
+        },
+        {
+          'name': '徒步',
+          'val': 'foot'
+        },
+        {
+          'name': '美食',
+          'val': 'food'
+        }
+      ],
+      selected: []
     };
   },
   components: {

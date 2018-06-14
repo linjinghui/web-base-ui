@@ -9,8 +9,8 @@
     :disabled="(disabled+'')==='true'"
     @click="clk">
     <i
-      :class="{'cicon-tick-cbdr': value, 'cicon-tick-cbdr-cemt': !value}"
-      :style="value?_style:''"></i>
+      :class="{'cicon-tick-cbdr': _select, 'cicon-tick-cbdr-cemt': !_select}"
+      :style="_select?_style:''"></i>
     <slot></slot>
   </label>
 </template>
@@ -25,7 +25,11 @@
     },
     props: {
       disabled: '',
-      value: '',
+      value: {
+        type: Array,
+        default: []
+      },
+      val: '',
       theme: {
         type: String,
         default: '#0079ff'
@@ -47,6 +51,9 @@
           borderColor: this.theme,
           backgroundColor: this.theme
         };
+      },
+      _select: function () {
+        return this.value.indexOf(this.val) >= 0;
       }
     },
     mounted: function () {
@@ -56,12 +63,27 @@
       clk: function () {
         if (this.disabled + '' !== 'true') {
           if (this.beforeclk) {
-            this.beforeclk() && this.$emit('input', !this.value);
+            if (this.beforeclk()) {
+              this.emt(this.val);
+            }
           } else {
-            this.$emit('input', !this.value);
+            this.emt(this.val);
             this.$emit('click');
           }
         }
+      },
+      emt: function (val) {
+        var arr = JSON.parse(JSON.stringify(this.value));
+        var index = arr.indexOf(val);
+
+        if (index >= 0) {
+          // 存在，需要删除
+          arr.splice(index, 1);
+        } else {
+          // 不存在，添加
+          arr[arr.length] = val;
+        }
+        this.$emit('input', arr);
       }
     }
   };
@@ -70,6 +92,7 @@
 <style scoped lang="scss">
   .checkbox {
     display: inline-block;
+    margin-right: 10px;
     user-select: none;
     >i {
       margin-right: 4px;

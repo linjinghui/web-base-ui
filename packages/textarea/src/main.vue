@@ -1,6 +1,6 @@
 <template>
-  <div class="text-area" :class="{'focus': isFocus, 'disabled': disabled}">
-    <textarea :placeholder="placeholder" :rows="rows" :maxlength="maxlength" v-model="pvalue" :onpaste="noPaste ? 'return false' : ''" :disabled="disabled" @focus="fun_focus" @blur="fun_blur"></textarea>
+  <div class="text-area" :class="{'focus': isFocus, 'disabled': disabled+''==='true'}">
+    <textarea :placeholder="placeholder" :rows="rows" :maxlength="maxlength" v-model="pvalue" :onpaste="noPaste ? 'return false' : ''" :disabled="disabled+''==='true'" @focus="fun_focus" @blur="fun_blur"></textarea>
     <p v-if="residualSize >= 0">还能输入{{residualSize}}个字</p>
   </div>
 </template>
