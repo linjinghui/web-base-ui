@@ -39,7 +39,7 @@ export default {
   },
   watch: {
     selected: function (val) {
-      // alert('selected:' + val);
+      console.log(val);
     }
   },
   methods: {

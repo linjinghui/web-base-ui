@@ -1,4 +1,4 @@
-<!-- 
+<!--
 功能介绍：
 1、支持自定义背景色（theme - 'red'）
 2、禁用（disabled - true|false）
@@ -6,10 +6,10 @@
  -->
 
 <template>
-  <label class="radio" 
+  <label class="radio"
     :disabled="(disabled+'')==='true'"
     @click="clk">
-    <i :class="{'selected': value===label}" :style="(value===label) ? _style : ''"></i>
+    <i :class="{'selected': value===val}" :style="(value===val) ? _style : ''"></i>
     <slot></slot>
   </label>
 </template>
@@ -32,10 +32,10 @@
       beforeclk: {
         type: Function
       },
-      label: ''
+      val: ''
     },
     watch: {
-      // 
+      //
     },
     computed: {
       _style: function () {
@@ -46,18 +46,18 @@
       }
     },
     beforeDestroy: function () {
-      // 
+      //
     },
     mounted: function () {
-      // 
+      //
     },
     methods: {
       clk: function () {
         if (this.disabled + '' !== 'true') {
           if (this.beforeclk) {
-            this.beforeclk() && this.$emit('input', this.label); 
+            this.beforeclk() && this.$emit('input', this.val);
           } else {
-            this.$emit('input', this.label); 
+            this.$emit('input', this.val);
           }
         }
       }
