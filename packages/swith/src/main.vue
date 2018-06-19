@@ -60,6 +60,7 @@
     color: inherit;
     font: inherit;
     outline: medium;
+    vertical-align: middle;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     text-transform: none;
   }

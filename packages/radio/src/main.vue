@@ -73,14 +73,15 @@
     >i {
       position: relative;
       display: inline-block;
-      vertical-align: middle;
-      font-size: 16px;
+      margin-right: 5px;
       width: 1em;
       height: 1em;
       border-radius: 50%;
       border-width: 1px;
       border-style: solid;
       border-color: #dcdfe6;
+      vertical-align: middle;
+      font-size: 16px;
     }
 
     >i.selected:before {

@@ -39,11 +39,11 @@
       }
     },
     watch: {
-      value: function (val) {
-        if (val && (this.disabled + '') === 'true') {
-          this.$emit('input', false);
-        }
-      }
+      // value: function (val) {
+      //   if (val && (this.disabled + '') === 'true') {
+      //     this.$emit('input', false);
+      //   }
+      // }
     },
     computed: {
       _style: function () {

@@ -317,15 +317,6 @@ input[type="submit"] {
 }
 
 /**
- * Re-set default cursor for disabled elements.
- */
-
-button[disabled],
-html input[disabled] {
-    cursor: text;
-}
-
-/**
  * Remove inner padding and border in Firefox 4+.
  */
 
@@ -489,11 +480,11 @@ p {
  * disabled style
  */
 
-[disabled],
-[readonly]{
+[disabled]{
     opacity:.68;
     filter:alpha(opacity=68);
-    cursor: text;
+    cursor: not-allowed!important;
+    background-color: inherit;
 }
 
 /**

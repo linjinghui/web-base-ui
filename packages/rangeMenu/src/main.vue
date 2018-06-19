@@ -5,7 +5,7 @@
  -->
 
 <template>
-  <vperfect-scrollbar class="rangeMenu" :settings="settings">
+  <vperfect-scrollbar class="rangeMenu" :settings="settings" :disabled="disabled+''==='true'">
     <a v-for="(item, index) in value" :key="item.id">
       <label>
         <slot :item="item">{{item}}</slot>
@@ -38,6 +38,9 @@
         default: function () {
           return [];
         }
+      },
+      disabled: {
+        default: false
       }
     },
     watch: {
@@ -57,17 +60,21 @@
         this.$emit('input', val);
       },
       clk_add: function () {
-        this.$emit('add');
+        if (this.disabled + '' !== 'true') {
+          this.$emit('add');
+        }
       },
       clk_del: function (index) {
-        let data = '';
+        if (this.disabled + '' !== 'true') {
+          let data = '';
 
-        try {
-          data = JSON.parse(JSON.stringify(this.value));
-          data.splice(index, 1);
-          this.emtVal(data);
-        } catch (e) {
-          //
+          try {
+            data = JSON.parse(JSON.stringify(this.value));
+            data.splice(index, 1);
+            this.emtVal(data);
+          } catch (e) {
+            //
+          }
         }
       }
     }
@@ -84,7 +91,6 @@
     border: solid 1px #ddd;
     border-radius: 4px;
     color: #333;
-    background-color: #fff;
     overflow: auto;
     font-size: 14px;
     user-select: none;

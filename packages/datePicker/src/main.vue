@@ -7,7 +7,8 @@
   <cmp-input type="text" maxlength="20"
     v-model="value"
     :class="id"
-    :placeholder="placeholder">
+    :placeholder="placeholder"
+    :disabled="(disabled+'')==='true'">
     <i class="cicon-calendar-cpt-chr center-v" slot="right" style="font-size: 26px;">
       <span></span>
     </i>
@@ -34,11 +35,19 @@
       value: '',
       placeholder: {
         default: '请选择日期'
+      },
+      disabled: {
+        default: false
       }
     },
     watch: {
       value: function (val) {
-        this.fpicker.setDate(val, false);
+        this.fpicker && this.fpicker.setDate(val, false);
+      },
+      disabled: function (val) {
+        if (val + '' !== 'true') {
+          this.initDatePicker();
+        }
       }
     },
     computed: {
@@ -48,18 +57,9 @@
       //
     },
     mounted: function () {
-      let myInput = document.querySelector('.' + this.id);
-      let _this = this;
-
-      this.fpicker = flatpickr(myInput, {
-        locale: Mandarin,
-        enableTime: true,
-        dateFormat: 'Y-m-d H:i',
-        onChange: function (selectedDates, dateStr, instance) {
-          _this.emtIpt(dateStr);
-          _this.callback(selectedDates, dateStr);
-        }
-      });
+      if (this.disabled + '' !== 'true') {
+        this.initDatePicker();
+      }
     },
     methods: {
       emtIpt: function (val) {
@@ -69,6 +69,20 @@
         this.$emit('callback', {
           date: date,
           str: dateStr
+        });
+      },
+      initDatePicker: function () {
+        let _this = this;
+        let myInput = document.querySelector('.' + this.id);
+
+        this.fpicker = flatpickr(myInput, {
+          locale: Mandarin,
+          enableTime: true,
+          dateFormat: 'Y-m-d H:i',
+          onChange: function (selectedDates, dateStr, instance) {
+            _this.emtIpt(dateStr);
+            _this.callback(selectedDates, dateStr);
+          }
         });
       }
     }
