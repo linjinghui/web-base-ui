@@ -7,6 +7,8 @@
     <cmp-checkbox v-for="item in likes" v-model="selected" :val="item.val" :beforeclk="beforeClk">
       {{item.name}}
     </cmp-checkbox>
+    <hr>
+    <cmp-checkbox v-model="selected2" :beforeclk="beforeClk">单选</cmp-checkbox>
   </div>
 </template>
 
@@ -31,7 +33,8 @@ export default {
           'val': 'food'
         }
       ],
-      selected: []
+      selected: [],
+      selected2: false
     };
   },
   components: {
@@ -39,6 +42,9 @@ export default {
   },
   watch: {
     selected: function (val) {
+      console.log(val);
+    },
+    selected2: function (val) {
       console.log(val);
     }
   },
