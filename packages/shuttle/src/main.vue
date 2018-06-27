@@ -423,6 +423,7 @@ disabled：是否禁用
         background-color: #f5f7fa;
 
         >.checkbox {
+          margin-right: 0;
           width: calc(100% - 50px);
         }
 

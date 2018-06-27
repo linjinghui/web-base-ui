@@ -59,7 +59,10 @@
         if (typeof this.value === 'boolean') {
           result = this.value;
         } else if (this.value instanceof Array) {
-          result = result.indexOf(this.val) >= 0;
+          var index = result.indexOf(this.val);
+
+          result = index >= 0 && result[index] !== '';
+          // result = result.indexOf(this.val) >= 0;
         } else {
           result = this.value + '' === 'true';
         }

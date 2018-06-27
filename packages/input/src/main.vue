@@ -78,7 +78,7 @@
         } else if (slotRight) {
           result = false;
         } else {
-          result = ((this.clear + '') !== 'false') && ((this.disabled + '') !== 'true') && this.val.length > 0;
+          result = ((this.clear + '') !== 'false') && ((this.disabled + '') !== 'true') && ((this.readonly + '') !== 'true') && this.val && this.val.length > 0;
         }
         return result;
       },

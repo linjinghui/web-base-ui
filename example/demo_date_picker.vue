@@ -1,25 +1,33 @@
 <template>
   <div>
-    <cmp-date-picker v-model="dateStr" @callback="callback"></cmp-date-picker>
+    <cmp-date-picker v-model="dateStr"></cmp-date-picker>
+    <cmp-flat-date-picker v-model="dateStr2" @callback="callback"></cmp-flat-date-picker>
+    <cmp-mobile-scroll-date-picker></cmp-mobile-scroll-date-picker>
   </div>
 </template>
 
 <script>
-import {DatePicker} from '../packages/index.js';
+import {DatePicker, FlatDatePicker, MobileScrollDatePicker} from '../packages/index.js';
 
 export default {
   name: 'demoDatePicker',
   data: function () {
     return {
-      dateStr: ''
+      dateStr: '',
+      dateStr2: ''
     };
   },
   components: {
-    'cmpDatePicker': DatePicker
+    'cmpDatePicker': DatePicker,
+    'cmpFlatDatePicker': FlatDatePicker,
+    'cmpMobileScrollDatePicker': MobileScrollDatePicker
   },
   watch: {
     dateStr: function (val) {
-      console.log('val=' + val);
+      console.log('dateStr=' + val);
+    },
+    dateStr2: function (val) {
+      console.log('dateStr2=' + val);
     }
   },
   mounted: function () {

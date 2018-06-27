@@ -7,7 +7,7 @@ import Tooltip from './tooltip/index';
 import Loading from './loading/index';
 import Progress from './progress/index';
 import Slider from './slider/index';
-import DatePicker from './datePicker/index';
+import {DatePicker, FlatDatePicker, MobileScrollDatePicker} from './datePicker/index';
 import RangeMenu from './rangeMenu/index';
 import Shuttle from './shuttle/index';
 import Pagebar from './pagebar/index';
@@ -28,4 +28,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar, Textarea, Option, Menu, Cascade, Tip};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar, Textarea, Option, Menu, Cascade, Tip};

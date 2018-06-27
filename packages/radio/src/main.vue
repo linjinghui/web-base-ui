@@ -9,7 +9,7 @@
   <label class="radio"
     :disabled="(disabled+'')==='true'"
     @click="clk">
-    <i :class="{'selected': value===val}" :style="(value===val) ? _style : ''"></i>
+    <i :class="{'selected': value!==''&&value===val}" :style="(value!==''&&value===val) ? _style : ''"></i>
     <slot></slot>
   </label>
 </template>

@@ -4,50 +4,75 @@
  -->
 
 <template>
-  <cmp-input type="text" maxlength="20"
-    v-model="value"
-    :class="id"
-    :placeholder="placeholder"
-    :disabled="(disabled+'')==='true'">
-    <i class="cicon-calendar-cpt-chr center-v" slot="right" style="font-size: 26px;">
-      <span></span>
-    </i>
-  </cmp-input>
+  <date-picker class="wrap-datePicker" :date="startTime" :option="option" :limit="limit"></date-picker>
 </template>
 
 <script type="text/babel">
-  import flatpickr from 'flatpickr';
-  import { Mandarin } from 'flatpickr/dist/l10n/zh.js';
-  import Input from '../../input/index.js';
+  import datepicker from 'vue-datepicker';
 
   export default {
     name: 'DatePicker',
     components: {
-      'cmpInput': Input
+      'date-picker': datepicker
     },
     data: function () {
       return {
-        id: 'datepick_' + new Date().getTime() + parseInt(Math.random() * 100),
-        fpicker: ''
+        startTime: {
+          time: this.value
+        },
+        endtime: {
+          time: ''
+        },
+        option: {
+          // 'day', 'min', 'multi-day'
+          type: this.type,
+          week: ['一', '二', '三', '四', '五', '六', '日'],
+          month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+          format: this.format,
+          placeholder: this.placeholder,
+          color: {
+            checkedDay: this.theme,
+            header: this.theme,
+            headerText: '#fff'
+          },
+          buttons: {
+            ok: '确认',
+            cancel: '取消'
+          },
+          overlayOpacity: 0.3,
+          dismissible: true
+        },
+        limit: this.lmt
       };
     },
     props: {
       value: '',
+      type: {
+        // 'day', 'min', 'multi-day'
+        default: 'min'
+      },
+      theme: {
+        default: '#409eff'
+      },
       placeholder: {
         default: '请选择日期'
       },
-      disabled: {
-        default: false
+      format: {
+        default: 'YYYY-MM-DD HH:mm'
+      },
+      lmt: {
+        type: Array,
+        default: function () {
+          return [];
+        }
       }
     },
     watch: {
       value: function (val) {
-        this.fpicker && this.fpicker.setDate(val, false);
+        this.startTime.time = val;
       },
-      disabled: function (val) {
-        if (val + '' !== 'true') {
-          this.initDatePicker();
-        }
+      'startTime.time': function (val) {
+        this.$emit('input', val);
       }
     },
     computed: {
@@ -57,44 +82,31 @@
       //
     },
     mounted: function () {
-      if (this.disabled + '' !== 'true') {
-        this.initDatePicker();
-      }
+      //
     },
     methods: {
-      emtIpt: function (val) {
-        this.$emit('input', val);
-      },
-      callback: function (date, dateStr) {
-        this.$emit('callback', {
-          date: date,
-          str: dateStr
-        });
-      },
-      initDatePicker: function () {
-        let _this = this;
-        let myInput = document.querySelector('.' + this.id);
-
-        this.fpicker = flatpickr(myInput, {
-          locale: Mandarin,
-          enableTime: true,
-          dateFormat: 'Y-m-d H:i',
-          onChange: function (selectedDates, dateStr, instance) {
-            _this.emtIpt(dateStr);
-            _this.callback(selectedDates, dateStr);
-          }
-        });
-      }
+      //
     }
   };
 </script>
 
-<style lang="scss">
-  @import "../../../node_modules/flatpickr/dist/flatpickr.min.css";
-</style>
-<style scoped lang="scss">
-  [class^=cicon-calendar] {
-    color: #c0c4cc!important;
-    background-color: transparent!important;
+<style>
+  .wrap-datePicker {
+    width: 100%;
+    color: inherit!important;
+  }
+  .wrap-datePicker input {
+    width: 100%;
+    height: 34px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ddd;
+    color: inherit;
+    font: inherit;
+    outline: medium;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+  .wrap-datePicker .active {
+    background-color: #d3d3d3!important;
   }
 </style>
