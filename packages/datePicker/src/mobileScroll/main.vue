@@ -4,43 +4,87 @@
  -->
 
 <template>
-  <input type="text" id="demo_calendar">
+  <cmp-input :id="id" v-model="time" type="text" :placeholder="placeholder" :disabled="disabled" :readonly="readonly">
+    <i class="cicon-calendar-cpt-chr center-v" slot="right" style="font-size: 26px;" @click="clkIcon">
+      <span></span>
+    </i>
+  </cmp-input>
 </template>
 
 <script type="text/babel">
+  import Input from '../../../input/index.js';
   import './js/mobiscroll.custom-2.16.1.min.js';
 
   export default {
     name: 'MobileScrollDatePicker',
     components: {
-      //
+      'cmpInput': Input
     },
     data: function () {
-      return {};
+      return {
+        id: 'mbs_' + new Date().getTime() + parseInt(Math.random() * 100),
+        time: ''
+      };
     },
     props: {
-      //
+      value: '',
+      placeholder: {
+        default: '请选择日期'
+      },
+      disabled: {
+        default: false
+      },
+      readonly: {
+        default: false
+      }
     },
     watch: {
-      //
+      value: function (val) {
+        this.setValue(val);
+      },
+      disabled: function (val) {
+        if (val) {
+          this.destroy();
+        }
+      }
     },
     computed: {
       //
     },
     beforeDestroy: function () {
-      //
+      this.destroy();
     },
     mounted: function () {
-      var $ = window.jQuery;
-      var client = this.browerVersion();
+      var _this = this;
 
-      this.isMobile = (client.ios || client.android);
-      $('#demo_calendar').mobiscroll().calendar({
-        theme: '',
-        mode: 'clickpick',
-        display: (client.ios || client.android) ? 'bottom' : 'modal',
-        lang: 'zh'
-      });
+      if (!this.disabled) {
+        var $ = window.jQuery;
+        var client = this.browerVersion();
+
+        this.isMobile = (client.ios || client.android);
+        // 设置format
+        $.mobiscroll.i18n.zh = $.extend($.mobiscroll.i18n.zh, {
+          dateFormat: 'yyyy-mm-dd'
+        });
+        // 初始化日期插件
+        $('#' + this.id).mobiscroll().calendar({
+          theme: '',
+          mode: 'clickpick',
+          display: (client.ios || client.android) ? 'bottom' : 'modal',
+          lang: 'zh',
+          controls: ['calendar', 'time'],
+          // 选择星期
+          // selectType: 'week',
+          // 多选
+          // multiSelect: true,
+          onClose: function (event, inst) {
+            if (inst === 'set') {
+              _this.$emit('input', event);
+            }
+          }
+        });
+      }
+      this.setValue(this.value);
     },
     methods: {
       browerVersion: function () {
@@ -72,6 +116,16 @@
           // trident IE内核 并且包含WP7标示 windows phone7手机
           wp7: (u.indexOf('WP7') > -1) || (u.indexOf('Windows Phone OS') > -1)
         };
+      },
+      clkIcon: function () {
+        window.jQuery('#' + this.id).click();
+      },
+      setValue: function (val) {
+        window.jQuery('#' + this.id).mobiscroll('setVal', new Date(isNaN(val) ? val : parseInt(val)));
+        this.time = val;
+      },
+      destroy: function () {
+        window.jQuery('.mbsc-mobiscroll').remove();
       }
     }
   };
@@ -79,4 +133,10 @@
 
 <style>
   @import "./css/mobiscroll.custom-2.16.1.min.css";
+</style>
+<style scoped lang="scss">
+  [class^=cicon-calendar] {
+    color: #c0c4cc!important;
+    background-color: transparent!important;
+  }
 </style>
