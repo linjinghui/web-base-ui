@@ -19,6 +19,7 @@ import Textarea from './textarea/index';
 import Option from './option/index';
 import {Menu, Cascade} from './menu/index';
 import Tip from './tip/index';
+import Tree from './tree/index';
 
 const components = [Loading, Tip];
 const install = function (Vue) {
@@ -28,4 +29,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar, Textarea, Option, Menu, Cascade, Tip};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar, Textarea, Option, Menu, Cascade, Tip, Tree};

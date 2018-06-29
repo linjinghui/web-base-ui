@@ -25,6 +25,7 @@ import DemoOption from '../../example/demo_option.vue';
 import DemoMenu from '../../example/demo_menu.vue';
 import DemoCascade from '../../example/demo_cascade.vue';
 import DemoTip from '../../example/demo_tip.vue';
+import DemoTree from '../../example/demo_tree.vue';
 
 Vue.use(Router);
 
@@ -150,6 +151,11 @@ export default new Router({
       path: '/demoTip',
       name: 'demoTip',
       component: DemoTip
+    },
+    {
+      path: '/demoTree',
+      name: 'demoTree',
+      component: DemoTree
     }
   ]
 });
