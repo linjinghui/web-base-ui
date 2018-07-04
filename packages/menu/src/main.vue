@@ -1,20 +1,20 @@
 <!--
 功能介绍：
 1、
+ :key="item.id"
+ @mouseenter="hover=index"
+      @click="clk_item(index)"
  -->
 
 <template>
   <vperfect-scrollbar class="wrap-menu" ref="ps"
-    :class="{'cascade': type==='cascade'}"
     :settings="settings"
-    v-show="value">
-    <div class="line" v-for="(item, index) in data"
-      @mouseenter="hover=index"
-      @click="clk_item(index)"
-      :class="{'hover': hover===index, 'active': active.indexOf(index)!==-1}">
+    v-show="show">
+    <div class="line" v-for="(item, index) in data" :key="item.id"
+      @mousedown="clk_item(index)"
+      :class="{'active': multi?value.indexOf(index)!==-1:value[0]===index}">
       <slot name="line" :item="item">{{item}}</slot>
-      <i class="cicon-tick center-hv" v-if="type==='multi'" v-show="active.indexOf(index)!==-1"></i>
-      <i class="cicon-arrow-right center-hv" v-if="type==='cascade'" v-show="item.children&&item.children.length>0"></i>
+      <i class="cicon-tick center-hv" v-if="multi"></i>
     </div>
   </vperfect-scrollbar>
 </template>
@@ -40,77 +40,81 @@
     },
     props: {
       value: {
-        default: false
+        default: function () {
+          return [];
+        }
       },
       data: {
         default: function () {
           return [];
         }
       },
-      // multi多选、cascade级联
-      type: ''
-      // multi: {
-      //   default: false
-      // }
+      show: {
+        default: false
+      },
+      multi: {
+        default: false
+      }
     },
     watch: {
-      value: function (val) {
-        if (!val) {
-          this.hover = '';
-        }
-      },
-      hover: function (val) {
-        let _this = this;
+      // value: function (val) {
+      //   if (!val) {
+      //     this.hover = '';
+      //   }
+      // },
+      // hover: function (val) {
+      //   let _this = this;
 
-        this.$nextTick(function () {
-          let dom = document.querySelector('.wrap-menu > .line.hover');
-          let parantDom = document.querySelector('.wrap-menu');
-          let isVisible = _this.utl_isVisible(dom, parantDom);
+      //   this.$nextTick(function () {
+      //     let dom = document.querySelector('.wrap-menu > .line.hover');
+      //     let parantDom = document.querySelector('.wrap-menu');
+      //     let isVisible = _this.utl_isVisible(dom, parantDom);
 
-          if ((typeof isVisible === 'boolean') && !isVisible) {
-            // dom不在可见范围内，要自动滚动到dom所在位置
-            parantDom.scrollTop = dom.offsetTop - parantDom.offsetHeight + dom.offsetHeight;
-          }
-        });
-      }
+      //     if ((typeof isVisible === 'boolean') && !isVisible) {
+      //       // dom不在可见范围内，要自动滚动到dom所在位置
+      //       parantDom.scrollTop = dom.offsetTop - parantDom.offsetHeight + dom.offsetHeight;
+      //     }
+      //   });
+      // }
     },
     computed: {
       //
     },
     beforeDestroy: function () {
-      window.removeEventListener('keydown', this.evt_keydown);
-      window.removeEventListener('click', this.emt_hide);
+      // window.removeEventListener('keydown', this.evt_keydown);
+      // window.removeEventListener('click', this.emt_hide);
     },
     mounted: function () {
-      window.addEventListener('keydown', this.evt_keydown);
-      window.addEventListener('click', this.emt_hide);
+      // window.addEventListener('keydown', this.evt_keydown);
+      // window.addEventListener('click', this.emt_hide);
     },
     methods: {
       emt_hide: function () {
         this.$emit('input', false);
       },
       clk_item: function (index) {
-        if (this.type === 'multi') {
-          // 多选
-          if (this.active.indexOf(index) === -1) {
-            // 不存在， 加入
-            this.$set(this.active, this.active.length, index);
-          } else {
-            // 存在， 删除
-            this.active.splice(this.active.indexOf(index), 1);
-          }
-        // } else if (this.type === 'cascade') {
-        //   // 级联
-        // }
+        var _value = JSON.parse(JSON.stringify(this.value));
+        var _index = _value.indexOf(index);
+
+        if (_index === -1) {
+          // 不存在， 加入
+          this.multi ? (_value.push(index)) : (_value = [index]);
         } else {
-          // 单选
-          this.active = [];
-          this.$set(this.active, 0, index);
+          // 存在， 删除
+          this.multi ? (_value.splice(_index, 1)) : (_value = []);
         }
-        this.$emit('cbk', this.active);
+        this.$emit('input', _value);
+        this.$nextTick(function () {
+          var result = [];
+
+          for (var i = 0;i < _value.length;i++) {
+            result[result.length] = this.data[_value[i]];
+          }
+          this.$emit('cbkClkItem', result);
+        });
       },
       evt_keydown: function (event) {
-        if (this.value) {
+        if (this.show) {
           event = event || window.event;
           if (event.keyCode === 38 || event.keyCode === 40) {
             this.evt_arrow(event.keyCode);
@@ -149,35 +153,10 @@
           result = !(parantDom.scrollTop >= (dom.offsetTop + dom.offsetHeight) || (parantDom.scrollTop + parantDom.offsetHeight) <= (dom.offsetTop + dom.offsetHeight));
         }
         return result;
-      },
-      parse_data: function (data, regObj) {
-        let result = '';
-
-        try {
-          result = JSON.stringify(data);
-          if (regObj.name) {
-            result = result.replace(new RegExp(regObj.name, 'g'), 'name');
-          }
-          if (regObj.children) {
-            result = result.replace(new RegExp(regObj.children, 'g'), 'children');
-          }
-          result = JSON.parse(result);
-        } catch (e) {
-          result = [];
-        }
-        return result;
       }
     }
   };
 </script>
-
-<style lang="scss">
-  .wrap-menu {
-    .ps__scrollbar-x-rail, .ps__scrollbar-y-rail {
-      z-index: 2;
-    }
-  }
-</style>
 
 <style scoped lang="scss">
   .wrap-menu {
@@ -202,31 +181,30 @@
       line-height: 30px;
       cursor: pointer;
 
-      >[class^='cicon-'] {
+      >.cicon-tick {
+        display: none;
         position: absolute;
         left: auto;
         right: 10px;
         font-size: 20px;
       }
-
-      >[class^='cicon-arrow'] {
-        color: #ddd;
-        font-size: 16px;
-      }
     }
-    >.line.hover {
+    >.line:hover {
       background-color: #f5f7fa;
     }
+    >.line:active,
     >.line.active {
       color: #409eff;
       background-color: transparent;
+
+      >.cicon-tick {
+        display: unset;
+      }
     }
   }
 
-  .wrap-menu.cascade {
-    width: 220px;
-    >.line.active {
-      background-color: #f5f7fa;
-    }
-  }
+  // .wrap-menu.hidden {
+  //   opacity: 0;
+  //   transform: scaleY(0);
+  // }
 </style>
