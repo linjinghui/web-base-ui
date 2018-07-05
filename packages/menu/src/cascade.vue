@@ -105,9 +105,9 @@
   .wrap-cascade {
 
     >.wrap-menu {
-      display: inline-block;
-      width: 240px;
-      vertical-align: top;
+      display: inline-block!important;
+      width: 240px!important;
+      vertical-align: top!important;
 
       .ps__scrollbar-x-rail,
       .ps__scrollbar-y-rail {

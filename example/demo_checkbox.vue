@@ -4,7 +4,7 @@
     <!-- theme: 控制选中后的背景色 -->
     <!-- disabled: 是否禁用 -->
     <!-- beforeClk: 需要二次确认操作 - true|false -->
-    <cmp-checkbox v-for="item in likes" v-model="selected" :val="item.val" :beforeclk="beforeClk">
+    <cmp-checkbox v-for="(item, index) in likes" :key="index" v-model="selected" :val="item.val" :beforeclk="beforeClk">
       {{item.name}}
     </cmp-checkbox>
     <hr>
