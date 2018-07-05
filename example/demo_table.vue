@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;height: 100%;">
+  <div style="width: 100%;height: 500px;">
     <cmp-table v-bind="option" @callback="callback">
       <tr slot="head">
         <td>序号</td><td>姓名</td><td>年龄</td><td>操作</td>
