@@ -16,7 +16,7 @@ import ImageCrop from './imageCrop/index';
 import Table from './table/index';
 import Sidebar from './sidebar/index';
 import Textarea from './textarea/index';
-import Option from './option/index';
+import DropMenu from './dropMenu/index';
 import {Menu, Cascade} from './menu/index';
 import Tip from './tip/index';
 import Tree from './tree/index';
@@ -29,4 +29,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar, Textarea, Option, Menu, Cascade, Tip, Tree};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree};

@@ -19,7 +19,7 @@
     <a href="#/demoTable">table</a>
     <a href="#/demoSidebar">sidebar</a>
     <a href="#/demoTextarea">textarea</a>
-    <a href="#/demoOption">option</a>
+    <a href="#/demoDropMenu">dropMenu</a>
     <a href="#/demoMenu">menu</a>
     <a href="#/demoCascade">cascade</a>
     <a href="#/demoTip">tip</a>

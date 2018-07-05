@@ -1,21 +1,21 @@
 <template>
   <div>
-    <cmp-select></cmp-select>
+    <cmp-drop-menu></cmp-drop-menu>
   </div>
 </template>
 
 <script>
-import {Select} from '../packages/index.js';
+import {DropMenu} from '../packages/index.js';
 
 export default {
-  name: 'demoSelect',
+  name: 'demoDropMenu',
   data: function () {
     return {
       //
     };
   },
   components: {
-    'cmpSelect': Select
+    'cmpDropMenu': DropMenu
   },
   watch: {
     //
