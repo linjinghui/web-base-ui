@@ -17,11 +17,16 @@
     },
     data: function () {
       return {
-        menuArr: [],
-        result: []
+        menuArr: []
       };
     },
     props: {
+      value: {
+        type: Array,
+        default: function () {
+          return [];
+        }
+      },
       // 树结构数据
       data: {
         type: Array,
@@ -36,32 +41,62 @@
     watch: {
       data: function (val) {
         this.setMenuItemData(val);
+      },
+      value: function (val) {
+        if (this.menuArr.length <= 1) {
+          this.setMenuArrByValue();
+        }
       }
     },
     mounted: function () {
-      // setTimeout(function () {}, 3000);
       this.setMenuItemData(this.data);
+      this.setMenuArrByValue();
     },
     methods: {
-      setMenuItemData: function (data, index) {
-        var obj = {
+      getMenuArrInfo: function (data, result) {
+        return {
           data: data,
           show: true,
-          result: ''
+          result: (typeof result === 'undefined') ? [] : [result]
         };
+      },
+      setMenuItemData: function (data, index) {
+        var obj = this.getMenuArrInfo(data);
 
         if (typeof index === 'undefined') {
           index = 0;
         }
         this.menuArr.splice(index, this.menuArr.length, obj);
-        console.log(this.menuArr);
+      },
+      setMenuArrByValue: function () {
+        var data = this.data;
+        var result = [];
+
+        for (let i = 0;this.value && i < this.value.length;i++) {
+          console.log(this.value[i] + ':' + typeof this.value[i] + ':' + data[this.value[i]]);
+          result.push(this.getMenuArrInfo(data, this.value[i]));
+          data = data[this.value[i]] && data[this.value[i]].child;
+        }
+        this.menuArr = result;
       },
       cbkClkItem: function (data, index) {
         var _data = data[0].child || [];
+        var _indexArr = [];
+        var _resultArr = [];
 
         if (_data.length > 0) {
           this.setMenuItemData(_data, index + 1);
         }
+        for (let i = 0;i < this.menuArr.length;i++) {
+          let result = this.menuArr[i].result;
+
+          if (result !== '') {
+            _resultArr[_resultArr.length] = this.menuArr[i].data[this.menuArr[i].result[0]];
+            _indexArr[_indexArr.length] = result;
+          }
+        }
+        this.$emit('cbkClkItem', _resultArr);
+        this.$emit('input', _indexArr);
       }
     }
   };

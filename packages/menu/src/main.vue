@@ -93,25 +93,28 @@
         this.$emit('input', false);
       },
       clk_item: function (index) {
-        var _value = JSON.parse(JSON.stringify(this.value));
-        var _index = _value.indexOf(index);
+        // 单选的时候，不允许取消选择
+        if (this.multi || this.value.indexOf(index) === -1) {
+          var _value = JSON.parse(JSON.stringify(this.value));
+          var _index = _value.indexOf(index);
 
-        if (_index === -1) {
-          // 不存在， 加入
-          this.multi ? (_value.push(index)) : (_value = [index]);
-        } else {
-          // 存在， 删除
-          this.multi ? (_value.splice(_index, 1)) : (_value = []);
-        }
-        this.$emit('input', _value);
-        this.$nextTick(function () {
-          var result = [];
-
-          for (var i = 0;i < _value.length;i++) {
-            result[result.length] = this.data[_value[i]];
+          if (_index === -1) {
+            // 不存在， 加入
+            this.multi ? (_value.push(index)) : (_value = [index]);
+          } else {
+            // 存在， 删除
+            this.multi ? (_value.splice(_index, 1)) : (_value = []);
           }
-          this.$emit('cbkClkItem', result);
-        });
+          this.$emit('input', _value);
+          this.$nextTick(function () {
+            var result = [];
+
+            for (var i = 0;i < _value.length;i++) {
+              result[result.length] = this.data[_value[i]];
+            }
+            this.$emit('cbkClkItem', result);
+          });
+        }
       },
       evt_keydown: function (event) {
         if (this.show) {
