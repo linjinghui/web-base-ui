@@ -23,7 +23,7 @@ export default {
       option2: {
         show: true,
         data: geoinfo,
-        result: [1, 0, 5, 4]
+        result: [5, 0, 5, 5]
       }
     };
   },
@@ -33,6 +33,11 @@ export default {
   },
   watch: {
     'option1.result': function (val) {
+      console.log('=========option1.result=========');
+      console.log(val);
+    },
+    'option2.result': function (val) {
+      console.log('=========option2.result=========');
       console.log(val);
     }
   },

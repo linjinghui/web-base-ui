@@ -50,7 +50,7 @@
     },
     mounted: function () {
       this.setMenuItemData(this.data);
-      this.setMenuArrByValue();
+      this.value.length > 0 && this.setMenuArrByValue();
     },
     methods: {
       getMenuArrInfo: function (data, result) {
@@ -73,7 +73,6 @@
         var result = [];
 
         for (let i = 0;this.value && i < this.value.length;i++) {
-          console.log(this.value[i] + ':' + typeof this.value[i] + ':' + data[this.value[i]]);
           result.push(this.getMenuArrInfo(data, this.value[i]));
           data = data[this.value[i]] && data[this.value[i]].child;
         }
@@ -90,8 +89,8 @@
         for (let i = 0;i < this.menuArr.length;i++) {
           let result = this.menuArr[i].result;
 
-          if (result !== '') {
-            _resultArr[_resultArr.length] = this.menuArr[i].data[this.menuArr[i].result[0]];
+          if (result !== '' && result.length > 0) {
+            _resultArr[_resultArr.length] = this.menuArr[i].data[result[0]];
             _indexArr[_indexArr.length] = result;
           }
         }
