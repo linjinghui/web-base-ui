@@ -4,66 +4,95 @@
  -->
 
 <template>
-  <div class="wrap-selector" @click.stop>
-    <cmp-input
-      type="text"
-      maxlength="1111"
-      placeholder="请输入名称"
-      disabled="false"
-      readonly="true">
-        <i class="cicon-arrow-bottom center-v" :class="{'up': menuOpt.show}" slot="right" @click="clk_arrow"></i>
+  <div class="wrap-drop-menu" @click.stop>
+    <cmp-input type="text" ref="dmIpt" v-model="iptValue" :placeholder="placeholder" :disabled="disabled+''==='true'" :readonly="readonly">
+        <i class="cicon-arrow-bottom center-v" :disabled="disabled+''==='true'" :class="{'up': show}" slot="right" @click.stop="clk_arrow"></i>
     </cmp-input>
-    <cmp-menu class="menu" v-bind="menuOpt" v-model="menuOpt.show">
-      <!-- <span slot="line" slot-scope="props">{{props.item}}</span> -->
+    <cmp-menu :show="show" :multi="multi" :data="data" v-model="result">
+      <template slot="line" slot-scope="props">
+        <slot name="line" :item="props.item">{{props.item}}</slot>
+      </template>
     </cmp-menu>
   </div>
 </template>
 
 <script type="text/babel">
   import Input from '../../input/index.js';
-  import Menu from './menu.vue';
+  import {Menu} from '../../menu/index.js';
 
   export default {
-    name: 'Option',
+    name: 'DropMenu',
     components: {
       'cmpInput': Input,
       'cmpMenu': Menu
     },
     data: function () {
       return {
-        id: 'btn_' + new Date().getTime() + parseInt(Math.random() * 100),
-        menuOpt: {
-          show: false,
-          multi: true,
-          data: ['黄金高', '双皮奶', '拉希米', '换节奏', '北京烤鸭', '无泡沫', '长达作为', 'vzxwwdasd', '滴答滴答滴答滴答', '跳脱衣舞', 'uirxxxx', '你们vczaqdx', '榴莲皮']
-        }
+        show: false,
+        result: this.value,
+        iptValue: ''
       };
     },
     props: {
-      //
+      value: {
+        default: function () {
+          return [];
+        }
+      },
+      placeholder: {
+        default: '请选择内容'
+      },
+      disabled: {
+        default: false
+      },
+      readonly: {
+        default: false
+      },
+      data: {
+        default: function () {
+          return [];
+        }
+      },
+      multi: {
+        default: false
+      }
     },
     watch: {
-      //
+      disabled: function (val) {
+        if (val + '' === 'true') {
+          this.show = false;
+        } else {
+          this.show = true;
+        }
+      }
     },
     computed: {
       //
     },
     beforeDestroy: function () {
-      //
+      window.removeEventListener('click', this.clk_hide);
     },
     mounted: function () {
-      //
+      window.addEventListener('click', this.clk_hide);
+      this.$refs.dmIpt.$el.addEventListener('click', this.clk_arrow);
     },
     methods: {
       clk_arrow: function () {
-        this.menuOpt.show = !this.menuOpt.show;
+        if (this.disabled + '' !== 'true') {
+          this.show = !this.show;
+        }
+      },
+      clk_hide: function () {
+        if (this.disabled + '' !== 'true') {
+          this.show = false;
+        }
       }
     }
   };
 </script>
 
 <style scoped lang="scss">
-  .wrap-selector {
+  .wrap-drop-menu {
     position: relative;
 
     >.input {
