@@ -1,15 +1,20 @@
 <template>
   <div>
-    <button @click="showHide">show\hide</button>
-    <cmp-dialog v-bind="option" v-model="option.show" @cbkClk="cbkClk">
+    <button @click="showHide">show\hide</button>|<button @click="optionPrompt.show=!optionPrompt.show">showPrompt\hidePrompt</button>
+    <!-- confirm -->
+    <cmp-confirm v-bind="option" v-model="option.show" @cbkClk="cbkClk">
       <span slot="title">投票成功</span>
       <span slot="content">你今天还能为其他未投过票的参选者投<font style="color: red;">1</font>票</span>
-    </cmp-dialog>
+    </cmp-confirm>
+    <!-- prompt -->
+    <cmp-prompt v-bind="optionPrompt" v-model="optionPrompt.show" @cbkClk="cbkClkPrompt">
+      <span slot="title">投票成功</span>
+    </cmp-prompt>
   </div>
 </template>
 
 <script>
-import {Dialog} from '../packages/index.js';
+import {Dialog, Prompt} from '../packages/index.js';
 
 export default {
   name: 'demoDialog',
@@ -21,6 +26,10 @@ export default {
         stl: {
           header: {
             // left|center
+            'text-align': 'center'
+          },
+          section: {
+            // left|center|right
             'text-align': 'center'
           },
           footer: {
@@ -37,11 +46,31 @@ export default {
           text: '修改',
           theme: 'warning'
         }]
+      },
+      optionPrompt: {
+        show: false,
+        modal: true,
+        stl: {
+          footer: {
+            // left|center|right
+            'text-align': 'right'
+          }
+        },
+        buttons2: [],
+        buttons: [{
+          text: '放弃修改',
+          // primary|success|info|warning|danger|#f56c6c
+          theme: 'line'
+        }, {
+          text: '修改',
+          theme: 'warning'
+        }]
       }
     };
   },
   components: {
-    'cmpDialog': Dialog
+    'cmpConfirm': Dialog,
+    'cmpPrompt': Prompt
   },
   watch: {
     //
@@ -53,6 +82,11 @@ export default {
     cbkClk: function (data) {
       this.option.show = false;
       console.log('======cbkClk=====');
+      console.log(data);
+    },
+    cbkClkPrompt: function (data) {
+      this.optionPrompt.show = false;
+      console.log('======cbkClkPrompt=====');
       console.log(data);
     }
   }

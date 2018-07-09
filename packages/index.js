@@ -20,9 +20,9 @@ import DropMenu from './dropMenu/index';
 import {Menu, Cascade} from './menu/index';
 import Tip from './tip/index';
 import Tree from './tree/index';
-import Dialog from './dialog/index';
+import {Dialog, Prompt} from './dialog/index';
 
-const components = [Loading, Tip];
+const components = [Loading, Tip, Dialog, Prompt];
 const install = function (Vue) {
   if (install.installed) return;
   components.map(function (component) {
@@ -30,4 +30,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Prompt};

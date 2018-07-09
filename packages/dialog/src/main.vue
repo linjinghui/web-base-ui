@@ -7,17 +7,17 @@
   <transition name="slide-fade">
     <div class="wrap-dialog" :class="{'no-footer': !(buttons&&buttons.length>0)}" :style="{'z-index': zIndex + 1}" v-if="value+''==='true'">
       <i class="cicon-cross-chr" @click="clk_hide"></i>
-      <header :style="_stl.header">
+      <header :style="cstl.header">
         <slot name="title"></slot>
       </header>
-      <vperfect-scrollbar :settings="settings">
+      <vperfect-scrollbar :settings="settings" :style="cstl.section">
         <i class="cicon-cross-crle" v-if="type==='error'"></i>
         <i class="cicon-tick-crle" v-else-if="type==='success'"></i>
         <i class="cicon-exclamation-crle" v-else-if="type==='warning'"></i>
         <slot name="content"></slot>
       </vperfect-scrollbar>
       <!-- </section> -->
-      <footer :style="_stl.footer" v-if="buttons&&buttons.length>0">
+      <footer :style="cstl.footer" v-if="buttons&&buttons.length>0">
         <cmp-button v-for="info in buttons" :theme="info.theme" :key="info.id" @click="clk_btn(info)">{{info.text}}</cmp-button>
       </footer>
     </div>
@@ -42,8 +42,7 @@
           wheelSpeed: 0.5
         },
         zIndex: 1000,
-        domZz: '',
-        _stl: ''
+        domZz: ''
       };
     },
     props: {
@@ -87,13 +86,12 @@
         } else {
           this.removeZz();
         }
-      },
-      stl: function (val) {
-        this._stl = Object.assign(this.stlDefVal(), this.stl);
       }
     },
     computed: {
-      // 
+      cstl: function () {
+        return Object.assign(this.stlDefVal(), this.stl);
+      }
     },
     beforeDestroy: function () {
       window.removeEventListener('keyup', this.evt_keyup);
@@ -102,7 +100,6 @@
     mounted: function () {
       window.addEventListener('keyup', this.evt_keyup);
       this.creatZz();
-      this._stl = Object.assign(this.stlDefVal(), this.stl);
     },
     methods: {
       evt_keyup: function (event) {
