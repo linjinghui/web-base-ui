@@ -26,6 +26,7 @@ import DemoMenu from '../../example/demo_menu.vue';
 import DemoCascade from '../../example/demo_cascade.vue';
 import DemoTip from '../../example/demo_tip.vue';
 import DemoTree from '../../example/demo_tree.vue';
+import DemoDialog from '../../example/demo_dialog.vue';
 
 Vue.use(Router);
 
@@ -156,6 +157,11 @@ export default new Router({
       path: '/demoTree',
       name: 'demoTree',
       component: DemoTree
+    },
+    {
+      path: '/demoDialog',
+      name: 'demoDialog',
+      component: DemoDialog
     }
   ]
 });

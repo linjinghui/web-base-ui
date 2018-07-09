@@ -20,6 +20,7 @@ import DropMenu from './dropMenu/index';
 import {Menu, Cascade} from './menu/index';
 import Tip from './tip/index';
 import Tree from './tree/index';
+import Dialog from './dialog/index';
 
 const components = [Loading, Tip];
 const install = function (Vue) {
@@ -29,4 +30,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog};

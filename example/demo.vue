@@ -24,6 +24,7 @@
     <a href="#/demoCascade">cascade</a>
     <a href="#/demoTip">tip</a>
     <a href="#/demoTree">tree</a>
+    <a href="#/demoDialog">dialog</a>
   </div>
 </template>
 

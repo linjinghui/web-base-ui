@@ -8,7 +8,7 @@
 
 <template>
   <button class="button" v-if="typeof fileoption==='undefined'"
-    :style="{'background-color': backColor}" 
+    :style="cstl" 
     :id="id"
     :disabled="pdisabled"
     :data-clipboard-text="copydata"
@@ -18,7 +18,7 @@
   </button>
   <!-- 选择文件专用∨ -->
   <label class="button" v-else
-    :style="{'background-color': backColor}" 
+    :style="cstl" 
     :id="id"
     :disabled="pdisabled"
     :for="'file_' + id">
@@ -82,10 +82,27 @@
           success: '#67c23a',
           info: '#909399',
           warning: '#e6a23c',
-          danger: '#f56c6c'
+          danger: '#f56c6c',
+          line: '#fff'
         };
 
         return obj[this.theme] || this.theme;
+      },
+      cstl: function () {
+        let obj = {
+          primary: '#409eff',
+          success: '#67c23a',
+          info: '#909399',
+          warning: '#e6a23c',
+          danger: '#f56c6c',
+          line: '#fff'
+        };
+
+        return {
+          'border-color': this.theme === 'line' ? '#ddd' : '',
+          'color': this.theme === 'line' ? 'inherit' : '',
+          'background-color': obj[this.theme] || this.theme
+        };
       }
     },
     beforeDestroy: function () {

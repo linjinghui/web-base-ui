@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- 带图标内容 -->
-    <!-- theme: primary|success|info|warning|danger|#333 - 按钮背景主题，也可以自定义 -->
+    <!-- theme: primary|success|info|warning|danger|line|#333 - 按钮背景主题，也可以自定义 -->
     <!-- disabled: true|false - 是否禁用按钮 -->
-    <cmp-button theme="#333311" disabled="false" @click="clk">
+    <cmp-button theme="line" disabled="false" @click="clk">
       <i class="cicon-arrow-bottom" style="font-size: 20px;"></i> 自定义背景色
     </cmp-button>
     <hr style="margin: 10px 0;">
