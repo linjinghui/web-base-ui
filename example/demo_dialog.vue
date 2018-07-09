@@ -2,8 +2,8 @@
   <div>
     <button @click="showHide">show\hide</button>
     <cmp-dialog v-bind="option" v-model="option.show" @cbkClk="cbkClk">
-      <span slot="title" style="color: red;">标题1111</span>
-      <span slot="content" style="color: red;">等等等等等等</span>
+      <span slot="title">投票成功</span>
+      <span slot="content">你今天还能为其他未投过票的参选者投<font style="color: red;">1</font>票</span>
     </cmp-dialog>
   </div>
 </template>
@@ -19,15 +19,16 @@ export default {
         show: false,
         modal: false,
         stl: {
-          // header: {
-          //   // left|center
-          //   'text-align': 'center'
-          // }
+          header: {
+            // left|center
+            'text-align': 'center'
+          },
           footer: {
             // left|center|right
             'text-align': 'center'
           }
         },
+        buttons1: [],
         buttons: [{
           text: '放弃修改',
           // primary|success|info|warning|danger|#f56c6c

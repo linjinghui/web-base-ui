@@ -5,18 +5,19 @@
 
 <template>
   <transition name="slide-fade">
-    <div class="wrap-dialog" :style="{'z-index': zIndex + 1}" v-if="value+''==='true'">
+    <div class="wrap-dialog" :class="{'no-footer': !(buttons&&buttons.length>0)}" :style="{'z-index': zIndex + 1}" v-if="value+''==='true'">
       <i class="cicon-cross-chr" @click="clk_hide"></i>
       <header :style="_stl.header">
         <slot name="title"></slot>
       </header>
-      <section>
+      <vperfect-scrollbar :settings="settings">
         <i class="cicon-cross-crle" v-if="type==='error'"></i>
         <i class="cicon-tick-crle" v-else-if="type==='success'"></i>
         <i class="cicon-exclamation-crle" v-else-if="type==='warning'"></i>
         <slot name="content"></slot>
-      </section>
-      <footer :style="_stl.footer">
+      </vperfect-scrollbar>
+      <!-- </section> -->
+      <footer :style="_stl.footer" v-if="buttons&&buttons.length>0">
         <cmp-button v-for="info in buttons" :theme="info.theme" :key="info.id" @click="clk_btn(info)">{{info.text}}</cmp-button>
       </footer>
     </div>
@@ -24,16 +25,22 @@
 </template>
 
 <script type="text/babel">
+  import VuePerfectScrollbar from 'vue-perfect-scrollbar';
   import Button from '../../button/index.js';
 
   export default {
     name: 'Dialog',
     components: {
+      'vperfect-scrollbar': VuePerfectScrollbar,
       'cmpButton': Button
     },
     data: function () {
       return {
         id: 'dlg_' + new Date().getTime() + parseInt(Math.random() * 100),
+        // 滚动速度，默认1
+        settings: {
+          wheelSpeed: 0.5
+        },
         zIndex: 1000,
         domZz: '',
         _stl: ''
@@ -147,7 +154,7 @@
   .wrap-dialog {
     position: fixed;
     margin: auto;
-    padding: 0 10px;
+    padding-bottom: 10px;
     top: 0;
     right: 0;
     bottom: 0;
@@ -169,18 +176,22 @@
       cursor: pointer;
     }
 
-    >header, footer {
+    >header {
+      padding: 0 10px;
       height: 50px;
       line-height: 50px;
-    }
-
-    >header {
+      text-align: left;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
       color: #333;
       font-size: 18px;
     }
 
     >section {
-      height: calc(100% - 50px - 50px);
+      padding: 0 10px;
+      height: calc(100% - 50px - 40px);
+      word-break: break-all;
 
       >[class^="cicon"] {
         font-size: 24px;
@@ -201,16 +212,26 @@
       }
     }
 
-    >footer > .button {
-      margin-left: 10px;
-      padding-top: 0;
-      height: 34px;
-      line-height: 34px;
-    }
+    >footer {
+      padding: 0 10px;
+      height: 40px;
+      line-height: 50px;
 
-    >footer > .button:first-of-type {
-      margin-left: 0;
+      >.button {
+        margin-left: 10px;
+        padding-top: 0;
+        height: 34px;
+        line-height: 34px;
+      }
+
+      >.button:first-of-type {
+        margin-left: 0;
+      }
     }
+  }
+
+  .wrap-dialog.no-footer > section {
+    height: calc(100% - 50px);
   }
 
   .slide-fade-enter-active {
@@ -223,5 +244,34 @@
   .slide-fade-enter, .slide-fade-leave-to {
     top: -50px;
     opacity: 0;
+  }
+
+  @media all and (max-width: 1024px) {
+    .wrap-dialog {
+      padding: 0;
+      width: 250px;
+
+      >.cicon-cross-chr {
+        display: none;
+      }
+
+      >footer {
+        padding: 0;
+        
+        > .button {
+          margin: 0;
+          width: 50%;
+          height: 40px;
+          line-height: 40px;
+          border: 0!important;
+          border-top: solid 1px #ddd!important;
+          color: inherit!important;
+          background-color: #fff!important;
+        }
+        > .button:nth-of-type(2) {
+          border-left: solid 1px #ddd!important;
+        }
+      }
+    }
   }
 </style>
