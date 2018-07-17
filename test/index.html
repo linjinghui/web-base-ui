@@ -4,105 +4,52 @@
 	<meta charset="utf-8">
 	<title></title>
 	<style type="text/css">
-		.menu-section {
-			width: 300px;
-			max-height: 200px;
-			border: solid 1px;
-			overflow: auto;
+		[class^="c-title"] {
+			position: relative;
 		}
-
-		.menu-section > div {
-			border: solid 1px;
-			background-color: #ddd;
-		}
-		body > section {
-			/*position: relative;*/
-
-		}
-		body > .menu-section .menu-section {
-			/*position: absolute;
+		[class^="c-title"]:before {
+			content: attr(ttl);
+			position: absolute;
 			top: 0;
-			left: 100%;
-			z-index: 10;*/
+			left: 0;
+			padding: 4px 10px;
+			border-radius: 4px;
+			color: #fff;
+			background-color: rgba(0, 0, 0, 0.5);
+			z-index: 2;
 		}
 	</style>
+	<style>
+		[prop-title] {
+				position:relative;
+				cursor: default;
+		}
+
+		[prop-title]:hover::before {
+				content: attr(prop-title);
+				position: absolute;
+				top: calc(100% + 10px);
+				left: 10px;
+				padding: 2px 6px;
+				display: inline-block;
+				color:#333;
+				white-space: pre;
+				border: 1px solid #bbb;
+				border-radius: 4px;
+				font-size: 14px;
+				background-color: #fff;
+				z-index: 2;
+		}
+</style>
 </head>
 <body>
-	<section class="menu-section">
-		<div class="line">
-			<p>section11</p>
-    		<section class="menu-section" style="left: 300px;">
-				<div class="line">
-					<p>section21</p>
-		    		<section class="menu-section" style="left: 600px;">
-		    			<div class="line">
-							<p>section31</p>
-				  		</div>
-		    		</section>
-		  		</div>
-		  		<div class="line">
-					<p>section22</p>
-		  		</div>
-		  		<div class="line">
-					<p>section23</p>
-		  		</div>
-		  		<div class="line">
-					<p>section24</p>
-		  		</div>
-			</section>
-  		</div>
-  		<div class="line">
-			<p>section12</p>
-  		</div>
-  		<div class="line">
-			<p>section13</p>
-  		</div>
-  		<div class="line">
-			<p>section14</p>
-  		</div>
-  		<div class="line">
-			<p>section15</p>
-  		</div>
-  		<div class="line">
-			<p>section16</p>
-  		</div>
-  		<div class="line">
-			<p>section17</p>
-  		</div>
-	</section>
+	<p prop-title="123123123123ew
+qeqweqwe">换行换行换行画卷和</p>
+	<div prop-title="类title框展示"> Hover ME</div> 
 
-	<!-- <section>
-		<div>
-
-			<section style="left: 300px;">
-				<div>section21</div>
-				<div>
-					section22
-					<section>
-						<div>section31</div>
-						<div>section32</div>
-					</section>
-				</div>
-			</section>
-		</div>
-		<div>section12</div>
-		<div>section13</div>
-		<div>section14</div>
-		<div>section15</div>
-		<div>section1</div>
-		<div>section1</div>
-		<div>section1</div>
-		<div>section1</div>
-		<div>section1</div>
-		<div>section1</div>
-		<div>section1</div>
-		<div>section1</div>
-		<div>section1</div>
-	</section> -->
+	<p title="asasd阿萨德阿萨德阿萨带我去阿萨德sad as asa d asd ">阿达飒沓阿萨德</p>
 </body>
 <script type="text/javascript">
-	var sss = ['a', 'b', 'c'];
-	sss.splice(1, sss.length, ['zzz', 'xxx']);
-	alert(sss);
+	
 </script>
 </html>

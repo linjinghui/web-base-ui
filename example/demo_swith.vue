@@ -5,7 +5,7 @@
   beforeclk: 点击前执行方法，返回true才会继续点击
   -->
 <template>
-  <cmp-swith v-model="swith" theme="green" disabled="false"></cmp-swith>
+  <cmp-swith v-model="swith" theme="green" disabled="true"></cmp-swith>
 </template>
 
 <script>

@@ -481,7 +481,7 @@ p {
  */
 
 [disabled]{
-    opacity:.68;
+    opacity:.35;
     filter:alpha(opacity=68);
     cursor: not-allowed!important;
     background-color: inherit;
@@ -642,4 +642,26 @@ div[placeholder]:empty:before {
   100%{
     transform:rotate(359deg);
   }
+}
+
+/*自定义title提示*/
+[prop-title] {
+  position:relative;
+  cursor: default;
+}
+
+[prop-title]:hover::before {
+  content: attr(prop-title);
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 10px;
+  padding: 2px 6px;
+  display: inline-block;
+  color:#333;
+  white-space: pre;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: #fff;
+  z-index: 2;
 }
