@@ -5,11 +5,11 @@
 
 <template>
   <transition name="slide-fade">
-    <div :style="{'background-color': _theme}" v-show="value">
+    <div class="wrap-tip" :style="{'background-color': _theme, 'text-align': textAlign}" v-show="value">
       <i class="cicon-cross-crle" v-if="theme==='danger'" :style="{'color': _theme}"></i>
       <i class="cicon-tick-crle" v-else-if="theme==='success'" :style="{'color': _theme}"></i>
       <i class="cicon-exclamation-crle" v-else-if="theme==='warning'" :style="{'color': _theme}"></i>
-      {{theme}}{{text}}
+      {{text}}
       <i class="cicon-cross" @click="clk_hide"></i>
     </div>
   </transition>
@@ -36,6 +36,9 @@
       time: {
         type: Number,
         default: 3000
+      },
+      textAlign: {
+        default: 'left'
       }
     },
     watch: {
@@ -89,10 +92,13 @@
 </script>
 
 <style scoped lang="scss">
-  div {
+  .wrap-tip {
     position: fixed;
+    left: 0;
+    right: 0;
     top: 0px;
     bottom: auto;
+    margin: auto;
     width: 100%;
     height: 50px;
     padding-left: 20px;
@@ -105,22 +111,20 @@
     z-index: 11;
 
     [class^="cicon"] {
-      margin-top: 13px;
-      margin-right: 10px;
       font-size: 24px;
       color: #fff;
     }
     .cicon-cross-crle, .cicon-tick-crle, .cicon-exclamation-crle {
-      float: left;
+      margin-right: 5px;
+      font-size: 22px;
       overflow: hidden;
       background-color: #fff;
     }
-    // .cicon-cross-crle, .cicon-tick-crle, .cicon-exclamation-crle:before {
-    //   background-color: #fff;
-    // }
 
     .cicon-cross {
       float: right;
+      margin-top: 13px;
+      margin-right: 10px;
       cursor: pointer;
     }
 
@@ -130,11 +134,11 @@
   }
 
   .slide-fade-enter-active {
-    transition: top .3s ease-in;
+    transition: top .2s ease-in;
   }
 
   .slide-fade-leave-active {
-    transition: top .3s ease-out;
+    transition: top .2s ease-out;
   }
   .slide-fade-enter, .slide-fade-leave-to {
     top: -100px;

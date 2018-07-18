@@ -1,7 +1,7 @@
 <template>
   <div>
     <button @click="toggle">show\hide</button>
-    <cmp-tip v-model="show" :theme="theme"></cmp-tip>
+    <cmp-tip v-model="show" v-bind="option"></cmp-tip>
   </div>
 </template>
 
@@ -13,8 +13,12 @@ export default {
   data: function () {
     return {
       show: false,
-      // primary|success|info|warning|danger|自定义
-      theme: 'danger'
+      option: {
+        // left|center
+        textAlign: '',
+        // primary|success|info|warning|danger|自定义
+        theme: 'success'
+      }      
     };
   },
   components: {
