@@ -68,7 +68,7 @@
 [class^=cicon-plus]:after,
 [class^=cicon-cross]:before,
 [class^=cicon-cross]:after {
-	width: 0.8em;
+	width: 0.7em;
 	height: 0;
 	border-top-width: 2px;
 }

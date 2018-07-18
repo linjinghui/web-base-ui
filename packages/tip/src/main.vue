@@ -6,8 +6,10 @@
 <template>
   <transition name="slide-fade">
     <div :style="{'background-color': _theme}" v-show="value">
-      <i class="cicon-exclamation-crle" :style="{'color': _theme}"></i>
-      {{text}}
+      <i class="cicon-cross-crle" v-if="theme==='danger'" :style="{'color': _theme}"></i>
+      <i class="cicon-tick-crle" v-else-if="theme==='success'" :style="{'color': _theme}"></i>
+      <i class="cicon-exclamation-crle" v-else-if="theme==='warning'" :style="{'color': _theme}"></i>
+      {{theme}}{{text}}
       <i class="cicon-cross" @click="clk_hide"></i>
     </div>
   </transition>
@@ -108,13 +110,14 @@
       font-size: 24px;
       color: #fff;
     }
-    .cicon-exclamation-crle {
+    .cicon-cross-crle, .cicon-tick-crle, .cicon-exclamation-crle {
       float: left;
       overflow: hidden;
-    }
-    .cicon-exclamation-crle:before {
       background-color: #fff;
     }
+    // .cicon-cross-crle, .cicon-tick-crle, .cicon-exclamation-crle:before {
+    //   background-color: #fff;
+    // }
 
     .cicon-cross {
       float: right;

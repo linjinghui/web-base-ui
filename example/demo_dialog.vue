@@ -23,6 +23,8 @@ export default {
       option: {
         show: false,
         modal: false,
+        // error|success|warning
+        type: 'success',
         stl: {
           header: {
             // left|center

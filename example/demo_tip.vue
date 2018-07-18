@@ -1,7 +1,7 @@
 <template>
   <div>
     <button @click="toggle">show\hide</button>
-    <cmp-tip v-model="show"></cmp-tip>
+    <cmp-tip v-model="show" :theme="theme"></cmp-tip>
   </div>
 </template>
 
@@ -12,7 +12,9 @@ export default {
   name: 'demoTip',
   data: function () {
     return {
-      show: false
+      show: false,
+      // primary|success|info|warning|danger|自定义
+      theme: 'danger'
     };
   },
   components: {
