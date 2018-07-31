@@ -14,6 +14,13 @@
     </svg>
     <p class="text center-hv">{{checkProgressParam(progress)}}%</p>
   </div>
+  <div class="progress cylinder" v-else-if="type === 'cylinder'" :style="{'background-color':'rgba('+theme+',0.4)','fill': 'rgba('+theme+',1)'}">
+    <svg width="100%" :height="checkProgressParam(progress)+'%'" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,0.395c0,0,18.555-2,31.5,3c12.945,5,23.5,4.25,23.5,4.25V125H0V0.395z"/>
+      <path d="M29.023,5.895c12.422-6.75,25.977-5,25.977-5V124.5H29.391L29.023,5.895z"/>				
+    </svg>
+    <p class="text center-hv">{{checkProgressParam(progress)}}%</p>
+  </div>
   <div class="progress square" v-else :style="{'background-color': theme}">
     <div class="pg-bar stripe" :style="{'width': checkProgressParam(progress) + '%', 'background-color': themebar}">  <span class="text center-hv">{{checkProgressParam(progress)}}%</span>
     </div>
@@ -104,6 +111,37 @@
     .pg-bar {
       stroke-dashoffset: 0px;
       transition: stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease 0s;
+    }
+  }
+
+  .progress.cylinder {
+    position: relative;
+    display: inline-block;
+    width: 55px;
+    height: 115px;
+    border-radius: 6px;
+    background-color: rgba(59,195,247,0.4);
+    fill: rgba(59,195,247,1);
+    overflow: hidden;
+
+    svg {
+      position: absolute;
+      bottom: 0;
+      fill: inherit;
+      transition: height .6s ease;
+
+      path {
+        fill: inherit;
+      }
+      path:nth-of-type(2) {
+        opacity: 0.6;
+      }
+    }
+    >.text {
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      color: #fff;
     }
   }
 
