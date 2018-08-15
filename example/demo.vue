@@ -25,6 +25,7 @@
     <a href="#/demoTip">tip</a>
     <a href="#/demoTree">tree</a>
     <a href="#/demoDialog">dialog</a>
+    <a href="#/demoDrag">drag</a>
   </div>
 </template>
 
