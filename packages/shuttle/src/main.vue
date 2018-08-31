@@ -219,7 +219,7 @@ disabled：是否禁用
           let rgxkey = 'null';
 
           for (var i = 0;i < data.length;i++) {
-            if (data[i].checked) {
+            if (data[i].checked && !data[i].disabled) {
               // 已选中
               delete selectArr[i];
             }
@@ -239,7 +239,7 @@ disabled：是否禁用
           let data = this.leftData.data;
 
           for (var i = 0;i < data.length;i++) {
-            if (data[i].checked) {
+            if (data[i].checked && !data[i].disabled) {
               arr[arr.length] = i;
             }
           }

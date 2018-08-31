@@ -121,8 +121,10 @@
         window.jQuery('#' + this.id).click();
       },
       setValue: function (val) {
-        window.jQuery('#' + this.id).mobiscroll('setVal', new Date(isNaN(val) ? val : parseInt(val)));
-        this.time = val;
+        if (val) {
+          window.jQuery('#' + this.id).mobiscroll('setVal', new Date(isNaN(val) ? val : parseInt(val)));
+          this.time = val; 
+        }
       },
       destroy: function () {
         window.jQuery('.mbsc-mobiscroll').remove();
