@@ -10,13 +10,9 @@
       <header :style="cstl.header">
         <slot name="title"></slot>
       </header>
-      <vperfect-scrollbar :settings="settings" :style="cstl.section">
-        <i class="cicon-cross-crle" v-if="type==='error'"></i>
-        <i class="cicon-tick-crle" v-else-if="type==='success'"></i>
-        <i class="cicon-exclamation-crle" v-else-if="type==='warning'"></i>
+      <vperfect-scrollbar :settings="settings">
         <slot name="content"></slot>
       </vperfect-scrollbar>
-      <!-- </section> -->
       <footer :style="cstl.footer" v-if="buttons&&buttons.length>0">
         <cmp-button v-for="info in buttons" :theme="info.theme" :key="info.id" @click="clk_btn(info)">{{info.text}}</cmp-button>
       </footer>
@@ -70,6 +66,14 @@
             theme: 'info'
           }];
         }
+      },
+      callback: {
+        type: Function,
+        default: function (data) {
+          return function () {
+            // 
+          };
+        }
       }
     },
     watch: {
@@ -111,7 +115,7 @@
         }
       },
       clk_btn: function (data) {
-        this.$emit('cbkClk', data);
+        this.$emit('callback', data);
       },
       clk_hide: function () {
         this.$emit('input', false);
@@ -241,34 +245,5 @@
   .slide-fade-enter, .slide-fade-leave-to {
     top: -50px;
     opacity: 0;
-  }
-
-  @media all and (max-width: 1024px) {
-    .wrap-dialog {
-      padding: 0;
-      width: 250px;
-
-      >.cicon-cross-chr {
-        display: none;
-      }
-
-      >footer {
-        padding: 0;
-        
-        > .button {
-          margin: 0;
-          width: 50%;
-          height: 40px;
-          line-height: 40px;
-          border: 0!important;
-          border-top: solid 1px #ddd!important;
-          color: inherit!important;
-          background-color: #fff!important;
-        }
-        > .button:nth-of-type(2) {
-          border-left: solid 1px #ddd!important;
-        }
-      }
-    }
   }
 </style>

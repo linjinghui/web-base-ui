@@ -4,8 +4,10 @@
  -->
 
 <template>
-  <cmp-confirm v-bind="option" v-model="option.show" @cbkClk="cbkClk">
-    <span slot="title">投票成功</span>
+  <cmp-confirm v-bind="option" v-model="option.show">
+    <template slot="title">
+      <slot name="title"></slot>
+    </template>
     <span slot="content">
       <cmp-input v-model="text" type="text" maxlength="1111" placeholder="请输入名称" autofocus="true" 
         @enter="cbk_enter"></cmp-input>
@@ -14,24 +16,29 @@
 </template>
 
 <script type="text/babel">
-  import Dialog from './main.vue';
+  import Confirm from './main.vue';
   import Input from '../../input/index.js';
 
   export default {
     name: 'Prompt',
     components: {
-      'cmpConfirm': Dialog,
+      'cmpConfirm': Confirm,
       'cmpInput': Input
     },
     data: function () {
+      var _this = this;
+
       return {
-        id: 'dlg_' + new Date().getTime() + parseInt(Math.random() * 100),
+        id: 'pmp_' + new Date().getTime() + parseInt(Math.random() * 100),
         text: '',
         option: {
           show: this.value,
           modal: this.modal,
           stl: this.stl,
-          buttons: this.buttons
+          buttons: this.buttons,
+          callback: function (data) {
+            _this.cbkClk(data);
+          }
         }
       };
     },
@@ -44,7 +51,15 @@
       // error|success|warning
       type: '',
       stl: '',
-      buttons: ''
+      buttons: '',
+      callback: {
+        type: Function,
+        default: function (data) {
+          return function () {
+            // 
+          };
+        }
+      }
     },
     watch: {
       value: function (val) {
@@ -65,13 +80,16 @@
     },
     methods: {
       cbk_enter: function () {
-        this.$emit('cbkClk', {
+        this.callback({
           'type': 'enter',
           'value': this.text
         });
+        this.text = '';
       },
       cbkClk: function (data) {
-        this.$emit('cbkClk', data);
+        data.value = this.text;
+        this.callback(data);
+        this.text = '';
       }
     }
   };

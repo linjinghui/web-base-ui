@@ -1,28 +1,86 @@
 <template>
   <div>
-    <button @click="showHide">show\hide</button>|<button @click="optionPrompt.show=!optionPrompt.show">showPrompt\hidePrompt</button>
-    <!-- confirm -->
-    <cmp-confirm v-bind="option" v-model="option.show" @cbkClk="cbkClk">
-      <span slot="title">投票成功</span>
-      <span slot="content">你今天还能为其他未投过票的参选者投<font style="color: red;">1</font>票</span>
-    </cmp-confirm>
-    <!-- prompt -->
-    <cmp-prompt v-bind="optionPrompt" v-model="optionPrompt.show" @cbkClk="cbkClkPrompt">
-      <span slot="title">投票成功</span>
-    </cmp-prompt>
+    <cmp-dialog class="class-1" v-model="optionDialog.show" v-bind="optionDialog" @callback="callbackDialog">
+      <span slot="title">自定义标题</span>
+      <div slot="content">
+        <p>dddddddddddddddd</p>
+        <p>dddddddddddddddd</p>
+        <p>dddddddddddddddd</p>
+        <p>dddddddddddddddd</p>
+        <p>dddddddddddddddd</p>
+        <p>dddddddddddddddd</p>
+        <p>dddddddddddddddd</p>
+        <p>dddddddddddddddd</p>
+        <p>dddddddddddddddd</p>
+        v
+        <p>dddddddddddddddd</p>
+        v
+        <p>dddddddddddddddd</p>
+
+        <p>dddddddddddddddd</p>
+      </div>
+    </cmp-dialog>
+    <button @click="showDialog">showDialog</button>
+    <button @click="showConfirm">showConfirm</button>
+    <button @click="showPrompt">showPrompt</button>
   </div>
 </template>
 
 <script>
-import {Dialog, Prompt} from '../packages/index.js';
+import {Dialog} from '../packages/index.js';
 
 export default {
   name: 'demoDialog',
   data: function () {
     return {
-      option: {
+      optionDialog: {
         show: false,
         modal: false,
+        stl: {
+          header: {
+            // left|center
+            'text-align': 'left'
+          },
+          footer: {
+            // left|center|right
+            'text-align': 'right'
+          }
+        },
+        buttons2: [],
+        buttons3: [{
+          text: '放弃修改',
+          // primary|success|info|warning|danger|#f56c6c
+          theme: 'line'
+        }, {
+          text: '修改',
+          theme: 'warning'
+        }]
+      }
+    };
+  },
+  components: {
+    'cmpDialog': Dialog
+  },
+  watch: {
+    //
+  },
+  methods: {
+    callbackDialog: function (data) {
+      this.optionDialog.show = false;
+      console.log('=======callbackDialog========');
+      console.log(data);
+    },
+    showDialog: function () {
+      this.optionDialog.show = true;
+    },
+    showConfirm: function () {
+      var _this = this;
+
+      this.$confirm({
+        show: true,
+        modal: false,
+        title: '投票',
+        content: '你今天还能为其他未投过票的参选者投<font style="color: red;">1</font>票',
         // error|success|warning
         type: 'success',
         stl: {
@@ -47,18 +105,27 @@ export default {
         }, {
           text: '修改',
           theme: 'warning'
-        }]
-      },
-      optionPrompt: {
-        show: false,
+        }],
+        callback: function (data) {
+          _this.$confirm({ show: false });
+          console.log('======confirm callback=====');
+          console.log(data);
+        }
+      });
+    },
+    showPrompt: function () {
+      var _this = this;
+
+      this.$prompt({
+        show: true,
         modal: true,
+        title: '自定义标题',
         stl: {
           footer: {
             // left|center|right
             'text-align': 'right'
           }
         },
-        buttons2: [],
         buttons: [{
           text: '放弃修改',
           // primary|success|info|warning|danger|#f56c6c
@@ -66,35 +133,21 @@ export default {
         }, {
           text: '修改',
           theme: 'warning'
-        }]
-      }
-    };
-  },
-  components: {
-    'cmpConfirm': Dialog,
-    'cmpPrompt': Prompt
-  },
-  watch: {
-    //
-  },
-  methods: {
-    showHide: function () {
-      this.option.show = !this.option.show;
-    },
-    cbkClk: function (data) {
-      this.option.show = false;
-      console.log('======cbkClk=====');
-      console.log(data);
-    },
-    cbkClkPrompt: function (data) {
-      this.optionPrompt.show = false;
-      console.log('======cbkClkPrompt=====');
-      console.log(data);
+        }],
+        callback: function (data) {
+          _this.$prompt({ show: false });
+          console.log('======Prompt callback22=====');
+          console.log(data);
+        }
+      });
     }
   }
 };
 </script>
 
 <style scoped>
-
+  .class-1 {
+    width: 620px!important;
+    height: 450px!important;
+  }
 </style>
