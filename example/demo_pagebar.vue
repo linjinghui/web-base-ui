@@ -1,24 +1,39 @@
 <template>
   <div>
     <cmp-pagebar v-bind="option" @callback="callback"></cmp-pagebar>
+    <br>=====================================================================<br>
+    <cmp-pagebar-pagesize v-bind="optionPagebarPagesize" @callback="callback2"></cmp-pagebar-pagesize>
   </div>
 </template>
 
 <script>
-import {Pagebar} from '../packages/index.js';
+import {Pagebar, PagebarPagesize} from '../packages/index.js';
 
 export default {
   name: 'demoPagebar',
   components: {
-    'cmpPagebar': Pagebar
+    'cmpPagebar': Pagebar,
+    'cmpPagebarPagesize': PagebarPagesize
   },
   data: function () {
     return {
       option: {
+        theme: 'simple',
         // 当期页
         index: 1,
         // 总页数
         totalPage: 10
+      },
+      optionPagebarPagesize: {
+        // theme: 'simple',
+        // 当期页
+        index: 1,
+        // 总页数
+        totalPage: 10,
+        pagesizes: [
+          100, 200, 300
+        ],
+        pagesize: 300
       }
     };
   },
@@ -29,6 +44,12 @@ export default {
     callback: function (data) {
       console.log('=========callback======');
       console.log(data);
+    },
+    callback2: function (data) {
+      console.log('=========callback2======');
+      console.log(data);
+      this.optionPagebarPagesize.pagesize = data.pagesize;
+      this.optionPagebarPagesize.index = data.currentPage;
     }
   }
 };

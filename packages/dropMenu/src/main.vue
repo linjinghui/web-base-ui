@@ -118,17 +118,19 @@
         this.iptValue = arr.join('、');
       },
       evn_keyup: function (evt, key) {
-        this.show = true;
-        var _key = typeof key === 'undefined' ? this.iptValue : key;
-        var domMenu = this.$refs.dmmeu.$el;
-        var domMenuItems = domMenu.childNodes;
+        if (!this.disabled && !this.readonly) {
+          this.show = true;
+          var _key = typeof key === 'undefined' ? this.iptValue : key;
+          var domMenu = this.$refs.dmmeu.$el;
+          var domMenuItems = domMenu.childNodes;
 
-        for (let i = 0;i < domMenuItems.length;i++) {
-          var dom = domMenuItems[i];
-          var domText = dom.innerText;
-          var isMatch = domText.indexOf(_key) > -1;
-          
-          dom.style.display = isMatch ? '' : 'none';
+          for (let i = 0;i < domMenuItems.length;i++) {
+            var dom = domMenuItems[i];
+            var domText = dom.innerText;
+            var isMatch = domText.indexOf(_key) > -1;
+            
+            dom.style.display = isMatch ? '' : 'none';
+          }
         }
       }
     }

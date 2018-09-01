@@ -1,10 +1,11 @@
 <template>
-  <div class="pagebar-wrapper" v-if="totalPage > 0">
+  <div class="pagebar-wrapper" :class="theme" v-if="totalPage > 0">
     <span :disabled="active === 1" @click="goIndex('prev')">
       <i class="cicon-arrow-left"></i>
+      <small>上一页</small>
     </span>
-    <template v-for="i in arr">
-      <span v-if="typeof i==='object'" @click="showIpt(i)">
+    <template v-for="(i,index) in arr">
+      <span :key="'it_'+index" v-if="typeof i==='object'" @click="showIpt(i)">
         <template v-if="i.type === 1">
           <input type="text" v-model="value1" v-show="display1" @keyup="fun_keyup(i, $event)">{{i.name}}
         </template>
@@ -12,10 +13,11 @@
           <input type="text" v-model="value2" v-show="display2" @keyup="fun_keyup(i, $event)">{{i.name}}
         </template>
       </span>
-      <span v-else :class="{'active': i === active}" @click="goIndex(i)">{{i}}</span>
+      <span :key="'it_'+index" v-else :class="{'active': i === active}" @click="goIndex(i)">{{i}}</span>
     </template>
     <span :disabled="active === totalPage" @click="goIndex('next')">
       <i class="cicon-arrow-right"></i>
+      <small>下一页</small>
     </span>
   </div>
 </template>
@@ -33,6 +35,10 @@
       };
     },
     props: {
+      // simple
+      'theme': {
+        default: ''
+      },
       'lenth': {
         default: 5
       },
@@ -176,8 +182,6 @@
 <style scoped lang="scss">
   .pagebar-wrapper {
     float: left;
-    padding-top: 5px;
-    padding-bottom: 5px;
     font-size: 12px;
     color: #535353;
     user-select: none;
@@ -194,11 +198,12 @@
 
     span {
       position: relative;
-      display: inline-block;
-      margin-left: 5px;
-      width: 20px;
-      height: 20px;
-      line-height: 20px;
+      float: left;
+      min-width: 26px;
+      height: 26px;
+      border: solid 1px #ccc;
+      border-right-width: 0;
+      line-height: 24px;
       text-align: center;
       vertical-align: middle;
       cursor: pointer;
@@ -212,20 +217,57 @@
         padding: 0;
         text-align: center;
       }
+
+      .cicon-arrow-left,
+      .cicon-arrow-right {
+        display: none;
+      }
+    }
+
+    span:first-of-type {
+      padding-left: 10px;
+      padding-right: 10px;
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px; 
     }
 
     span:last-of-type {
-      margin-right: 5px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px; 
+      border-right-width: 1px;
     }
 
-    span:last-of-type > .cicon-arrow-right {
-      vertical-align: -2px;
+    span.active {
+      color: #fff;
+      border: 0;
+      background-color: #409eff;
+    }
+  }
+
+  .pagebar-wrapper.simple {
+
+    span {
+      border: 0;
+
+      .cicon-arrow-left,
+      .cicon-arrow-right {
+        display: inline-block;
+      }
+
+      small {
+        display: none;
+      }
+    }
+
+    span:first-of-type,
+    span:last-of-type {
+      padding: 0;
     }
 
     span.active {
       border-radius: 50%;
-      color: #fff;
-      background-color: #bbb;
     }
   }
 </style>
