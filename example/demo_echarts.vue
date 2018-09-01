@@ -2,7 +2,8 @@
   <div style="height: 100%;">
     <button @click="clk">set data</button>,
     <button @click="clk_resize">set resize</button>
-    <div style="width: 100%;height: 90%;border: solid 1px;">
+    
+    <div style="width: 100%;height: 300px;border: solid 1px;">
       <cmp-echarts ref="echart"
         :title="title"
         :yname="yname"
@@ -11,11 +12,19 @@
         :labelText="labelText"
         :value="value"></cmp-echarts>
     </div>
+
+    <button @click="clk2">set data2</button>,
+    <button @click="clk_resize2">set resize2</button>
+
+    <div style="width: 100%;height: 300px;border: solid 1px;">
+      <cmp-echarts-pie ref="pie"></cmp-echarts-pie>
+    </div>
+    
   </div>
 </template>
 
 <script>
-import {Echarts} from '../packages/index.js';
+import {Echarts, EchartsPie} from '../packages/index.js';
 
 export default {
   name: 'demoEcharts',
@@ -33,7 +42,8 @@ export default {
     };
   },
   components: {
-    'cmpEcharts': Echarts
+    'cmpEcharts': Echarts,
+    'cmpEchartsPie': EchartsPie
   },
   methods: {
     clk: function () {
@@ -45,6 +55,16 @@ export default {
     },
     clk_resize: function () {
       this.$refs.echart.resizeEchart();
+    },
+    clk2: function () {
+      this.xdata = ['2017/07/11', '2017/07/12', '2017/07/13', '2017/07/14', '2017/07/15'];
+      this.value = [61, 62, 63, 64, 51];
+      this.$nextTick(function () {
+        this.$refs.pie.resetEchart();
+      });
+    },
+    clk_resize2: function () {
+      this.$refs.pie.resizeEchart();
     }
   }
 };
