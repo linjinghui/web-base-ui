@@ -5,7 +5,7 @@
  -->
 
 <template>
-  <span class="input" :class="{'pdlt': _pdlt, 'pdrt': _showClear || _pdrt}">
+  <span class="input" :class="{'pdlt': _pdlt, 'pdrt': _pdrt}">
     <input autoComplete="off"
     ref="ipt"
     v-model.trim="val"
@@ -22,8 +22,8 @@
     @keyup.enter="evn_enter">
     <slot>
       <slot name="left"></slot>
-      <slot name="right"></slot>
       <i class="cicon-cross-crle-chr-cpt center-v" v-if="_showClear" @click="clk_del"></i>
+      <slot name="right"></slot>
     </slot>
   </span>
 </template>
@@ -69,17 +69,18 @@
     },
     computed: {
       _showClear: function () {
-        let slotLeft = this.$slots.left;
-        let slotRight = this.$slots.right;
+        // let slotLeft = this.$slots.left;
+        // let slotRight = this.$slots.right;
         let result = '';
 
-        if (slotLeft && slotRight) {
-          result = false;
-        } else if (slotRight) {
-          result = false;
-        } else {
-          result = ((this.clear + '') !== 'false') && ((this.disabled + '') !== 'true') && ((this.readonly + '') !== 'true') && this.val && this.val.length > 0;
-        }
+        // if (slotLeft && slotRight) {
+        //   result = false;
+        // } else if (slotRight) {
+        //   result = false;
+        // } else {
+        //   result = ((this.clear + '') !== 'false') && ((this.disabled + '') !== 'true') && ((this.readonly + '') !== 'true') && this.val && this.val.length > 0;
+        // }
+        result = ((this.clear + '') !== 'false') && ((this.disabled + '') !== 'true') && ((this.readonly + '') !== 'true') && this.val && this.val.length > 0;
         return result;
       },
       _pdlt: function () {
@@ -165,6 +166,7 @@
 
     >input {
       display: block;
+      padding-right: 24px;
       width: 100%;
       height: 100%;
       border-style: solid;
@@ -195,6 +197,10 @@
       color: #fff;
       background-color: #999;
     }
+
+    >.cicon-cross-crle-chr-cpt {
+      right: 5px;
+    }
   }
 
   .input.pdlt {
@@ -208,10 +214,13 @@
 
   .input.pdrt {
     >input {
-      padding-right: 24px;
+      padding-right: 48px;
     }
     >i:last-of-type {
       right: 5px;
+    }
+    >.cicon-cross-crle-chr-cpt {
+      right: 30px;
     }
   }
 </style>

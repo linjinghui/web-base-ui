@@ -22,7 +22,7 @@
     nopaste="false"
     autofocus="true"
     disabled="false"
-    clear="false"
+    clear="true"
     rule="chinese"
     readonly="false"
     @focus="cbk_focus"
