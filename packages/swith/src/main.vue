@@ -53,7 +53,7 @@
 <style scoped lang="scss">
   .swith {
     position: relative;
-    width: 40px;
+    width: 40px!important;
     height: 20px;
     border-radius: 20px;
     border: 0;

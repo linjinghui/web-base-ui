@@ -28,6 +28,7 @@ import DemoTip from '../../example/demo_tip.vue';
 import DemoTree from '../../example/demo_tree.vue';
 import DemoDialog from '../../example/demo_dialog.vue';
 import DemoDrag from '../../example/demo_drag.vue';
+import DemoForm from '../../example/demo_form.vue';
 
 Vue.use(Router);
 
@@ -168,6 +169,11 @@ export default new Router({
       path: '/demoDrag',
       name: 'demoDrag',
       component: DemoDrag
+    },
+    {
+      path: '/demoForm',
+      name: 'demoForm',
+      component: DemoForm
     }
   ]
 });

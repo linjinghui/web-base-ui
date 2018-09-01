@@ -138,6 +138,7 @@
 <style scoped lang="scss">
   .wrap-drop-menu {
     position: relative;
+    vertical-align: middle;
 
     >.input {
       overflow: hidden;

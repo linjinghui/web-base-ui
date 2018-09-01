@@ -26,6 +26,7 @@
     <a href="#/demoTree">tree</a>
     <a href="#/demoDialog">dialog</a>
     <a href="#/demoDrag">drag</a>
+    <a href="#/demoForm">form</a>
   </div>
 </template>
 

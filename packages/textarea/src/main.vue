@@ -77,6 +77,8 @@
     border-color: #dadada;
     color: inherit;
     border-radius: 4px;
+    background-color: #fff;
+    vertical-align: top;
 
     >textarea {
       display: block;

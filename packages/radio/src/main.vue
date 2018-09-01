@@ -68,7 +68,9 @@
 <style scoped lang="scss">
   .radio {
     display: inline-block;
+    margin-right: 10px;
     user-select: none;
+    
 
     >i {
       position: relative;
@@ -82,6 +84,7 @@
       border-color: #dcdfe6;
       vertical-align: middle;
       font-size: 16px;
+      background-color: #fff;
     }
 
     >i.selected:before {
