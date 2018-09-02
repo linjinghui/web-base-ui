@@ -27,6 +27,7 @@
     <a href="#/demoDialog">dialog</a>
     <a href="#/demoDrag">drag</a>
     <a href="#/demoForm">form</a>
+    <a href="#/demoAsideNav">demoAsideNav</a>
   </div>
 </template>
 
