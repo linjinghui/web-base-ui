@@ -1,5 +1,5 @@
 <template>
-  <div id="main" style="width: 100%;height: 100%;"></div>
+  <div :id="id" style="width: 100%;height: 100%;"></div>
 </template>
 
 <script type="text/babel">
@@ -9,134 +9,55 @@
     name: 'Echarts',
     data: function () {
       return {
-        //
+        id: 'echarts_' + new Date().getTime() + parseInt(Math.random() * 100)
       };
     },
     props: {
-      theme: {
-        default: '#0079ff'
-      },
-      color: {
-        default: '#333'
-      },
-      title: '',
-      yname: '',
-      ydata: {
+      option: {
+        type: Object,
         default: function () {
-          return [];
+          return {};
         }
       },
-      xdata: {
+      map: {
+        type: Object,
         default: function () {
-          return [];
-        }
-      },
-      labelText: '',
-      value: {
-        default: function () {
-          return [];
+          return {};
         }
       }
     },
     watch: {
-      //
+      option: function () {
+        this.setOption();
+      },
+      map: function () {
+        this.setOption();
+      }
     },
     mounted: function () {
       let _this = this;
 
-      this.myChart = Echarts.init(document.getElementById('main'));
-      this.resetEchart();
+      this.myChart = Echarts.init(document.getElementById(this.id));
+      this.$nextTick(function () {
+        this.setOption();
+      });
+
       window.onresize = function () {
-        _this.resizeEchart();
+        window.EVENTBUS.$emit('echartsResize');
       };
+
+      window.EVENTBUS.$on('echartsResize', function () {
+        _this.resizeEchart();
+      });
     },
     methods: {
-      getOption: function () {
-        return {
-          tooltip: {
-            trigger: 'axis'
-          },
-          calculable: true,
-          textStyle: {
-            color: this.color
-          },
-          title: {
-            text: this.title,
-            left: 'center',
-            textStyle: {
-              color: this.color
-            }
-          },
-          xAxis: [
-            {
-              type: 'category',
-              boundaryGap: false,
-              data: this.xdata
-            }
-          ],
-          yAxis: {
-            type: 'value',
-            data: this.ydata,
-            name: this.yname,
-            nameTextStyle: {
-              fontSize: 14
-            }
-          },
-          series: [
-            {
-              name: this.labelText,
-              type: 'line',
-              symbol: 'circle',
-              symbolSize: 10,
-              itemStyle: {
-                normal: {
-                  color: this.theme
-                }
-              },
-              lineStyle: {
-                normal: {
-                  color: this.theme
-                }
-              },
-              areaStyle: {
-                normal: {
-                  color: {
-                    type: 'radial',
-                    colorStops: [
-                      {
-                        offset: 1,
-                        color: this.theme
-                      }
-                    ],
-                    globalCoord: false
-                  }
-                }
-              },
-              smooth: true,
-              data: this.value
-            }
-          ],
-          toolbox: {
-            right: '10%',
-            feature: {
-              magicType: {
-                show: true,
-                type: ['line', 'bar']
-              },
-              restore: {
-                show: true
-              },
-              saveAsImage: {
-                show: true
-              }
-            }
-          }
-        };
-      },
-      resetEchart: function () {
-        let option = this.getOption();
-
-        this.myChart.setOption(option);
+      setOption: function () {
+        if (JSON.stringify(this.map) !== '{}') {
+          Echarts.registerMap(this.option.series[0].map, this.map);
+        }
+        if (JSON.stringify(this.option) !== '{}') {
+          this.myChart.setOption(this.option);
+        }
       },
       resizeEchart: function () {
         this.myChart.resize();

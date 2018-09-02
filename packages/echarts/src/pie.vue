@@ -22,6 +22,7 @@
     },
     mounted: function () {
       this.myChart = Echarts.init(document.getElementById('echartsPie'));
+      Echarts.registerMap('FJ', this.getMap());
       this.myChart.setOption(this.getOption());
     },
     methods: {
@@ -78,7 +79,7 @@
           ]
         };
       },
-      getOption: function () {
+      getBarOption: function () {
         return {
           color: ['#3398DB'],
           tooltip: {
@@ -139,6 +140,60 @@
             }
           }
         };
+      },
+      getOption: function () {
+        return {
+          title: {
+            text: '区域销售'
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}<br/>{c} (p / km2)'
+          },
+          visualMap: {
+            min: 800,
+            max: 50000,
+            text: ['高', '低'],
+            realtime: false,
+            calculable: true,
+            inRange: {
+              color: ['#03f', '#00ffff', '#00ff00']
+            }
+          },
+          series: [
+            {
+              name: '',
+              type: 'map',
+              // 自定义扩展图表类型
+              map: 'FJ',
+              itemStyle: {
+                normal: {
+                  label: {
+                    show: true,
+                    color: '#333'
+                  }
+                }
+              },
+              data: [
+                {name: '福州市', value: 20057.34},
+                {name: '厦门市', value: 15477.48},
+                {name: '漳州市', value: 31686.1},
+                {name: '泉州市', value: 6992.6},
+                {name: '莆田市', value: 44045.49},
+                {name: '宁德市', value: 40689.64},
+                {name: '南平市', value: 37659.78},
+                {name: '三明市', value: 45180.97},
+                {name: '龙岩市', value: 55204.26},
+                {name: '平潭', value: 323.26}
+              ]
+            }
+          ]
+        };
+      },
+      getMap: function () {
+        var map = require('../map/fujian.js').default;
+        
+        return map;
       }
     }
   };
