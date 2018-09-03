@@ -11,7 +11,7 @@
       <i class="cicon-cross-crle" v-if="theme==='danger'" :style="{'color': _theme}"></i>
       <i class="cicon-tick-crle" v-else-if="theme==='success'" :style="{'color': _theme}"></i>
       <i class="cicon-exclamation-crle" v-else-if="theme==='warning'" :style="{'color': _theme}"></i>
-      {{text}}
+      {{ptext}}
       <i class="cicon-cross" @click="clk_hide"></i>
     </div>
   </transition>
@@ -22,10 +22,14 @@
     name: 'Tip',
     data: function () {
       return {
-        timer: ''
+        timer: '',
+        ptext: this.text
       };
     },
     props: {
+      eventName: {
+        default: 'Tip'
+      },
       full: {
         default: false
       },
@@ -59,6 +63,9 @@
           // 清除定时器
           clearTimeout(this.timer);
         }
+      },
+      text: function (val) {
+        this.ptext = val;
       }
     },
     computed: {
@@ -78,7 +85,22 @@
       window.removeEventListener('keyup', this.evt_keyup);
     },
     mounted: function () {
+      let _this = this;
+
       window.addEventListener('keyup', this.evt_keyup);
+      if (window.EVENTBUS) {
+        window.EVENTBUS.$on(this.eventName, function (data) {
+          if (typeof data.show !== 'undefined') {
+            _this.$emit('input', data.show);
+          }
+          if (data.text) {
+            _this.ptext = data.text;
+          }
+          if (data.theme) {
+            _this.theme = data.theme;
+          }
+        });
+      }
     },
     methods: {
       clk_hide: function () {
