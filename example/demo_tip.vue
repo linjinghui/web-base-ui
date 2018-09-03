@@ -1,12 +1,10 @@
 <template>
   <div>
-    <button @click="toggle">show\hide</button>
-    <cmp-tip v-model="show" v-bind="option"></cmp-tip>
+    <button @click="toggle">show\hide22</button>
   </div>
 </template>
 
 <script>
-import {Tip} from '../packages/index.js';
 
 export default {
   name: 'demoTip',
@@ -14,6 +12,7 @@ export default {
     return {
       show: false,
       option: {
+        full: '',
         // left|center
         textAlign: '',
         // primary|success|info|warning|danger|自定义
@@ -21,15 +20,17 @@ export default {
       }      
     };
   },
-  components: {
-    'cmpTip': Tip
-  },
   watch: {
     //
   },
   methods: {
     toggle: function () {
-      this.show = !this.show;
+      this.$tip({
+        full: true,
+        show: true,
+        // left|center
+        textAlign: ''
+      });
     }
   }
 };

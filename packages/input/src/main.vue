@@ -33,12 +33,13 @@
     name: 'Input',
     data: function () {
       return {
-        val: this.value
+        val: this.value,
+        focus: ''
       };
     },
     props: {
       id: {
-        default: ''
+        default: 'ipt_' + new Date().getTime() + parseInt(Math.random() * 100)
       },
       value: '',
       type: {
@@ -69,18 +70,9 @@
     },
     computed: {
       _showClear: function () {
-        // let slotLeft = this.$slots.left;
-        // let slotRight = this.$slots.right;
         let result = '';
-
-        // if (slotLeft && slotRight) {
-        //   result = false;
-        // } else if (slotRight) {
-        //   result = false;
-        // } else {
-        //   result = ((this.clear + '') !== 'false') && ((this.disabled + '') !== 'true') && ((this.readonly + '') !== 'true') && this.val && this.val.length > 0;
-        // }
-        result = ((this.clear + '') !== 'false') && ((this.disabled + '') !== 'true') && ((this.readonly + '') !== 'true') && this.val && this.val.length > 0;
+        
+        result = ((this.clear + '') !== 'false') && ((this.disabled + '') !== 'true') && ((this.readonly + '') !== 'true') && this.val && this.val.length > 0 && this.focus;
         return result;
       },
       _pdlt: function () {
@@ -102,11 +94,17 @@
         this.do_focus();
       },
       evn_focus: function () {
+        var _this = this;
+
         this.$emit('focus');
+        setTimeout(function () { _this.focus = true; }, 100);
       },
       evn_blur: function () {
+        var _this = this;
+        
         this.do_reg_value();
         this.$emit('blur');
+        setTimeout(function () { _this.focus = false; }, 100);
       },
       evn_keyup: function (event) {
         this.$emit('keyup', event.keyCode);
@@ -166,6 +164,7 @@
 
     >input {
       display: block;
+      padding-left: 10px;
       padding-right: 24px;
       width: 100%;
       height: 100%;
@@ -199,28 +198,28 @@
     }
 
     >.cicon-cross-crle-chr-cpt {
-      right: 5px;
+      right: 10px;
     }
   }
 
   .input.pdlt {
     >input {
-      padding-left: 24px;
+      padding-left: 36px;
     }
     >i:first-of-type {
-      left: 5px;
+      left: 10px;
     }
   }
 
   .input.pdrt {
     >input {
-      padding-right: 48px;
+      padding-right: 62px;
     }
     >i:last-of-type {
-      right: 5px;
+      right: 10px;
     }
     >.cicon-cross-crle-chr-cpt {
-      right: 30px;
+      right: 36px;
     }
   }
 </style>

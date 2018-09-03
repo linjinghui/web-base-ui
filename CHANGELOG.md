@@ -1,5 +1,5 @@
-# 1.0.0 (2017-02-18)
+# 1.0.2 (2018-09-3)
 
-## Features
+## INPUT, TIP, CHECKBOX ui调整
 
-*  user interface center source pulsar, first public release
+*  INPUT, TIP, CHECKBOX ui调整

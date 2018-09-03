@@ -32,6 +32,60 @@
       <i class="cicon-tick center-v" slot="left" style="background-color: green;"></i>
       <i class="cicon-search-cpt-chr center-v" slot="right" style="background-color: blue;"></i>
     </cmp-input>
+
+    <cmp-input
+    v-model="name"
+    type="text"
+    maxlength="1111"
+    placeholder="请输入年龄"
+    nopaste="false"
+    autofocus="true"
+    disabled="false"
+    clear="true"
+    rule="chinese"
+    readonly="false"
+    @focus="cbk_focus"
+    @blur="cbk_blur"
+    @keyup="cbk_keyup"
+    @enter="cbk_enter">
+      <i class="cicon-search-cpt-chr center-v" slot="right" style="background-color: blue;"></i>
+    </cmp-input>
+
+    <cmp-input
+    v-model="name"
+    type="text"
+    maxlength="1111"
+    placeholder="请输入地址"
+    nopaste="false"
+    autofocus="true"
+    disabled="false"
+    clear="true"
+    rule="chinese"
+    readonly="false"
+    @focus="cbk_focus"
+    @blur="cbk_blur"
+    @keyup="cbk_keyup"
+    @enter="cbk_enter">
+      <i class="cicon-tick center-v" slot="left" style="background-color: green;"></i>
+    </cmp-input>
+
+    <cmp-input
+    v-model="name"
+    type="text"
+    maxlength="1111"
+    placeholder="请输入邮箱"
+    nopaste="false"
+    autofocus="true"
+    disabled="false"
+    clear="true"
+    rule="chinese"
+    readonly="false"
+    @focus="cbk_focus"
+    @blur="cbk_blur"
+    @keyup="cbk_keyup"
+    @enter="cbk_enter">
+      <i class="cicon-tick center-v" slot="left" style="background-color: green;"></i>
+    </cmp-input>
   </div>
 </template>
 

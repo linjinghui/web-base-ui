@@ -42,13 +42,15 @@
         this.setOption();
       });
 
-      window.onresize = function () {
-        window.EVENTBUS.$emit('echartsResize');
-      };
+      if (window.EVENTBUS) {
+        window.onresize = function () {
+          window.EVENTBUS.$emit('echartsResize');
+        };
 
-      window.EVENTBUS.$on('echartsResize', function () {
-        _this.resizeEchart();
-      });
+        window.EVENTBUS.$on('echartsResize', function () {
+          _this.resizeEchart();
+        });
+      }
     },
     methods: {
       setOption: function () {

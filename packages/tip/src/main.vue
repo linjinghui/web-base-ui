@@ -5,7 +5,9 @@
 
 <template>
   <transition name="slide-fade">
-    <div class="wrap-tip" :style="{'background-color': _theme, 'text-align': textAlign}" v-show="value">
+    <div class="wrap-tip"
+      :style="{'background-color': _theme, 'text-align': textAlign, 
+      'top': full+''==='true'&&'0', 'width': full+''==='true'&&'100%'}" v-show="value">
       <i class="cicon-cross-crle" v-if="theme==='danger'" :style="{'color': _theme}"></i>
       <i class="cicon-tick-crle" v-else-if="theme==='success'" :style="{'color': _theme}"></i>
       <i class="cicon-exclamation-crle" v-else-if="theme==='warning'" :style="{'color': _theme}"></i>
@@ -24,6 +26,9 @@
       };
     },
     props: {
+      full: {
+        default: false
+      },
       value: {
         default: false
       },
@@ -96,10 +101,10 @@
     position: fixed;
     left: 0;
     right: 0;
-    top: 0px;
+    top: 20px;
     bottom: auto;
     margin: auto;
-    width: 100%;
+    width: 60%;
     height: 50px;
     padding-left: 20px;
     line-height: 50px;

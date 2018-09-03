@@ -66,21 +66,23 @@
     beforeDestroy: function () {
       window.removeEventListener('keydown', this.escEvent);
       this.removeZz();
-      window.EVENTBUS.$off(this.eventName);
+      window.EVENTBUS && window.EVENTBUS.$off(this.eventName);
     },
     mounted: function () {
       let _this = this;
 
       window.addEventListener('keydown', this.escEvent);
       this.creatZz();
-      window.EVENTBUS.$on(this.eventName, function (data) {
-        if (typeof data.show !== 'undefined') {
-          _this.changeDisplay(data.show);
-        }
-        if (data.text) {
-          _this.ptext = data.text;
-        }
-      });
+      if (window.EVENTBUS) {
+        window.EVENTBUS.$on(this.eventName, function (data) {
+          if (typeof data.show !== 'undefined') {
+            _this.changeDisplay(data.show);
+          }
+          if (data.text) {
+            _this.ptext = data.text;
+          }
+        });
+      }
     },
     methods: {
       hideLoading: function () {

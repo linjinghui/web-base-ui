@@ -2,6 +2,7 @@
   <div id="app">
     <router-view></router-view>
     <loading v-model="optionLoading.show" v-bind="optionLoading"></loading>
+    <tip v-model="optionTip.show" v-bind="optionTip"></tip>
     <confirm v-bind="optionConfirm" v-model="optionConfirm.show">
       <span slot="title" v-html="optionConfirm.title"></span>
       <span slot="content" v-html="optionConfirm.content"></span>
@@ -23,6 +24,13 @@
           show: false,
           text: '请您稍后！',
           modal: false
+        },
+        optionTip: {
+          show: false,
+          // left|center
+          textAlign: '',
+          // primary|success|info|warning|danger|自定义
+          theme: 'success'
         },
         optionPrompt: {
           show: false,
@@ -81,6 +89,9 @@
 
       Vue.prototype.$loading = function (option) {
         _this.optionLoading = Object.assign(_this.optionLoading, option);
+      };
+      Vue.prototype.$tip = function (option) {
+        _this.optionTip = Object.assign(_this.optionTip, option);
       };
       Vue.prototype.$confirm = function (option) {
         _this.optionConfirm = Object.assign(_this.optionConfirm, option);
