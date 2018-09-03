@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+         <polygon id="lens" points="65,50 185,50 185,75, 150,100 100,100 65,75" fill="red" stroke="purple" stroke-width="4" />
+         <radialGradient id="irisGradient">
+             <stop offset="25%" stop-color="green" />
+             <stop offset="100%" stop-color="dodgerblue" />
+         </radialGradient>
+         <g id="eye">
+             <ellipse cy="50" rx="50" ry="25" fill="none" stroke="black" />
+             <circle cy="50" r="25" />
+             <circle cy="50" r="10" fill="black" />
+         </g>
+      </defs>
+      
+      <!-- <g stroke="red" stroke-width="3" fill="red"> -->
+          <!-- <use xlink:href="#eye" x="120" fill="dodgerblue" />
+          <use xlink:href="#eye" x="250" fill="dodgerblue" /> -->
+      <!-- </g> -->
+      <defs>
+            <g id="eye2">
+             <ellipse cy="50" rx="50" ry="25" fill="none" stroke="black" />
+             <circle cy="50" r="25" />
+             <circle cy="50" r="10" fill="black" />
+            </g>
+          </defs>
+
+          <use xlink:href="#eye2" x="200" stroke="blue"/>
+
+          <polygon points="60,30 90,90 30,90" onclick="hideReveal(evt)">
+              <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 10 70" to="360 60 70" dur="10s" repeatCount="indefinite"/>
+          </polygon>
+  </svg>
+
+    <svg width="600" height="600" xmlns="http://www.w3.org/2000/svg">
+        <rect x="100" y="100" width="300" height="100" stroke="black" fill="none"></rect>
+        <circle cx="115" cy="150" r="15" fill="red">
+            <!-- <animate attributeName="cx" from="115" to="385" dur="2s" repeatCount="indefinite"></animate> -->
+            <animateMotion path="M 0 0 H 300 Q 30,80 30,50 Q 30,20 50,20 Z" dur="3s" repeatCount="indefinite" />
+        </circle>
+    </svg>
+
+    <div style="background-color:#080808;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1vw" height="50" style="transform: scale(2.5)">
+            <path fill="red" d="M7.521,0.063c-1.843,0-4.52,1.953-5.526,3.417C0.989,4.943-0.05,8.627-0.063,10.191
+                c-0.054,7.244,7.725,19.399,12.625,24.952c4.104,4.646,15.025,12.677,21.105,14.532c2.655,0.811,7.896,0.429,10.407-0.716
+                c1.927-0.879,5.149-4.844,5.722-6.803c0.928-3.172-0.717-6.379-2.313-7.688c-1.62-1.331-4.556-2.658-8.271-2.192
+                c-3.137,0.395-3.956,3.906-5.738,4.146c-3.335,0.451-9.008-4.35-11.179-6.405c-2.35-2.225-8.282-10.664-7.807-13.726
+                c0.512-3.295,5.493-3.569,4.081-9.884C17.899,3.411,14.2,0.06,7.521,0.063z"/>
+        </svg>
+    </div>
+
+    <svg style="width:800px; height:160px;border:solid 1px;" viewBox="0 0 143 57" preserveAspectRatio="xMidYMid meet">
+        <!-- <circle cx="200" cy="200" r="200" fill="#fdd" stroke="none"></circle> -->
+        <path fill="blue" d="M143.291,39.946c0,0-16.955,6.257-22.832,7.791c-6.373,1.664-22.418,4.425-29.834,5
+        c-3.795,0.295-11.149,0.123-14.666,1.334c-1.536,0.528-3.918,3.416-3.918,3.416h-0.083c0,0-2.381-2.888-3.917-3.416
+        c-3.518-1.211-10.872-1.039-14.667-1.334c-7.417-0.575-23.461-3.336-29.833-5c-5.877-1.534-22.833-7.791-22.833-7.791v-0.132V19.565
+        V0.94h142.582v38"/>
+    </svg>
+</body>
+<script>
+        function hideReveal(evt) {
+            alert(123);
+           var imageTarget = evt.target;
+           console.log(1111)
+        }
+    </script>
+</html>
