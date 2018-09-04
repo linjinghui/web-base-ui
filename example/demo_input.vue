@@ -48,7 +48,7 @@
     @blur="cbk_blur"
     @keyup="cbk_keyup"
     @enter="cbk_enter">
-      <i class="cicon-search-cpt-chr center-v" slot="right" style="background-color: blue;"></i>
+      <i class="cicon-search-cpt-chr center-v" slot="right" v-if="showIcon" style="background-color: blue;"></i>
     </cmp-input>
 
     <cmp-input
@@ -97,7 +97,8 @@ export default {
   data: function () {
     return {
       name: '你好',
-      pwd: 123
+      pwd: 123,
+      showIcon: false
     };
   },
   components: {
@@ -113,6 +114,7 @@ export default {
 
     setTimeout(function () {
       _this.name = '淡淡的';
+      _this.showIcon = true;
     }, 3000);
   },
   methods: {

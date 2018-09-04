@@ -5,11 +5,11 @@
  -->
 
 <template>
-  <span class="input" :class="{'pdlt': _pdlt, 'pdrt': _pdrt}">
+  <span class="input" :class="{'pdlt': pdlt, 'pdrt': pdrt}" :id="id">
     <input autoComplete="off"
     ref="ipt"
     v-model.trim="val"
-    :id="id"
+    :name="name"
     :type="type"
     :disabled="(disabled+'')==='true'"
     :maxlength="maxlength"
@@ -33,18 +33,19 @@
     name: 'Input',
     data: function () {
       return {
+        id: 'ipt_' + new Date().getTime() + parseInt(Math.random() * 100),
         val: this.value,
-        focus: ''
+        focus: '',
+        pdlt: '',
+        pdrt: ''
       };
     },
     props: {
-      id: {
-        default: 'ipt_' + new Date().getTime() + parseInt(Math.random() * 100)
-      },
       value: '',
       type: {
         default: 'text'
       },
+      name: '',
       maxlength: '',
       readonly: '',
       placeholder: '',
@@ -74,19 +75,22 @@
         
         result = ((this.clear + '') !== 'false') && ((this.disabled + '') !== 'true') && ((this.readonly + '') !== 'true') && this.val && this.val.length > 0 && this.focus;
         return result;
-      },
-      _pdlt: function () {
-        return this.$slots.left;
-      },
-      _pdrt: function () {
-        return this.$slots.right;
       }
     },
     beforeDestroy: function () {
       //
     },
     mounted: function () {
+      var _this = this;
+
+      this.pdlt = this.$slots.left;
+      this.pdrt = this.$slots.right;
       this.is_auto_focus();
+      // 监控DOM变化
+      this.addDomChange(function () {
+        _this.pdlt = _this.$slots.left;
+        _this.pdrt = _this.$slots.right;
+      });
     },
     methods: {
       clk_del: function () {
@@ -150,6 +154,20 @@
         } else if (typeof this.rule === 'string') {
           this.val = value.replace(new RegExp(this.rule, 'g'), '');
         }
+      },
+      addDomChange: function (cbk) {
+        var callback = function (records) {
+          records.map(function (record) {
+            cbk && cbk();
+          });
+        };
+        var mo = new MutationObserver(callback);
+        var option = {
+          'childList': true,
+          'subtree': true
+        };
+
+        mo.observe(document.getElementById(this.id), option);
       }
     }
   };
@@ -165,7 +183,7 @@
     >input {
       display: block;
       padding-left: 10px;
-      padding-right: 24px;
+      padding-right: 36px;
       width: 100%;
       height: 100%;
       border-style: solid;
