@@ -1,7 +1,6 @@
 <template>
   <div>
     <button @click="toggle">show\hide22</button>
-    <button @click="qjcf">全局触发</button>
   </div>
 </template>
 
@@ -31,13 +30,6 @@ export default {
         show: true,
         // left|center
         textAlign: ''
-      });
-    },
-    qjcf: function () {
-      window.EVENTBUS.$emit('Tip', {
-        show: true,
-        text: '全局触发内容',
-        theme: 'info'
       });
     }
   }

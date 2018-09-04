@@ -113,11 +113,12 @@
     user-select: none;
     
     >i {
-      margin-right: 4px;
+      margin-right: 6px;
       border-radius: 2px;
       font-size: 16px;
       border-color: #dcdfe6;
       background-color: #fff;
+      vertical-align: -3px;
     }
     >i.cicon-tick-cbdr:before,
     >i.cicon-tick-cbdr:after {
