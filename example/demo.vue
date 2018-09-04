@@ -28,6 +28,7 @@
     <a href="#/demoDrag">drag</a>
     <a href="#/demoForm">form</a>
     <a href="#/demoAsideNav">demoAsideNav</a>
+    <a href="#/demoTab">demoTab</a>
   </div>
 </template>
 

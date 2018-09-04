@@ -4,10 +4,11 @@
  -->
 
 <template>
-  <ul class="wrap-tab">
-    <li>项目1</li>
-    <li class="active">项目2</li>
-    <li>项目3</li>
+  <ul class="wrap-tab clearfix" style="background-color:#fff;">
+    <li :class="{'active': pacitve===index}" v-for="(item,index) in plist" :key="'tab_'+index" @click="clkItem(index)">
+      {{item.name}}
+      <i class="cicon-cross-chr" v-if="close" @click.stop="clkDel(index)"></i>
+    </li>
   </ul>
 </template>
 
@@ -16,14 +17,34 @@
     name: 'Tab',
     data: function () {
       return {
-        id: 'tab_' + new Date().getTime() + parseInt(Math.random() * 100)
+        plist: this.list,
+        pacitve: this.acitve
       };
     },
     props: {
-      // 
+      // 当前激活项
+      acitve: {
+        default: 0
+      },
+      // 菜单数据
+      list: {
+        type: Array,
+        default: function () {
+          return [];
+        }
+      },
+      // 是否需要关闭按钮
+      close: {
+        default: false
+      }
     },
     watch: {
-      // 
+      list: function (val) {
+        this.plist = val;
+      },
+      acitve: function (val) {
+        this.pacitve = val;
+      }
     },
     computed: {
       // 
@@ -35,52 +56,62 @@
       // 
     },
     methods: {
-      // 
+      clkItem: function (index) {
+        if (index < 0) {
+          index = 0;
+        }
+        this.pacitve = index;
+        this.$emit('cbk', this.plist[index]);
+      },
+      clkDel: function (index) {
+        this.plist.splice(index, 1);
+        this.clkItem(index - 1);
+      }
     }
   };
 </script>
 
 <style scoped lang="scss">
   .wrap-tab {
-    position: relative;
-    width: 100%;
-    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
     border-color: #dee2e6;
     border-style: solid;
-    border-width: 0;
-    border-bottom-width: 1px;
-    background-color: #fff;
+    border-width: 0px;
+    border-bottom-width: 1px;  
+    color: #212529;
 
     >li {
       position: relative;
-      float: left;
-      padding-left: 14px;
-      padding-right: 14px;
-      height: 100%;
-      // border: inherit;
-      // border-width: 1px;
-      // border-color: transparent;
-      background-color: inherit;
+      box-sizing: border-box;
+      margin-bottom: -1px;
+      padding: 8px 20px;
+      cursor: pointer;
+
+      .cicon-cross-chr {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 18px;
+        height: 18px;
+        font-size: 14px;
+        color: #999;
+      }
     }
     >li.active {
-      // border-color: inherit;
-      // border-bottom-color: #fff;
-      // z-index: 2;
-      // margin-bottom: -11px;
-      // border: inherit;
-      // border-width: 1px;
-      // border-bottom-width: 0;
+      border: inherit;
+      border-width: 1px;
+      border-bottom-width: 0px;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      background-color: #fff;
+
+      .cicon-cross-chr {
+        display: unset; 
+      }
     }
   }
-  // .wrap-tab:after {
-  //   content: '';
-  //   position: absolute;
-  //   bottom: 0;
-  //   left: 0;
-  //   width: 100%;
-  //   height: 1px;
-  //   border: inherit;
-  //   border-bottom-width: 1px;
-  //   z-index: 1;
-  // }
 </style>
