@@ -43,6 +43,11 @@
       isCheckBox: {
         type: Boolean,
         default: false
+      },
+      checkBoxOption: {
+        default: function () {
+          return {};
+        }
       }
     },
     watch: {
@@ -95,14 +100,7 @@
               }
             },
             'plugins': plugins,
-            'checkbox': {
-              // // 显示、隐藏复选框
-              // 'visible': true,
-              // // 是否父子节点关联
-              // 'three_state': true,
-              // //
-              // 'cascade_to_hidden': false
-            }
+            'checkbox': this.checkBoxOption
           });
 
           this.getTreeDom().on('ready.jstree', function (e, data) {

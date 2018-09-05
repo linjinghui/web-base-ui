@@ -2,7 +2,8 @@
   <div style="width: 220px;height: 600px;background-color: #e6e6e6;">
     <button @click="setData" style="position: absolute;top: 10px;left: 350px;">set data</button>
     <button @click="setActiveId" style="position: absolute;top: 40px;left: 350px;">set activeId</button>
-    <cmp-tree :treeData="treeData" :activeId="activeId" :autoActiveRoot="false" :isCheckBox="isCheckBox" @callback="callback" @checkBoxCallback="checkCallback"></cmp-tree>
+    <cmp-tree :treeData="treeData" :activeId="activeId" :autoActiveRoot="false" :isCheckBox="isCheckBox" 
+    :checkBoxOption="checkBoxOption" @callback="callback" @checkBoxCallback="checkCallback"></cmp-tree>
   </div>
 </template>
 
@@ -17,6 +18,12 @@ export default {
       jsTreeIdStr: '_jstId',
       activeId: '',
       isCheckBox: false,
+      checkBoxOption: {
+        // // 是否开启级联关系，默认true
+        // three_state: false,
+        // // 关联方向 - up\down
+        // cascade: 'up'
+      },
       testMark: 0
     };
   },
