@@ -7,7 +7,7 @@
   <ul class="wrap-tab clearfix" style="background-color:#fff;">
     <li :class="{'active': pacitve===index}" v-for="(item,index) in plist" :key="'tab_'+index" @click="clkItem(index)">
       {{item.name}}
-      <i class="cicon-cross-chr" v-if="close" @click.stop="clkDel(index)"></i>
+      <i class="cicon-cross-chr" v-if="close&&(item.close+''!=='false')&&plist.length>1" @click.stop="clkDel(index)"></i>
     </li>
   </ul>
 </template>

@@ -19,6 +19,7 @@ export default {
           },
           {
             name: '导航2'
+            // close: false
           },
           {
             name: '导航3'
