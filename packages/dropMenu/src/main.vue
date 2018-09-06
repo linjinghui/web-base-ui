@@ -109,9 +109,9 @@
       setIptValue: function () {
         var indexArr = this.value;
         var domMenu = this.$refs.dmmeu.$el;
-        var domMenuItems = domMenu.childNodes;
+        var domMenuItems = domMenu.querySelectorAll('.line');
         var arr = [];
-        
+
         for (let i = 0;i < indexArr.length;i++) {
           arr[arr.length] = domMenuItems[indexArr[i]].innerText;
         }
