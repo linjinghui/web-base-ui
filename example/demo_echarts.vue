@@ -5,7 +5,7 @@
     <button @click="setMap">setMap</button>
     
     <div style="width: 100%;height: 300px;border: solid 1px;">
-      <cmp-echarts ref="bar" :option="optionBar"></cmp-echarts>
+      <cmp-echarts ref="bar" :option="optionBar" loading="false"></cmp-echarts>
     </div>
 
     <div style="width: 100%;height: 300px;border: solid 1px;">

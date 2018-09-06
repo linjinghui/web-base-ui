@@ -103,9 +103,10 @@
 }*/
 
 [class^=cicon-tick]:before {
-	top: -0.2em;
-	width: 0.6em;
-	height: 0.3em;
+  top: -0.2em;
+  /* 3/4 */
+	width: 0.45em;
+	height: 0.225em;
 	border-width: 2px;
 	border-top: 0;
 	border-right: 0;

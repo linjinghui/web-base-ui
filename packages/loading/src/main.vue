@@ -11,7 +11,7 @@
     <div class="loading center-hv"
       v-if="('true' === value + '')"
       :style="{'z-index': zIndex + 1}">
-      <i class="cicon-circle-loading move-loop"><span></span><span></span><span></span></i>
+      <i class="cicon-circle-loading move-loop"></i>
       <span>{{ptext}}</span>
     </div>
   </keep-alive>
@@ -135,9 +135,12 @@
     box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.2);
 
     >i {
-      margin-right: 5px;
       font-size: 34px;
       background-color: inherit;
+    }
+
+    >span {
+      margin-left: 5px;
     }
   }
   // 手机

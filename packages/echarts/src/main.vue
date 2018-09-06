@@ -13,6 +13,9 @@
       };
     },
     props: {
+      loading: {
+        default: true
+      },
       option: {
         type: Object,
         default: function () {
@@ -38,6 +41,7 @@
       let _this = this;
 
       this.myChart = Echarts.init(document.getElementById(this.id));
+      (this.loading + '' === 'true') && this.myChart.showLoading();
       this.$nextTick(function () {
         this.setOption();
       });
@@ -56,9 +60,11 @@
       setOption: function () {
         if (JSON.stringify(this.map) !== '{}') {
           Echarts.registerMap(this.option.series[0].map, this.map);
+          this.myChart.hideLoading();
         }
         if (JSON.stringify(this.option) !== '{}') {
           this.myChart.setOption(this.option);
+          this.myChart.hideLoading();
         }
       },
       resizeEchart: function () {
