@@ -57,9 +57,7 @@
         }
         if (val) {
           // 设置默认点开根节点
-          val[0]['state'] = {
-            'opened': true
-          };
+          this.autoActiveRoot && (val[0]['state'] = { 'opened': true });
           // 初始化树
           this.initJstree(val);
         }
@@ -107,8 +105,6 @@
             // 判断是否选中根节点, 还是指定节点
             if (_this.pactiveId) {
               _this.selectItem(_this.pactiveId);
-            } else if (_this.autoActiveRoot) {
-              _this.selectItem(_this.treeData[0]['id']);
             }
             // 移除所有超链接的href属性
             _this.removeAHref();
@@ -120,7 +116,13 @@
           });
 
           this.getTreeDom().on('changed.jstree', function (e, data) {
+            var instance = _this.getTreeDom().jstree(true);
+
             if (_this.isCheckBox) {
+              // checkBoxOption.cascade === 'otoParent' 勾选后只关联父层
+              if (data.action === 'select_node' && !_this.checkBoxOption.three_state && _this.checkBoxOption.cascade === 'otoParent') {
+                instance.select_node(data.node.parent);
+              }
               _this.$emit('checkBoxCallback', _this.getAllChecked());
             }
           });
