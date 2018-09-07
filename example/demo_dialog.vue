@@ -35,7 +35,7 @@ export default {
     return {
       optionDialog: {
         show: false,
-        modal: false,
+        modal: true,
         stl: {
           header: {
             // left|center
@@ -78,8 +78,8 @@ export default {
 
       this.$confirm({
         show: true,
-        modal: false,
-        title: '投票',
+        modal: true,
+        heading: '投票',
         content: '你今天还能为其他未投过票的参选者投<font style="color: red;">1</font>票',
         // error|success|warning
         type: 'success',
@@ -119,7 +119,7 @@ export default {
       this.$prompt({
         show: true,
         modal: true,
-        title: '自定义标题',
+        heading: '自定义标题',
         stl: {
           footer: {
             // left|center|right

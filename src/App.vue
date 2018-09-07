@@ -4,11 +4,11 @@
     <loading v-model="optionLoading.show" v-bind="optionLoading"></loading>
     <tip v-model="optionTip.show" v-bind="optionTip"></tip>
     <confirm v-bind="optionConfirm" v-model="optionConfirm.show">
-      <span slot="title" v-html="optionConfirm.title"></span>
+      <span slot="title" v-html="optionConfirm.heading"></span>
       <span slot="content" v-html="optionConfirm.content"></span>
     </confirm>
     <prompt v-bind="optionPrompt" v-model="optionPrompt.show">
-      <span slot="title" v-html="optionPrompt.title"></span>
+      <span slot="title" v-html="optionPrompt.heading"></span>
     </prompt>
   </div>
 </template>
@@ -35,7 +35,7 @@
         optionPrompt: {
           show: false,
           modal: true,
-          title: '标题',
+          heading: '标题',
           stl: {
             footer: {
               // left|center|right
@@ -54,7 +54,7 @@
         optionConfirm: {
           show: false,
           modal: false,
-          title: '标题',
+          heading: '标题',
           content: '文本内容',
           // error|success|warning
           type: 'success',

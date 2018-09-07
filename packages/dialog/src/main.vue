@@ -79,17 +79,17 @@
     watch: {
       value: function (val) {
         if (val + '' === 'true') {
-          this.creatZz();
+          this.modal + '' === 'true' && this.creatZz();
         } else {
           this.removeZz();
         }
       },
       modal: function (val) {
-        if (val + '' === 'true' && this.value + '' === 'true') {
-          this.creatZz();
-        } else {
-          this.removeZz();
-        }
+        // if (val + '' === 'true' && this.value + '' === 'true') {
+        //   this.creatZz();
+        // } else {
+        //   this.removeZz();
+        // }
       }
     },
     computed: {
