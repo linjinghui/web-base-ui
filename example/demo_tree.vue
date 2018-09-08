@@ -18,6 +18,7 @@ export default {
       jsTreeIdStr: '_jstId',
       activeId: '',
       autoActiveRoot: false,
+      isWholerow: true,
       isCheckBox: true,
       checkBoxOption: {
         // 是否开启级联关系，默认true
