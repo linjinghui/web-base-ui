@@ -3,7 +3,7 @@
     <button @click="setData" style="position: absolute;top: 10px;left: 350px;">set data</button>
     <button @click="setActiveId" style="position: absolute;top: 40px;left: 350px;">set activeId</button>
     <cmp-tree :treeData="treeData" :activeId="activeId" :autoActiveRoot="autoActiveRoot" :isCheckBox="isCheckBox" 
-    :checkBoxOption="checkBoxOption" @callback="callback" @checkBoxCallback="checkCallback"></cmp-tree>
+    :checkBoxOption="checkBoxOption" :undetermined="undetermined" @callback="callback" @checkBoxCallback="checkCallback"></cmp-tree>
   </div>
 </template>
 
@@ -20,9 +20,11 @@ export default {
       autoActiveRoot: false,
       isWholerow: true,
       isCheckBox: true,
+      // 是否返回半选中的节点
+      undetermined: true,
       checkBoxOption: {
         // 是否开启级联关系，默认true
-        three_state: false,
+        three_state: true,
         // 关联方向 - up\down\undetermined\otoParent
         cascade: 'otoParent'
       },

@@ -52,6 +52,10 @@
         default: function () {
           return {};
         }
+      },
+      // 是否返回半选中的节点
+      undetermined: {
+        default: false
       }
     },
     watch: {
@@ -130,7 +134,9 @@
               if (data.action === 'select_node' && !_this.checkBoxOption.three_state && _this.checkBoxOption.cascade && _this.checkBoxOption.cascade.indexOf('otoParent') >= 0) {
                 instance.select_node(data.node.parent);
               }
-              _this.$emit('checkBoxCallback', _this.getAllChecked());
+              setTimeout(function () {
+                _this.$emit('checkBoxCallback', _this.getAllChecked());
+              }, 100);
             }
           });
 
@@ -219,8 +225,19 @@
         return resultData;
       },
       getAllChecked: function () {
-        let checkBoxes = this.getTreeDom().jstree().get_checked(true);
+        let _this = this;
+        let checkBoxes = this.getTreeDom().jstree().get_checked(true) || [];
+        
+        // 获取所有半选框
+        if (this.undetermined) {
+          this.getTreeDom().find('.jstree-undetermined').each(function (i, element) {
+            var dom = $(element).parents('li');
+            var id = dom.attr('id');
+            var node = _this.getTreeDom().jstree('get_node', id);
 
+            node && checkBoxes.push(node);
+          });
+        }
         for (let i = checkBoxes.length - 1;i >= 0;i--) {
           checkBoxes[i] = checkBoxes[i]['original'];
         }
