@@ -127,7 +127,7 @@
 
             if (_this.isCheckBox) {
               // checkBoxOption.cascade === 'otoParent' 勾选后只关联父层
-              if (data.action === 'select_node' && !_this.checkBoxOption.three_state && _this.checkBoxOption.cascade.indexOf('otoParent') >= 0) {
+              if (data.action === 'select_node' && !_this.checkBoxOption.three_state && _this.checkBoxOption.cascade && _this.checkBoxOption.cascade.indexOf('otoParent') >= 0) {
                 instance.select_node(data.node.parent);
               }
               _this.$emit('checkBoxCallback', _this.getAllChecked());
