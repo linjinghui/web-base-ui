@@ -116,7 +116,7 @@
     opacity: 0.95;
     word-break:break-all;
     word-wrap:break-word;
-    z-index: 11;
+    z-index: 2000;
 
     [class^="cicon"] {
       font-size: 24px;

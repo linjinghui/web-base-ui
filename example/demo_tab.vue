@@ -1,5 +1,6 @@
 <template>
   <div style="margin-left: 20px;margin-top: 20px;padding: 20px;width: 80%;height: 100px;background-color: #f5f5f5;">
+    <button @click="setActive">setActive</button>
     <cmp-tab v-bind="optionTab" @cbk="callback"></cmp-tab>
   </div>
 </template>
@@ -12,14 +13,14 @@ export default {
   data: function () {
     return {
       optionTab: {
-        acitve: 0,
+        active: 0,
         list: [
           {
             name: '导航1'
           },
           {
-            name: '导航2'
-            // close: false
+            name: '导航2',
+            close: false
           },
           {
             name: '导航3'
@@ -44,10 +45,19 @@ export default {
       console.log(data);
     }
   },
+  mounted: function () {
+    // 
+  },
   methods: {
     callback: function (data) {
       console.log('=====callback======');
       console.log(data);
+    },
+    setActive: function () {
+      this.$set(this.optionTab, 'active', '');
+      this.$nextTick(function () {
+        this.$set(this.optionTab, 'active', 2);
+      });
     }
   }
 };

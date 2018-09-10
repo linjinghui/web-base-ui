@@ -5,7 +5,7 @@
 
 <template>
   <ul class="wrap-tab clearfix" style="background-color:#fff;">
-    <li :class="{'active': pacitve===index}" v-for="(item,index) in plist" :key="'tab_'+index" @click="clkItem(index)">
+    <li :class="{'active': pactive===index}" v-for="(item,index) in plist" :key="'tab_'+index" @click="clkItem(index)">
       {{item.name}}
       <i class="cicon-cross-chr" v-if="close&&(item.close+''!=='false')&&plist.length>1" @click.stop="clkDel(index)"></i>
     </li>
@@ -18,12 +18,12 @@
     data: function () {
       return {
         plist: this.list,
-        pacitve: this.acitve
+        pactive: ''
       };
     },
     props: {
       // 当前激活项
-      acitve: {
+      active: {
         default: 0
       },
       // 菜单数据
@@ -42,8 +42,8 @@
       list: function (val) {
         this.plist = val;
       },
-      acitve: function (val) {
-        this.pacitve = val;
+      active: function (val) {
+        this.clkItem(val);
       }
     },
     computed: {
@@ -53,14 +53,14 @@
       // 
     },
     mounted: function () {
-      // 
+      this.clkItem(this.active);
     },
     methods: {
       clkItem: function (index) {
         if (index < 0) {
           index = 0;
         }
-        this.pacitve = index;
+        this.pactive = index;
         this.$emit('cbk', this.plist[index]);
       },
       clkDel: function (index) {
