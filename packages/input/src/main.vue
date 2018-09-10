@@ -98,17 +98,15 @@
         this.do_focus();
       },
       evn_focus: function () {
-        var _this = this;
-
         this.$emit('focus');
-        setTimeout(function () { _this.focus = true; }, 100);
+        this.focus = true;
       },
       evn_blur: function () {
         var _this = this;
         
         this.do_reg_value();
         this.$emit('blur');
-        setTimeout(function () { _this.focus = false; }, 100);
+        setTimeout(function () { _this.focus = false; }, 200);
       },
       evn_keyup: function (event) {
         this.$emit('keyup', event.keyCode);
