@@ -13,6 +13,7 @@
 </template>
 
 <script type="text/babel">
+
   export default {
     name: 'Tab',
     data: function () {
@@ -64,8 +65,20 @@
         this.$emit('cbk', this.plist[index]);
       },
       clkDel: function (index) {
+        var closeCnt = this.plist[index].closeCnt;
+
         this.plist.splice(index, 1);
         this.clkItem(index - 1);
+        if (closeCnt) {
+          this.$nextTick(() => {
+            for (let i = 0;i < this.plist.length;i++) {
+              if (this.plist[i].closeCnt === closeCnt) {
+                this.clkDel(i);
+                break;
+              }
+            }
+          });
+        }
       }
     }
   };

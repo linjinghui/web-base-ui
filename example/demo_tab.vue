@@ -26,10 +26,13 @@ export default {
             name: '导航3'
           },
           {
-            name: '导航4'
+            name: '导航4',
+            // 关闭级联，会同时关闭closeCnt相同的标签
+            closeCnt: '1'
           },
           {
-            name: '导航5'
+            name: '导航5',
+            closeCnt: '1'
           }
         ],
         close: true
