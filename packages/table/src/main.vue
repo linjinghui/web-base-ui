@@ -1,5 +1,5 @@
 <template>
-  <vperfect-scrollbar class="wrap-table" ref="wrapTable" :settings="settings">
+  <vperfect-scrollbar class="wrap-table" :class="{'order': order}" ref="wrapTable" :settings="settings">
     <table>
       <thead :class="{'fix': scrollTop > 0}">
         <slot name="head"></slot>
@@ -34,6 +34,9 @@
         default: function () {
           return [];
         }
+      },
+      order: {
+        default: false
       }
     },
     watch: {
@@ -48,6 +51,29 @@
 
         this.scrollTop = e.target.scrollTop;
         dmHead.style.transform = 'translateY(' + e.target.scrollTop + 'px)';
+      },
+      setOrder: function (arr, orderBy) {
+        if (this.order) {
+          arr.sort(function (a, b) {
+            var p1 = a[orderBy];
+            var p2 = b[orderBy];
+            var result = '';
+            
+            if (window.orderMark) {
+              if (isNaN(p1) || isNaN(p2)) {
+                result = (p1 + '').localeCompare(p2 + '');
+              } else {
+                result = p1 - p2;
+              }
+            } else if (isNaN(p1) || isNaN(p2)) {
+              result = (p2 + '').localeCompare(p1 + '');
+            } else {
+              result = p2 - p1;
+            }
+            return result;
+          });
+          window.orderMark = !window.orderMark;
+        }
       }
     }
   };
@@ -96,6 +122,18 @@
         .button {
           position: unset;
         }
+      }
+    }
+  }
+  
+  .wrap-table.order {
+    table thead {
+      td:not(.no-order) {
+        user-select: none;
+        cursor: pointer;
+      }
+      td:not(.no-order):hover:after {
+        content: (' ↑↓');
       }
     }
   }

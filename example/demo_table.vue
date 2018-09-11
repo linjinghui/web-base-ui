@@ -1,8 +1,11 @@
 <template>
   <div style="width: 100%;height: 500px;">
-    <cmp-table v-bind="option" @callback="callback">
+    <cmp-table v-bind="option" ref="rtable" @callback="callback">
       <tr slot="head">
-        <td>序号</td><td>姓名</td><td>年龄</td><td>操作</td>
+        <td @click="clkOrder('id')">序号</td>
+        <td @click="clkOrder('name')">姓名</td>
+        <td @click="clkOrder('age')">年龄</td>
+        <td class="no-order">操作</td>
       </tr>
       <tr slot="body" slot-scope="props">
         <td>{{props.item.id}}</td><td>{{props.item.name}}</td><td>{{props.item.age}}</td>
@@ -27,7 +30,8 @@
     data: function () {
       return {
         option: {
-          data: []
+          data: [],
+          order: true
         }
       };
     },
@@ -54,14 +58,21 @@
         console.log(info);
       },
       setData: function () {
-        for (var i = 0;i < 100;i++) {
+        var m = 50, n = 0;
+
+        for (var i = 0;i < 10;i++) {
+          var random = Math.floor(Math.random() * ( m - n + 1) + n);
+          
           this.option.data.push({
-            id: i,
-            name: 'name' + i,
-            age: i * 10,
+            id: Math.floor(Math.random() * ( m - n + 1) + n),
+            name: String.fromCodePoint(Math.round(Math.random() * 20901) + 19968) + ':' + random,
+            age: random * 10,
             state: 1
           });
         }
+      },
+      clkOrder: function (orderBy) {
+        this.$refs.rtable.setOrder(this.option.data, orderBy);
       }
     }
   };
