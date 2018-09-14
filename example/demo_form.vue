@@ -15,7 +15,7 @@
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer horiz">
-        <label class="star">水平布局:</label>
+        <label>水平布局:</label>
         <cmp-input class="f-dom"
         :name="'age'"
         :lenth="335"
@@ -28,7 +28,7 @@
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer">
-        <label class="star">性别:</label>
+        <label>性别:</label>
         <span class="f-dom">
           <cmp-radio v-model="sex" val="1">足球</cmp-radio>
           <cmp-radio v-model="sex" val="2">篮球</cmp-radio>
@@ -36,7 +36,7 @@
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer horiz">
-        <label class="star">性别:</label>
+        <label>性别:</label>
         <span class="f-dom">
           <cmp-radio v-model="sex" val="1">足球</cmp-radio>
           <cmp-radio v-model="sex" val="2">篮球</cmp-radio>
@@ -44,7 +44,7 @@
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer">
-        <label class="star">爱好:</label>
+        <label>爱好:</label>
         <span class="f-dom">
           <cmp-checkbox v-model="selected" :val="1">看书</cmp-checkbox>
           <cmp-checkbox v-model="selected" :val="2">写字</cmp-checkbox>
@@ -53,7 +53,7 @@
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer horiz">
-        <label class="star">爱好:</label>
+        <label>爱好:</label>
         <span class="f-dom">
           <cmp-checkbox v-model="selected" :val="1">看书</cmp-checkbox>
           <cmp-checkbox v-model="selected" :val="2">写字</cmp-checkbox>
@@ -61,39 +61,39 @@
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer">
-        <label class="star">下拉框:</label>
+        <label>下拉框:</label>
         <cmp-drop-menu class="f-dom" v-bind="optionDropMenu" v-model="optionDropMenu.result" @cbkClkItem="cbkClkItem"></cmp-drop-menu>
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer horiz">
-        <label class="star">下拉框:</label>
+        <label>下拉框:</label>
         <cmp-drop-menu class="f-dom" v-bind="optionDropMenu" v-model="optionDropMenu.result" @cbkClkItem="cbkClkItem"></cmp-drop-menu>
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer">
-        <label class="star">地址:</label>
+        <label>地址:</label>
         <cmp-textarea class="f-dom" v-model="optionTextarea.value" v-bind="optionTextarea"></cmp-textarea>
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer horiz">
-        <label class="star">地址:</label>
+        <label>地址:</label>
         <cmp-textarea class="f-dom" v-model="optionTextarea.value" v-bind="optionTextarea"></cmp-textarea>
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer">
-        <label class="star">地址:</label><br>
+        <label>地址:</label><br>
         <cmp-swith class="f-dom" v-model="swith" theme="green"></cmp-swith><br>
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer horiz">
-        <label class="star">地址:</label>
+        <label>地址:</label>
         <cmp-swith class="f-dom" v-model="swith" theme="green"></cmp-swith><br>
         <small class="tip">姓名不能为空</small>
       </div>
     </div>
     <div class="wrap-form horiz" style="width: 400px;">
       <div class="form-layer">
-        <label class="star">垂直布局:</label>
+        <label>垂直布局:</label>
         <cmp-input class="f-dom"
         :name="'age'"
         :lenth="335"
@@ -106,7 +106,7 @@
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer vert">
-        <label class="star">水平布局:</label>
+        <label>水平布局:</label>
         <cmp-input class="f-dom"
         :name="'age'"
         :lenth="335"
@@ -119,7 +119,7 @@
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer">
-        <label class="star">性别:</label>
+        <label>性别:</label>
         <span class="f-dom">
           <cmp-radio v-model="sex" val="1">足球</cmp-radio>
           <cmp-radio v-model="sex" val="2">篮球</cmp-radio>
@@ -127,7 +127,7 @@
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer vert">
-        <label class="star">性别:</label>
+        <label>性别:</label>
         <span class="f-dom">
           <cmp-radio v-model="sex" val="1">足球</cmp-radio>
           <cmp-radio v-model="sex" val="2">篮球</cmp-radio>
@@ -135,7 +135,7 @@
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer">
-        <label class="star">爱好:</label>
+        <label>爱好:</label>
         <span class="f-dom">
           <cmp-checkbox v-model="selected" :val="1">看书</cmp-checkbox>
           <cmp-checkbox v-model="selected" :val="2">写字</cmp-checkbox>
@@ -144,7 +144,7 @@
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer vert">
-        <label class="star">爱好:</label>
+        <label>爱好:</label>
         <span class="f-dom">
           <cmp-checkbox v-model="selected" :val="1">看书</cmp-checkbox>
           <cmp-checkbox v-model="selected" :val="2">写字</cmp-checkbox>
@@ -152,32 +152,32 @@
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer">
-        <label class="star">下拉框:</label>
+        <label>下拉框:</label>
         <cmp-drop-menu class="f-dom" v-bind="optionDropMenu" v-model="optionDropMenu.result" @cbkClkItem="cbkClkItem"></cmp-drop-menu>
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer vert">
-        <label class="star">下拉框:</label>
+        <label>下拉框:</label>
         <cmp-drop-menu class="f-dom" v-bind="optionDropMenu" v-model="optionDropMenu.result" @cbkClkItem="cbkClkItem"></cmp-drop-menu>
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer">
-        <label class="star">地址:</label>
+        <label>地址:</label>
         <cmp-textarea class="f-dom" v-model="optionTextarea.value" v-bind="optionTextarea"></cmp-textarea>
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer vert">
-        <label class="star">地址:</label>
+        <label>地址:</label>
         <cmp-textarea class="f-dom" v-model="optionTextarea.value" v-bind="optionTextarea"></cmp-textarea>
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer">
-        <label class="star">地址:</label>
+        <label>地址:</label>
         <cmp-swith class="f-dom" v-model="swith" theme="green"></cmp-swith><br>
         <small class="tip">姓名不能为空</small>
       </div>
       <div class="form-layer vert">
-        <label class="star">地址:</label><br>
+        <label>地址:</label><br>
         <cmp-swith class="f-dom" v-model="swith" theme="green"></cmp-swith><br>
         <small class="tip">姓名不能为空</small>
       </div>
@@ -292,6 +292,11 @@
 
       >label {
         line-height: 30px;
+      }
+
+      >label.star:before {
+        content: '*';
+        color: red;
       }
 
       >.f-dom {
