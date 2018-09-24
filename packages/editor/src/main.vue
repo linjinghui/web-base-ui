@@ -11,9 +11,6 @@
   import { quillEditor } from 'vue-quill-editor'; 
   // quill图片可拖拽改变大小
   import ImageResize from 'quill-image-resize-module';
-  import 'quill/dist/quill.core.css'; 
-  import 'quill/dist/quill.snow.css'; 
-  import 'quill/dist/quill.bubble.css'; 
 
   window.Quill.register('modules/imageResize', ImageResize);
 
@@ -195,6 +192,10 @@
 </script> 
 
 <style lang="scss"> 
+  @import "../../../node_modules/quill/dist/quill.core.css";
+  @import "../../../node_modules/quill/dist/quill.snow.css";
+  @import "../../../node_modules/quill/dist/quill.bubble.css";
+  
   .wrap-qll-editor {
     position: relative;
     width: 100%;
