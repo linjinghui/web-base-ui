@@ -55,9 +55,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.ProvidePlugin({
-      'window.Quill': 'quill'
-    }),
     new HtmlWebpackPlugin({
       title: config.title,
       icon: config.icon,

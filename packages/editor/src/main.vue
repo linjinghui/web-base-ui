@@ -8,11 +8,12 @@
 
 <script> 
   import Button from '../../button/index.js';
+  import Quill from 'quill';
   import { quillEditor } from 'vue-quill-editor'; 
-  // quill图片可拖拽改变大小
-  import ImageResize from 'quill-image-resize-module';
 
-  window.Quill.register('modules/imageResize', ImageResize);
+  // 注入图片大小伸缩功能
+  window.Quill = Quill;
+  Quill.register('modules/imageResize', require('quill-image-resize-module').default);
 
   export default { 
     components: { 
