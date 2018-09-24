@@ -29,6 +29,7 @@
     <a href="#/demoForm">form</a>
     <a href="#/demoAsideNav">asideNav</a>
     <a href="#/demoTab">tab</a>
+    <a href="#/demoEditor">editor</a>
   </div>
 </template>
 

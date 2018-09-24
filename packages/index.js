@@ -22,6 +22,7 @@ import Tip from './tip/index';
 import Tree from './tree/index';
 import {Dialog, Confirm, Prompt} from './dialog/index';
 import Tab from './tab/index';
+import Editor from './editor/index';
 
 const components = [Loading, Tip, Confirm, Prompt];
 const install = function (Vue) {
@@ -31,4 +32,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, PagebarPagesize, Echarts, EchartsPie, ImageCrop, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, PagebarPagesize, Echarts, EchartsPie, ImageCrop, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor};

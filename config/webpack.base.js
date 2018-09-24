@@ -1,5 +1,6 @@
 'use strict';
 
+const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -54,6 +55,9 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      'window.Quill': 'quill'
+    }),
     new HtmlWebpackPlugin({
       title: config.title,
       icon: config.icon,
