@@ -1,5 +1,5 @@
 <template> 
-  <div class="wrap-qll-editor">
+  <div :id="id" class="wrap-qll-editor">
     <cmp-button class="btn-upfile" style="display:none;" :fileoption="fileOption" @cbk_file="cbk_file">选择文件</cmp-button>
     <quill-editor class="qll-editor" v-model="content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" 
     @focus="onEditorFocus($event)" @change="onEditorChange($event)"></quill-editor>
@@ -26,59 +26,68 @@
       // 编辑器的内容 
       value: { 
         type: String 
-      }, 
-      // 图片大小
-      maxSize: { 
-        type: Number, 
-        default: 4000 
-        // kb 
-      } 
+      },
+      placeholder: {  
+        default: '您想说点什么？'
+      },
+      // 这里写你要上传图片方法
+      upImage: { 
+        type: Function, 
+        default: function () { 
+          // 
+        }
+      },
+      // 工具栏配置
+      toolbar: {
+        type: Array,
+        default: function () {
+          return [ 
+            ['bold', 'italic', 'underline', 'strike'], 
+            // 加粗 斜体 下划线 删除线
+            ['blockquote', 'code-block'], 
+            // 引用 代码块 
+            [{ header: 1 }, { header: 2 }], 
+            // 1、2 级标题 
+            [{ list: 'ordered' }, { list: 'bullet' }], 
+            // 有序、无序列表 
+            [{ script: 'sub' }, { script: 'super' }], 
+            // 上标/下标 
+            [{ indent: '-1' }, { indent: '+1' }], 
+            // 缩进
+            // [{'direction': 'rtl'}], 
+            // 文本方向 
+            [{ size: ['small', false, 'large', 'huge'] }], 
+            // 字体大小 
+            [{ header: [1, 2, 3, 4, 5, 6, false] }], 
+            // 标题 
+            [{ color: [] }, { background: [] }], 
+            // 字体颜色、字体背景颜色 
+            [{ font: [] }], 
+            // 字体种类 
+            [{ align: [] }], 
+            // 对齐方式 
+            ['clean'], 
+            // 清除文本格式 
+            ['link', 'image', 'video'] 
+            // 链接、图片、视频 
+          ];
+        }
+      }
     }, 
     data () {
-      // 工具栏配置 
-      const toolbarOptions = [ 
-        ['bold', 'italic', 'underline', 'strike'], 
-        // 加粗 斜体 下划线 删除线
-        ['blockquote', 'code-block'], 
-        // 引用 代码块 
-        [{ header: 1 }, { header: 2 }], 
-        // 1、2 级标题 
-        [{ list: 'ordered' }, { list: 'bullet' }], 
-        // 有序、无序列表 
-        [{ script: 'sub' }, { script: 'super' }], 
-        // 上标/下标 
-        [{ indent: '-1' }, { indent: '+1' }], 
-        // 缩进
-        // [{'direction': 'rtl'}], 
-        // 文本方向 
-        [{ size: ['small', false, 'large', 'huge'] }], 
-        // 字体大小 
-        [{ header: [1, 2, 3, 4, 5, 6, false] }], 
-        // 标题 
-        [{ color: [] }, { background: [] }], 
-        // 字体颜色、字体背景颜色 
-        [{ font: [] }], 
-        // 字体种类 
-        [{ align: [] }], 
-        // 对齐方式 
-        ['clean'], 
-        // 清除文本格式 
-        ['link', 'image', 'video'] 
-        // 链接、图片、视频 
-      ];
-
       return { 
+        id: 'editor_' + new Date().getTime() + parseInt(Math.random() * 100),
         content: this.value, 
         quillUpdateImg: false, 
         // 根据图片上传状态来确定是否显示loading动画，刚开始是false,不显示 
         editorOption: { 
           theme: 'snow', 
           // or 'bubble' 
-          placeholder: '您想说点什么？', 
+          placeholder: this.placeholder, 
           modules: { 
             imageResize: {},
             toolbar: { 
-              container: toolbarOptions, 
+              container: this.toolbar, 
               // container: '#toolbar', 
               handlers: { 
                 image: function (value) {
@@ -102,27 +111,31 @@
             } 
           } 
         }, 
-        serverUrl: '/v1/blog/imgUpload', 
-        // 这里写你要上传的图片服务器地址 
-        header: { 
-          // token: sessionStorage.token 
-          // 有的图片服务器要求请求头需要有token 
-        },
         fileOption: {
-          // accept: 'image/gif, image/jpeg',
-          multiple: true
+          accept: 'image/*',
+          // 'image/gif, image/jpeg',
+          multiple: false
         }
       }; 
     }, 
-    mounted: function () {
+    watch: {
       // 
+    },
+    beforeDestroy: function () {
+      window.removeEventListener('resize', this.resize);
+    },
+    mounted: function () {
+      this.resize();
+      window.addEventListener('resize', this.resize);
     },
     methods: { 
       onEditorBlur () { 
         // 失去焦点事件 
+        this.$emit('blur');
       }, 
       onEditorFocus () { 
         // 获得焦点事件 
+        this.$emit('focus');
       }, 
       onEditorChange () { 
         // 内容改变事件 
@@ -131,33 +144,15 @@
       // 选择文件后回调
       cbk_file: function (data) {
         var _this = this;
-
-        console.log(data);
+        
         this.beforeUpload();
-        setTimeout(function () {
-          _this.uploadSuccess({
-            code: 200,
-            url: 'http://img.zcool.cn/community/0117e2571b8b246ac72538120dd8a4.jpg@1280w_1l_2o_100sh.jpg'
-          });
-        }, 1000);
-        // 上传表单
-        // let formData = new FormData();
-
-        // formData.append('name', this.name);
-        // formData.append('age', this.age);
-        // formData.append('file', this.file);
-
-        // let config = {
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data'
-        //   }
-        // }
-
-        // this.$http.post('/upload', formData, config).then(function (res) {
-        //   if (res.status === 2000) {
-        //     /*这里做处理*/
-        //   }
-        // })
+        this.upImage(data, function (result) {
+          if (result.code === 200) {
+            _this.uploadSuccess({ code: 200, url: result.url });
+          } else {
+            _this.uploadError();
+          }
+        });
       },
       // 富文本图片上传前 
       beforeUpload () {
@@ -188,8 +183,13 @@
       uploadError () { 
         // loading动画消失 
         this.quillUpdateImg = false; 
-        this.$message.error('图片插入失败'); 
-      } 
+      },
+      resize: function () {
+        var domWrap = document.getElementById(this.id);
+        var domToolbar = domWrap.querySelector('.ql-toolbar');
+        
+        domWrap.style.height = 'calc(100% - ' + domToolbar.offsetHeight + 'px)';
+      }
     } 
   }; 
 </script> 
@@ -198,7 +198,6 @@
   .wrap-qll-editor {
     position: relative;
     width: 100%;
-    height: calc(100% - 42px);
   }
   .qll-editor { 
     line-height: normal !important; 
