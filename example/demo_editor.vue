@@ -56,6 +56,13 @@ export default {
       console.log(val);
     }
   },
+  mounted: function () {
+    var _this = this;
+    
+    setTimeout(function () {
+      _this.content = '';
+    }, 3000);
+  },
   methods: {
     upImage: function (data, callback) {
       console.log('======上传图片=======');      

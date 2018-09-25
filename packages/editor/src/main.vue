@@ -117,7 +117,9 @@
       }; 
     }, 
     watch: {
-      // 
+      value: function (val) {
+        this.content = val;
+      }
     },
     beforeDestroy: function () {
       window.removeEventListener('resize', this.resize);
