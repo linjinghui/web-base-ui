@@ -14,7 +14,7 @@ export default {
   },
   data: function () {
     return {
-      address: 'ddd',
+      address: null,
       option: {
         'placeholder': '请输入内容',
         'rows': '5',

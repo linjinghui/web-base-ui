@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper-pagebar-pagesize">
+  <div class="wrapper-pagebar-pagesize" v-if="totalPage&&totalPage>0">
     显示
     <cmp-drop-menu v-model="optionDropMenu.result" v-bind="optionDropMenu" :data="pagesizes" @cbkClkItem="cbkClkItem"></cmp-drop-menu>
     条

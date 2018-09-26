@@ -45,9 +45,10 @@
     computed: {
       residualSize: function () {
         let result;
+        let valLength = this.value ? this.value.length : 0;
 
         if (this.maxlength) {
-          result = this.maxlength - this.value.length;
+          result = this.maxlength - valLength;
         }
         return result;
       }
