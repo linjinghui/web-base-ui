@@ -6,6 +6,10 @@
     <table style="margin-top: 20px;" @dragover.stop>
       <tbody>
         <template v-for="(info, index) in list">
+          <tr style="border:dashed 1px #ccc;" :key="'_'+info.name" v-if="option.dragFlag&&option.dragoverIndex===index&&option.dragDrct==='up'">
+            <td></td>
+            <td></td>
+          </tr>
           <tr :key="info.name" 
             :draggable="option.dragFlag"                  
             v-show="option.dragIndex!==index" 
@@ -15,7 +19,7 @@
             <td>{{index}}</td>
             <td>{{info.name}}</td>
           </tr>
-          <tr style="border:dashed 1px #ccc;" :key="'_'+info.name" v-if="option.dragFlag&&option.dragoverIndex===index">
+          <tr style="border:dashed 1px #ccc;" :key="'_'+info.name" v-if="option.dragFlag&&option.dragoverIndex===index&&option.dragDrct==='down'">
             <td></td>
             <td></td>
           </tr>
@@ -60,7 +64,10 @@ export default {
         // start|end
         // dragStatus: 'end',
         dragIndex: '',
-        dragoverIndex: ''
+        dragoverIndex: '',
+        // up|down
+        dragDrct: 'down',
+        dragY: 0
       }
     };
   },
@@ -68,7 +75,9 @@ export default {
     'cmpButton': Button
   },
   watch: {
-    //
+    'option.dragY': function (val1, val2) {
+      this.option.dragDrct = (val1 > val2) ? 'down' : 'up';
+    }
   },
   mounted: function () {
     // alert('ready');
@@ -108,15 +117,14 @@ export default {
       if (this.option.dragoverIndex >= 0) {
         // TODO
         // console.log('====把[' + this.option.dragIndex + ']拖拽到[' + this.option.dragoverIndex + ']后面====');
-        this.list = this.moveArray(this.list, this.option.dragIndex, this.option.dragoverIndex, 1);
+        this.list = this.moveArray(this.list, this.option.dragIndex, this.option.dragoverIndex, (this.option.dragDrct === 'down') ? 1 : 0);
       }
       this.option.dragIndex = '';
       this.option.dragoverIndex = '';
     },
     dragover: function (index, e) {
       this.option.dragoverIndex = index;
-      // console.log('====拖拽经过====' + index);
-      // console.log(e);
+      e && (this.option.dragY = e.y);
     },
     drop: function (index, e) {
       console.log('====放下====' + index);
