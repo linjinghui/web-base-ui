@@ -108,8 +108,8 @@
 	width: 0.45em;
 	height: 0.225em;
 	border-width: 2px;
-	border-top-color: transparent;
-	border-right-color: transparent;
+	border-top-color: transparent!important;
+	border-right-color: transparent!important;
   transform: rotate(-45deg);
   transform-origin: center center;
 }
