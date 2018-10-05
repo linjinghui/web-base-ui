@@ -160,6 +160,14 @@
   };
 </script>
 
+<style lang="scss">
+  .wrap-menu {
+    .ps__scrollbar-x-rail,
+    .ps__scrollbar-y-rail {
+      z-index: 1;
+    }
+  }
+</style>
 <style scoped lang="scss">
   .wrap-menu {
     position: relative;

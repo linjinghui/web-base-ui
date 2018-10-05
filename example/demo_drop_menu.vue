@@ -16,6 +16,13 @@
         <span slot="line" slot-scope="props">{{props.item.text}}</span>
       </cmp-drop-menu>
     </div>
+
+    <div style="margin-top: 30px;">
+      <p>服务器检索</p>
+      <cmp-drop-menu v-bind="optionServer" v-model="optionServer.result" @cbkClkItem="cbkClkServer" @search="search">
+        <span slot="line" slot-scope="props">{{props.item.name}}</span>
+      </cmp-drop-menu>
+    </div>
   </div>
 </template>
 
@@ -56,6 +63,13 @@ export default {
         // '福州市', '宁德市', '莆田市', '泉州市', '厦门市', '漳州市', '南平市', '三明市', '龙岩市'
         data: [],
         result: []
+      },
+      optionServer: {
+        placeholder: '回车搜索',
+        show: true,
+        isSearch: false,
+        data: [],
+        result: []
       }
     };
   },
@@ -90,6 +104,24 @@ export default {
       console.log('====cbkClkXiang====');
       console.log(data);
     },
+    cbkClkServer: function (data) {
+      console.log('====cbkClkServer====');
+      console.log(data);
+    },
+    search: function (data) {
+      console.log('====search====');
+      console.log(data);
+      var _this = this;
+
+      this.optionServer.data = [];
+      this.optionServer.isSearch = true;
+      // 获取数据
+      setTimeout(function () {
+        _this.optionServer.isSearch = false;
+        _this.optionServer.data = _this.data2;
+        // _this.optionServer.data = [];
+      }, 3000);
+    }
   }
 };
 </script>

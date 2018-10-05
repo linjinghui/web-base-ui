@@ -5,8 +5,11 @@
 
 <template>
   <div class="wrap-drop-menu" @click.stop>
-    <cmp-input type="text" ref="dmIpt" v-model="iptValue" :placeholder="placeholder" :disabled="disabled+''==='true'" :readonly="multi?true:readonly" @keyup="evn_keyup">
-        <i class="cicon-arrow-bottom center-v" :disabled="disabled+''==='true'" :class="{'up': show}" slot="right" @click.stop="clk_arrow"></i>
+    <cmp-input type="text" ref="dmIpt" v-model="iptValue" :placeholder="placeholder" :disabled="disabled+''==='true'" :readonly="multi?true:readonly" @keyup="evn_keyup" @enter="evn_enter" @blur="evn_blur">
+        <i class="cicon-arrow-bottom center-v" v-if="!isSearch" :disabled="disabled+''==='true'" :class="{'up': show}" slot="right" @click.stop="clk_arrow"></i>
+        <i class="cicon-loading move-loop center-v" v-if="isSearch" slot="right" @click.stop="clk_arrow">
+          <span></span><span></span><span></span>
+        </i>
     </cmp-input>
     <cmp-menu ref="dmmeu" :show="show" :multi="multi" :data="data" v-model="result" @cbkClkItem="cbkClkItem">
       <template slot="line" slot-scope="props">
@@ -54,6 +57,9 @@
         }
       },
       multi: {
+        default: false
+      },
+      isSearch: {
         default: false
       }
     },
@@ -132,6 +138,14 @@
             dom.style.display = isMatch ? '' : 'none';
           }
         }
+      },
+      evn_enter: function () {
+        this.$emit('search', this.iptValue);
+      },
+      evn_blur: function () {
+        if (!this.multi) {
+          this.show = false;
+        }
       }
     }
   };
@@ -153,6 +167,11 @@
       }
       .cicon-arrow-bottom.up {
         transform: rotate(270deg);
+      }
+      >.cicon-loading {
+        font-size: 20px;
+        color: inherit;
+        background-color: transparent;
       }
     }
 
