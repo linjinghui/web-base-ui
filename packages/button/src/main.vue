@@ -4,6 +4,7 @@
 2、复制到剪贴版按钮（成功: 返回剪贴内容，错误：error）
 3、选择文件按钮（返回文件参数）
 4、计时器按钮
+5、打印按钮
 选择文件夹：webkitdirectory=""
  -->
 
@@ -59,7 +60,9 @@
       value: {
         type: Number,
         default: 0
-      }
+      },
+      // 打印ID
+      prnt: ''
     },
     watch: {
       disabled: function (val) {
@@ -113,11 +116,26 @@
       this.pdisabled = this.parseDisabled();
       // 初始化剪贴板
       this.init_copy_btn();
+      if (this.prnt) {
+        window.$ = require('jquery');
+        require('../../../static/print/jquery.PrintArea.js');
+      }
     },
     methods: {
       clk: function () {
-        // 控制复制和倒计时状态不允许点击
-        if (!this.copydata) {
+        if (this.prnt) {
+          var $ = window.$;
+          // iframe|popup 新窗口打开
+          var mode = 'iframe';
+          var close = true;
+          var extraCss = '';
+          var keepAttr = ['class', 'id', 'style'];
+          var headElements = '<meta charset="utf-8" />,<meta http-equiv="X-UA-Compatible" content="IE=edge"/>';
+          var options = { mode: mode, popClose: close, extraCss: extraCss, retainAttr: keepAttr, extraHead: headElements };
+
+          $(this.prnt).printArea(options);
+        } else if (!this.copydata) {
+          // 控制复制和倒计时状态不允许点击
           this.$emit('click');
         }
       },

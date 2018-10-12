@@ -32,6 +32,7 @@ import DemoForm from '../../example/demo_form.vue';
 import DemoAsideNav from '../../example/demo_aside_nav.vue';
 import DemoTab from '../../example/demo_tab.vue';
 import DemoEditor from '../../example/demo_editor.vue';
+import DemoStar from '../../example/demo_star.vue';
 
 Vue.use(Router);
 
@@ -192,6 +193,11 @@ export default new Router({
       path: '/demoEditor',
       name: 'demoEditor',
       component: DemoEditor
+    },
+    {
+      path: '/demoStar',
+      name: 'demoStar',
+      component: DemoStar
     }
   ]
 });

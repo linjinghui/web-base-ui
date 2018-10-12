@@ -14,7 +14,7 @@
         <slot name="content"></slot>
       </vperfect-scrollbar>
       <footer :style="cstl.footer" v-if="buttons&&buttons.length>0">
-        <cmp-button v-for="info in buttons" :theme="info.theme" :key="info.id" @click="clk_btn(info)">{{info.text}}</cmp-button>
+        <cmp-button v-for="info in buttons" :theme="info.theme" :prnt="info.prnt" :key="info.id" @click="clk_btn(info)">{{info.text}}</cmp-button>
       </footer>
     </div>
   </transition>

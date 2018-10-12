@@ -108,9 +108,10 @@
 	width: 0.45em;
 	height: 0.225em;
 	border-width: 2px;
-	border-top: 0;
-	border-right: 0;
-	transform: rotate(-45deg);
+	border-top-color: transparent!important;
+	border-right-color: transparent!important;
+  transform: rotate(-45deg);
+  transform-origin: center center;
 }
 
 [class^=cicon-search]:before {

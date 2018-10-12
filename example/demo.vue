@@ -30,6 +30,7 @@
     <a href="#/demoAsideNav">asideNav</a>
     <a href="#/demoTab">tab</a>
     <a href="#/demoEditor">editor</a>
+    <a href="#/demoStar">star</a>
   </div>
 </template>
 

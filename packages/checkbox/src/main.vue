@@ -115,7 +115,7 @@
     >i {
       margin-right: 6px;
       border-radius: 2px;
-      font-size: 16px;
+      font-size: 15px;
       border-color: #dcdfe6;
       background-color: #fff;
       vertical-align: -3px;

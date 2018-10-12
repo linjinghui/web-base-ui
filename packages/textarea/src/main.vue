@@ -83,7 +83,7 @@
 
     >textarea {
       display: block;
-      padding: 5px;
+      padding: 5px 10px;
       width: 100%;
       resize: none;
       border: 0;
