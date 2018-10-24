@@ -242,7 +242,7 @@
     span.active {
       color: #fff;
       border: 0;
-      background-color: #409eff;
+      background-color: var(--theme);
     }
   }
 

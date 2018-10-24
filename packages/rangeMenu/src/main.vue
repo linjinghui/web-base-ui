@@ -130,17 +130,19 @@
     }
 
     a.add {
-      color: #0079ff;
+      color: var(--theme);
       background-color: transparent;
       cursor: pointer;
     }
 
     a.add:hover {
-      color: #45abff;
+      color: var(--theme);
+      filter: sepia(80%);
     }
 
     a.add:active {
-      color: #1072ba;
+      color: var(--theme);
+      filter: sepia(50%);
     }
 
     a:not(.add):hover {

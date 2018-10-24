@@ -27,7 +27,7 @@
       value: '',
       theme: {
         type: String,
-        default: '#0079ff'
+        default: 'var(--theme)'
       },
       beforeclk: {
         type: Function

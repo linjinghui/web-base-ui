@@ -52,7 +52,7 @@
         default: 'min'
       },
       theme: {
-        default: '#409eff'
+        default: 'var(--theme)'
       },
       placeholder: {
         default: '请选择日期'

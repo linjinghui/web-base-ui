@@ -204,7 +204,7 @@
     }
     >.line:active,
     >.line.active {
-      color: #409eff;
+      color: var(--theme);
       background-color: transparent;
 
       >.cicon-tick {

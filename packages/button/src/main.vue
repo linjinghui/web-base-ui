@@ -47,10 +47,7 @@
       };
     },
     props: {
-      theme: {
-        type: String,
-        default: 'primary'
-      },
+      theme: '',
       disabled: {
         default: false
       },
@@ -204,7 +201,7 @@
     display: inline-block;
     padding: 6px 15px;
     color: #fff;
-    background-color: #0079ff;
+    background-color:var(--theme);
     font-size: 12px;
     text-decoration: none;
     text-align: center;

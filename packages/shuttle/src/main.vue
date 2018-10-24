@@ -459,7 +459,7 @@ disabled：是否禁用
         }
 
         >.line.active {
-          color: #0079ff;
+          color: var(--theme);
         }
       }
     }

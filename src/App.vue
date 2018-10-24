@@ -105,6 +105,8 @@
 
 <style>
   body {
+    /* #0079ff */
+    --theme: purple;
     background-color: #efefef;
   }
 </style>

@@ -4,12 +4,13 @@
  -->
 
 <template>
-  <cmp-confirm v-bind="option" v-model="option.show">
+  <!-- <cmp-confirm v-bind="option" v-model="option.show"> -->
+  <cmp-confirm v-model="show" :modal="modal" :stl="stl" :buttons="buttons" @callback="cbkClk">
     <template slot="title">
       <slot name="title"></slot>
     </template>
     <span slot="content">
-      <cmp-input v-model="text" type="text" maxlength="1111" placeholder="请输入名称" autofocus="true" 
+      <cmp-input v-model="text" type="text" :maxlength="maxlength" :placeholder="placeholder" autofocus="true" 
         @enter="cbk_enter"></cmp-input>
     </span>
   </cmp-confirm>
@@ -26,20 +27,10 @@
       'cmpInput': Input
     },
     data: function () {
-      var _this = this;
-
       return {
         id: 'pmp_' + new Date().getTime() + parseInt(Math.random() * 100),
         text: '',
-        option: {
-          show: this.value,
-          modal: this.modal,
-          stl: this.stl,
-          buttons: this.buttons,
-          callback: function (data) {
-            _this.cbkClk(data);
-          }
-        }
+        show: this.value
       };
     },
     props: {
@@ -48,6 +39,8 @@
       modal: {
         default: true
       },
+      placeholder: '',
+      maxlength: '',
       // error|success|warning
       type: '',
       stl: '',
@@ -63,9 +56,9 @@
     },
     watch: {
       value: function (val) {
-        this.option.show = val;
+        this.show = val;
       },
-      'option.show': function (val) {
+      show: function (val) {
         this.$emit('input', val);
       }
     },

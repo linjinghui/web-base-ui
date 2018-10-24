@@ -203,7 +203,7 @@
     }
 
     >input:not([readonly]):focus {
-      border-color: #0079ff;
+      border-color: var(--theme);
     }
 
     >i {

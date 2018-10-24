@@ -100,7 +100,7 @@
   }
 
   .text-area.focus {
-    border-color: #0079ff;
+    border-color: var(--theme);
   }
 
   .text-area.disabled {

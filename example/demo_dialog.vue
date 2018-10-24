@@ -119,24 +119,26 @@ export default {
       this.$prompt({
         show: true,
         modal: true,
-        heading: '自定义标题',
+        heading: '自定义标题123',
+        placeholder: 'lala',
         stl: {
           footer: {
             // left|center|right
             'text-align': 'right'
           }
         },
+        maxlength: 10,
         buttons: [{
-          text: '放弃修改',
+          text: '放弃修改1',
           // primary|success|info|warning|danger|#f56c6c
-          theme: 'line'
+          theme: 'success'
         }, {
-          text: '修改',
-          theme: 'warning'
+          text: '修改2',
+          theme: 'danger'
         }],
         callback: function (data) {
           _this.$prompt({ show: false });
-          console.log('======Prompt callback22=====');
+          console.log('======Prompt callback=====');
           console.log(data);
         }
       });

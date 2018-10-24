@@ -36,7 +36,7 @@
         default: 0
       },
       theme: {
-        default: '#409eff'
+        default: 'var(--theme)'
       }
     },
     data () {

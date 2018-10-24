@@ -127,6 +127,8 @@
         <p style="color:red;font-size:12px;">注：以上信息由生产主体按生产记录诚信档案内容录入上传，主体对信息真实性负责。</p>
       </div>
     </cmp-dialog>
+    
+    <cmp-button>默认主题色</cmp-button>
   </div>
 </template>
 
