@@ -22,7 +22,9 @@ export default {
         // 当期页
         index: 1,
         // 总页数
-        totalPage: 10
+        totalPage: 10,
+        // 总记录数
+        totalSize: 101
       },
       optionPagebarPagesize: {
         // theme: 'simple',
@@ -33,7 +35,9 @@ export default {
         pagesizes: [
           100, 200, 300
         ],
-        pagesize: 300
+        pagesize: 300,
+        // 总记录数
+        totalSize: 101
       }
     };
   },

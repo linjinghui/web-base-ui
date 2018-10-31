@@ -19,6 +19,7 @@
       <i class="cicon-arrow-right"></i>
       <small>下一页</small>
     </span>
+    <label class="total">共{{totalSize}}条</label>
   </div>
 </template>
 
@@ -49,6 +50,9 @@
         default: 0
       },
       'totalPage': {
+        default: 0
+      },
+      'totalSize': {
         default: 0
       }
     },
@@ -243,6 +247,11 @@
       color: #fff;
       border: 0;
       background-color: var(--theme);
+    }
+
+    .total {
+      padding: 0 10px;
+      line-height: 24px;
     }
   }
 

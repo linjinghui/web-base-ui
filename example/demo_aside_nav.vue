@@ -152,12 +152,11 @@ export default {
 </script>
 
 <style scoped>
-  /* 全局 */
+ /* 全局 */
   .aside-nav {
     position: relative;
     width: 100%;
     color: #b8c7ce;
-    font-size: 12px;
     user-select: none;
   }
   .aside-nav li > a {
@@ -173,17 +172,26 @@ export default {
     vertical-align: middle;
   }
   .aside-nav li > a > .i-l {
-    border: solid 1px red;
+    width: 22px;
+    border: solid 1px transparent;
+  }
+  .aside-nav li > a > .fa-circle-o {
+    line-height: 20px;
+    font-size: 14px;
+    text-align: center;
   }
   .aside-nav li > a > .i-r {
     float: right;
-    border: solid 1px green;
+    border: solid 1px transparent;
   }
   .aside-nav li > a > .arrow {
+    line-height: 14px;
+    text-align: center;
+    transform: rotate(90deg);
     transition: transform .4s ease;
   }
   .aside-nav li > a.open > .arrow {
-    transform: rotate(-90deg);
+    transform: rotate(0deg);
   }
     
   /* 除了最上层 */
@@ -191,7 +199,7 @@ export default {
     width: 100%;
     overflow: hidden;
     color: #8aa4af;
-    /* background-color: #2c3b41; */
+    background-color: #2c3b41;
     transition: max-height .4s ease;
   }
   .aside-nav ul > li > a {
@@ -209,10 +217,10 @@ export default {
     border-left: solid 3px transparent;
   }
   .aside-nav > li > ul > li > a {
-    padding-left: 22px;
+    padding-left: 26px;
   }
   .aside-nav > li > ul > li > ul > li > a {
-    padding-left: 32px;
+    padding-left: 36px;
   }
 
   /* theme */
@@ -222,6 +230,6 @@ export default {
     background-color: #1e282c;
   }
   .aside-nav > li > a.active {
-    border-color: #3c8dbc;
-  }
+    border-color: var(--theme);
+  }  
 </style>

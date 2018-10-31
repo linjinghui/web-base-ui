@@ -5,7 +5,7 @@
         <slot name="head"></slot>
       </thead>
       <tbody>
-        <slot name="body" :item="item" v-for="item in data"></slot>
+        <slot name="body" :item="item" :index="index" v-for="(item, index) in data"></slot>
       </tbody>
     </table>
   </vperfect-scrollbar>

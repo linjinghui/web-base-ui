@@ -3,7 +3,7 @@
     显示
     <cmp-drop-menu v-model="optionDropMenu.result" v-bind="optionDropMenu" :data="pagesizes" @cbkClkItem="cbkClkItem"></cmp-drop-menu>
     条
-    <cmp-pagebar :theme="theme" :lenth="lenth" :asideLenth="asideLenth" :index="pindex" :totalPage="totalPage" @callback="callback"></cmp-pagebar>
+    <cmp-pagebar :theme="theme" :lenth="lenth" :asideLenth="asideLenth" :index="pindex" :totalPage="totalPage" :totalSize="totalSize" @callback="callback"></cmp-pagebar>
   </div>
 </template>
 
@@ -55,6 +55,9 @@
         default: function () {
           return [10, 20, 40, 80, 100];
         }
+      },
+      'totalSize': {
+        default: 0
       }
     },
     mounted: function () {

@@ -2,13 +2,13 @@
   <div style="width: 100%;height: 500px;">
     <cmp-table v-bind="option" ref="rtable" @callback="callback">
       <tr slot="head">
-        <td @click="clkOrder('id')">序号</td>
+        <td class="no-order">序号</td>
         <td @click="clkOrder('name')">姓名</td>
         <td @click="clkOrder('age')">年龄</td>
         <td class="no-order">操作</td>
       </tr>
       <tr slot="body" slot-scope="props">
-        <td>{{props.item.id}}</td><td>{{props.item.name}}</td><td>{{props.item.age}}</td>
+        <td>{{props.index}}</td><td>{{props.item.name}}</td><td>{{props.item.age}}</td>
         <td>
           <cmp-button v-if="props.item.state===1" @click="clk_item(props.item)">修改</cmp-button>
           <cmp-button v-if="props.item.state===2" theme="red" @click="clk_del(props.item)">删除</cmp-button>
