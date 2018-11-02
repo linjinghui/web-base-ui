@@ -6,7 +6,7 @@
 
 <template>
   <ul class="wrap-bread">
-    <li v-for="(item,index) in list" :key="'_brd_'+index" @click="clkItem(index)">{{item.name}}</li>
+    <li v-for="(item,index) in list" :key="'_brd_'+index" :class="{'disabled':item.disabled}" @click="clkItem(index)">{{item.name}}</li>
   </ul>
 </template>
 
@@ -41,7 +41,7 @@
     },
     methods: {
       clkItem: function (index) {
-        if (index !== (this.list.length - 1)) {
+        if (index !== (this.list.length - 1) && !this.list[index].disabled) {
           var data = this.list;
 
           data.splice(index + 1, this.list.length);
@@ -58,7 +58,6 @@
     width: 100%;
     height: 30px;
     overflow: hidden;
-    border: solid 1px;
     user-select: none;
 
     > li {
@@ -69,8 +68,12 @@
       cursor: pointer;
     }
 
+    > li.disabled {
+      cursor: text;
+    }
+
     > li:after {
-      content: '>';
+      content: ' > ';
     }
     > li:last-of-type {
       color: inherit;

@@ -15,7 +15,7 @@ export default {
     return {
       optionBreadcrumbs: {
         list: [
-          {name: 'nav1'}, {name: 'nav2'}, {name: 'nav3'}, {name: 'nav4'}
+          {name: 'nav1', disabled: true}, {name: 'nav2'}, {name: 'nav3', disabled: true}, {name: 'nav4'}
         ]
       }
     };
