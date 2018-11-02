@@ -602,6 +602,14 @@ div[placeholder]:empty:before {
     filter:FlipV;
 }
 
+.f-l {
+    float: left;
+}
+
+.f-r {
+    float: right;
+}
+
 /*隐藏*/
 .hide {
     display: none;
