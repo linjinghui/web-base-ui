@@ -22,6 +22,7 @@
     </cmp-dialog>
     <button @click="showDialog">showDialog</button>
     <button @click="showConfirm">showConfirm</button>
+    <button @click="showBigConfirm">showBigConfirm</button>
     <button @click="showPrompt">showPrompt</button>
   </div>
 </template>
@@ -83,6 +84,46 @@ export default {
         content: '你今天还能为其他未投过票的参选者投<font style="color: red;">1</font>票',
         // error|success|warning
         type: 'success',
+        stl: {
+          header: {
+            // left|center
+            'text-align': 'center'
+          },
+          section: {
+            // left|center|right
+            'text-align': 'center'
+          },
+          footer: {
+            // left|center|right
+            'text-align': 'center'
+          }
+        },
+        buttons1: [],
+        buttons: [{
+          text: '放弃修改',
+          // primary|success|info|warning|danger|#f56c6c
+          theme: 'line'
+        }, {
+          text: '修改',
+          theme: 'warning'
+        }],
+        callback: function (data) {
+          _this.$confirm({ show: false });
+          console.log('======confirm callback=====');
+          console.log(data);
+        }
+      });
+    },
+    showBigConfirm: function () {
+      var _this = this;
+
+      this.$confirm({
+        show: true,
+        modal: true,
+        heading: '投票',
+        content: '你今天还能为其他未投过票的参选者投<font style="color: red;">1</font>票',
+        // error|success|warning|bigsuccess|bigerror|bigwarning
+        type: 'bigwarning',
         stl: {
           header: {
             // left|center

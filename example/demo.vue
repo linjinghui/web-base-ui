@@ -31,6 +31,7 @@
     <a href="#/demoTab">tab</a>
     <a href="#/demoEditor">editor</a>
     <a href="#/demoStar">star</a>
+    <a href="#/demoBreadcrumbs">breadcrumbs</a>
   </div>
 </template>
 

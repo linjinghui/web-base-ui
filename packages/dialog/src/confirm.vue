@@ -5,15 +5,16 @@
 
 <template>
   <transition name="slide-fade">
-    <div class="wrap-confirm" :class="{'no-footer': !(buttons&&buttons.length>0)}" :style="{'z-index': zIndex + 1}" v-if="value+''==='true'">
+    <div class="wrap-confirm" :class="{'big': isBig, 'no-footer': !(buttons&&buttons.length>0)}" :style="{'z-index': zIndex + 1}" v-if="value+''==='true'">
       <i class="cicon-cross-chr" @click="clk_hide"></i>
       <header :style="cstl.header">
-        <slot name="title"></slot>
+        <p class="title" v-if="!isBig"><slot name="title"></slot></p>
       </header>
       <vperfect-scrollbar :settings="settings" :style="cstl.section">
-        <i class="cicon-cross-crle" v-if="type==='error'"></i>
-        <i class="cicon-tick-crle" v-else-if="type==='success'"></i>
-        <i class="cicon-exclamation-crle" v-else-if="type==='warning'"></i>
+        <i class="cicon-cross-crle" v-if="type.indexOf('error')>=0"></i>
+        <i class="cicon-tick-crle" v-else-if="type.indexOf('success')>=0"></i>
+        <i class="cicon-exclamation-crle" v-else-if="type.indexOf('warning')>=0"></i>
+        <p class="title" v-if="isBig"><slot name="title"></slot></p>
         <slot name="content"></slot>
       </vperfect-scrollbar>
       <!-- </section> -->
@@ -51,7 +52,7 @@
       modal: {
         default: true
       },
-      // error|success|warning
+      // error|success|warning|bigsuccess
       type: '',
       stl: {
         type: Object,
@@ -99,6 +100,9 @@
     computed: {
       cstl: function () {
         return Object.assign(this.stlDefVal(), this.stl);
+      },
+      isBig: function () {
+        return this.type.indexOf('big') === 0;
       }
     },
     beforeDestroy: function () {
@@ -160,7 +164,7 @@
   .wrap-confirm {
     position: fixed;
     margin: auto;
-    padding-bottom: 10px;
+    padding-bottom: 14px;
     top: 0;
     right: 0;
     bottom: 0;
@@ -199,6 +203,10 @@
       height: calc(100% - 50px - 40px);
       word-break: break-all;
 
+      // >.title {
+      //   display: none;
+      // }
+
       >[class^="cicon"] {
         font-size: 24px;
         color: #fff;
@@ -232,6 +240,34 @@
 
       >.button:first-of-type {
         margin-left: 0;
+      }
+    }
+  }
+
+  .wrap-confirm.big {
+    height: 270px;
+
+    > header {
+      height: 40px;
+
+      // > .title {
+      //   display: none;
+      // }
+    }
+
+    > section {
+      > [class^="cicon"] {
+        font-size: 64px;
+      }
+
+      > .title {
+        display: inherit;
+        margin: 20px 0 10px 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        color: #333;
+        font-size: 18px;
       }
     }
   }

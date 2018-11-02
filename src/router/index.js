@@ -33,6 +33,8 @@ import DemoAsideNav from '../../example/demo_aside_nav.vue';
 import DemoTab from '../../example/demo_tab.vue';
 import DemoEditor from '../../example/demo_editor.vue';
 import DemoStar from '../../example/demo_star.vue';
+import DemoBreadcrumbs from '../../example/demo_breadcrumbs.vue';
+
 
 Vue.use(Router);
 
@@ -198,6 +200,11 @@ export default new Router({
       path: '/demoStar',
       name: 'demoStar',
       component: DemoStar
+    },
+    {
+      path: '/demoBreadcrumbs',
+      name: 'demoBreadcrumbs',
+      component: DemoBreadcrumbs
     }
   ]
 });
