@@ -74,8 +74,19 @@
       result: function (val) {
         this.$emit('input', val);
       },
+      data: function () {
+        // alert(1);
+        this.$nextTick(function () {
+          this.setIptValue();
+        });
+      },
       value: function (val) {
         this.setIptValue();
+      },
+      iptValue: function (val) {
+        if (!val) {
+          this.result = [];
+        }
       },
       show: function (val) {
         if (val) {
@@ -119,7 +130,27 @@
         var arr = [];
 
         for (let i = 0;i < indexArr.length;i++) {
-          arr[arr.length] = domMenuItems[indexArr[i]].innerText;
+          var item = indexArr[i];
+
+          if (isNaN(item)) {
+            // 字符串
+            arr[arr.length] = (function () {
+              var str = '';
+
+              for (let j = 0;j < domMenuItems.length;j++) {
+                var innerText = domMenuItems[j] ? domMenuItems[j].innerText : '';
+
+                if (innerText.indexOf(item) >= 0) {
+                  str = innerText;
+                  break;
+                }
+              }
+              return str;
+            }());
+          } else {
+            // 下标 
+            arr[arr.length] = domMenuItems[item] ? domMenuItems[item].innerText : '';
+          }
         }
         this.iptValue = arr.join('、');
       },

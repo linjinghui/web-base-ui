@@ -6,13 +6,13 @@
 
     <div style="margin-top: 30px;">
       <p>区域级联</p>
-      <cmp-drop-menu v-bind="optionCity" v-model="optionCity.result" @cbkClkItem="cbkClkCity">
+      <cmp-drop-menu ref="city" v-bind="optionCity" v-model="optionCity.result" @cbkClkItem="cbkClkCity">
         <span slot="line" slot-scope="props">{{props.item.text}}</span>
       </cmp-drop-menu>
-      <cmp-drop-menu v-bind="optionXian" v-model="optionXian.result" @cbkClkItem="cbkClkXian">
+      <cmp-drop-menu ref="xian" v-bind="optionXian" v-model="optionXian.result" @cbkClkItem="cbkClkXian">
         <span slot="line" slot-scope="props">{{props.item.text}}</span>
       </cmp-drop-menu>
-      <cmp-drop-menu v-bind="optionXiang" v-model="optionXiang.result" @cbkClkItem="cbkClkXiang">
+      <cmp-drop-menu ref="xiang" v-bind="optionXiang" v-model="optionXiang.result" @cbkClkItem="cbkClkXiang">
         <span slot="line" slot-scope="props">{{props.item.text}}</span>
       </cmp-drop-menu>
     </div>
@@ -49,12 +49,14 @@ export default {
         placeholder: '选择城市',
         show: true,
         data: geoinfo[0].child,
+        // result: ['北京']
         result: []
       },
       optionXian: {
         placeholder: '选择区县',
         show: true,
-        data: [],
+        data: [2],
+        // result: ['海淀']
         result: []
       },
       optionXiang: {
@@ -78,6 +80,14 @@ export default {
   },
   watch: {
     //
+  },
+  mounted: function ()　{
+    var _this = this;
+
+    setTimeout(function () {
+      _this.$refs.city.iptValue = '北京';
+      _this.$refs.xian.iptValue = '海淀区';
+    }, 1000);
   },
   methods: {
     cbkClkItem: function (data) {
