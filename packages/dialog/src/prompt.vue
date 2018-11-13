@@ -10,8 +10,7 @@
       <slot name="title"></slot>
     </template>
     <span slot="content">
-      <cmp-input v-model="text" type="text" :maxlength="maxlength" :placeholder="placeholder" autofocus="true" 
-        @enter="cbk_enter"></cmp-input>
+      <cmp-input v-model="text" type="text" :maxlength="maxlength" :placeholder="placeholder" autofocus="true" @enter="cbk_enter"></cmp-input>
     </span>
   </cmp-confirm>
 </template>
@@ -40,7 +39,9 @@
         default: true
       },
       // 初始文本
-      initText: '',
+      initText: {
+        default: ''
+      },
       placeholder: '',
       maxlength: '',
       // error|success|warning
@@ -62,10 +63,13 @@
       },
       show: function (val) {
         this.$emit('input', val);
-      },
-      initText: function (val) {
-        this.text = val;
+        if (val) {
+          this.text = this.initText;
+        }
       }
+      // initText: function (val) {
+      //   this.text = val;
+      // }
     },
     computed: {
       // 
@@ -82,12 +86,12 @@
           'type': 'enter',
           'value': this.text
         });
-        this.text = '';
+        // this.text = '';
       },
       cbkClk: function (data) {
         data.value = this.text;
         this.callback(data);
-        this.text = '';
+        // this.text = '';
       }
     }
   };
