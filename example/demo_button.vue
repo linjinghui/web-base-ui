@@ -141,6 +141,7 @@ export default {
     return {
       fileOption: {
         // accept: 'image/gif, image/jpeg',
+        // accept: 'application/x-zip-compressed',
         multiple: true
       },
       second: 0,

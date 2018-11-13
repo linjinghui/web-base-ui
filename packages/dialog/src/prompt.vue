@@ -29,7 +29,7 @@
     data: function () {
       return {
         id: 'pmp_' + new Date().getTime() + parseInt(Math.random() * 100),
-        text: '',
+        text: this.initText,
         show: this.value
       };
     },
@@ -39,6 +39,8 @@
       modal: {
         default: true
       },
+      // 初始文本
+      initText: '',
       placeholder: '',
       maxlength: '',
       // error|success|warning
@@ -60,6 +62,9 @@
       },
       show: function (val) {
         this.$emit('input', val);
+      },
+      initText: function (val) {
+        this.text = val;
       }
     },
     computed: {

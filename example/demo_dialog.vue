@@ -161,6 +161,7 @@ export default {
         show: true,
         modal: true,
         heading: '自定义标题123',
+        initText: 'ddd',
         placeholder: 'lala',
         stl: {
           footer: {
