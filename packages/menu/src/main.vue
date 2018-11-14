@@ -190,6 +190,9 @@
       height: 30px;
       line-height: 30px;
       cursor: pointer;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
 
       >.cicon-tick {
         display: none;

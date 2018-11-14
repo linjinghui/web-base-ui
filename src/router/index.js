@@ -34,7 +34,7 @@ import DemoTab from '../../example/demo_tab.vue';
 import DemoEditor from '../../example/demo_editor.vue';
 import DemoStar from '../../example/demo_star.vue';
 import DemoBreadcrumbs from '../../example/demo_breadcrumbs.vue';
-
+import DemoImageViewer from '../../example/demo_image_viewer.vue';
 
 Vue.use(Router);
 
@@ -205,6 +205,11 @@ export default new Router({
       path: '/demoBreadcrumbs',
       name: 'demoBreadcrumbs',
       component: DemoBreadcrumbs
+    },
+    {
+      path: '/demoImageViewer',
+      name: 'demoImageViewer',
+      component: DemoImageViewer
     }
   ]
 });

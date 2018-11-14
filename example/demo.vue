@@ -32,6 +32,7 @@
     <a href="#/demoEditor">editor</a>
     <a href="#/demoStar">star</a>
     <a href="#/demoBreadcrumbs">breadcrumbs</a>
+    <a href="#/demoImageViewer">imageViewer</a>
   </div>
 </template>
 
