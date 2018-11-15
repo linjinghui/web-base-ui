@@ -33,6 +33,7 @@
     <a href="#/demoStar">star</a>
     <a href="#/demoBreadcrumbs">breadcrumbs</a>
     <a href="#/demoImageViewer">imageViewer</a>
+    <a href="#/demoMap">map</a>
   </div>
 </template>
 
