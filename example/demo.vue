@@ -34,6 +34,7 @@
     <a href="#/demoBreadcrumbs">breadcrumbs</a>
     <a href="#/demoImageViewer">imageViewer</a>
     <a href="#/demoMap">map</a>
+    <a href="#/demoSwapSort">swapSort</a>
   </div>
 </template>
 

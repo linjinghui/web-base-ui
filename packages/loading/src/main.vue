@@ -11,7 +11,8 @@
     <div class="loading center-hv"
       v-if="('true' === value + '')"
       :style="{'z-index': zIndex + 1}">
-      <i class="cicon-circle-loading move-loop"></i>
+      <!-- <i class="cicon-circle-loading move-loop"></i> -->
+      <i class="cicon-loading move-loop"><span></span><span></span><span></span></i>
       <span>{{ptext}}</span>
     </div>
   </keep-alive>
@@ -50,11 +51,11 @@
         }
       },
       modal: function (val) {
-        if (val + '' === 'true' && this.value + '' === 'true') {
-          this.creatZz();
-        } else {
-          this.removeZz();
-        }
+        // if (val + '' === 'true' && this.value + '' === 'true') {
+        //   this.creatZz();
+        // } else {
+        //   this.removeZz();
+        // }
       },
       text: function (val) {
         this.ptext = val;
@@ -90,7 +91,7 @@
         this.changeDisplay(false);
       },
       changeDisplay: function (type) {
-        this.$emit('input', type);
+        this.$emit('input', type); 
       },
       escEvent: function (e) {
         let event = e || window.event;
@@ -100,7 +101,7 @@
         }
       },
       creatZz: function () {
-        if (this.modal + '' === 'true') {
+        if (this.modal + '' === 'true' && this.value + '' === 'true') {
           var dom = document.createElement('div');
 
           dom.setAttribute('id', this.id);

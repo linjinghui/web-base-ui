@@ -23,7 +23,7 @@
         optionLoading: {
           show: false,
           text: '请您稍后！',
-          modal: false
+          modal: true
         },
         optionTip: {
           show: false,
