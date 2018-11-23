@@ -37,6 +37,7 @@ import DemoBreadcrumbs from '../../example/demo_breadcrumbs.vue';
 import DemoImageViewer from '../../example/demo_image_viewer.vue';
 import DemoMap from '../../example/demo_map.vue';
 import DemoSwapSort from '../../example/demo_swap_sort.vue';
+import DemoDivEditor from '../../example/demo_div_editor.vue';
 
 Vue.use(Router);
 
@@ -222,6 +223,11 @@ export default new Router({
       path: '/demoSwapSort',
       name: 'demoSwapSort',
       component: DemoSwapSort
+    },
+    {
+      path: '/demoDivEditor',
+      name: 'demoDivEditor',
+      component: DemoDivEditor
     }
   ]
 });

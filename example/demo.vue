@@ -35,6 +35,7 @@
     <a href="#/demoImageViewer">imageViewer</a>
     <a href="#/demoMap">map</a>
     <a href="#/demoSwapSort">swapSort</a>
+    <a href="#/demoDivEditor">divEditor</a>
   </div>
 </template>
 
