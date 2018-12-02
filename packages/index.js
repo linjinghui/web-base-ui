@@ -29,6 +29,7 @@ import ImageViewer from './imageViewer/index';
 import Map from './map/index';
 import SwapSort from './swapSort/index';
 import DivEditor from './divEditor/index';
+import Video from './Video/index';
 
 const components = [Loading, Tip, Confirm, Prompt];
 const install = function (Vue) {
@@ -38,4 +39,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, PagebarPagesize, Echarts, EchartsPie, ImageCrop, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, ImageViewer, Map, SwapSort, DivEditor};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, PagebarPagesize, Echarts, EchartsPie, ImageCrop, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, ImageViewer, Map, SwapSort, DivEditor, Video};
