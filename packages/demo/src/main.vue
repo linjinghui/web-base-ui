@@ -14,7 +14,7 @@
     name: 'Demo',
     data: function () {
       return {
-        // 
+        id: 'demo_' + new Date().getTime() + parseInt(Math.random() * 100)
       };
     },
     props: {
