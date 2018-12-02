@@ -5,7 +5,9 @@
 
 <template>
   <transition name="slide-fade">
-    <div class="wrap-gd-map" :id="id" v-if="value!==''" v-show="value"></div>
+    <div class="wrap-gd-map" :id="id" v-if="value!==''" v-show="value">
+      <loading class="map-loading" v-model="optionLoading.show" v-bind="optionLoading"></loading>
+    </div>
   </transition>
 </template>
 
@@ -14,6 +16,11 @@
     name: 'Map',
     data: function () {
       return {
+        optionLoading: {
+          show: true,
+          text: '地图资源加载中...',
+          modal: false
+        },
         id: 'map_' + new Date().getTime() + parseInt(Math.random() * 100),
         gdmap: {
           name: 'gdmap',
@@ -94,6 +101,8 @@
 
 
         this.setMapTheme();
+        // 删除加载动画
+        this.optionLoading.show = false;
       },
       // 添加实时路况图层
       addLayer: function () {
@@ -154,6 +163,15 @@
     }
   };
 </script>
+
+<style>
+  .map-loading {
+    position: absolute!important;
+    color: #666!important;
+    background-color: inherit!important;
+    box-shadow: none!important;
+  }
+</style>
 
 <style scoped lang="scss">
   .wrap-gd-map {

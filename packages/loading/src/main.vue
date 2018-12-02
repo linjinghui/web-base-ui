@@ -11,8 +11,8 @@
     <div class="loading center-hv"
       v-if="('true' === value + '')"
       :style="{'z-index': zIndex + 1}">
-      <!-- <i class="cicon-circle-loading move-loop"></i> -->
-      <i class="cicon-loading move-loop"><span></span><span></span><span></span></i>
+      <i class="cicon-circle-loading move-loop" v-if="type==='circle'"></i>
+      <i class="cicon-loading move-loop" v-if="type==='line'"><span></span><span></span><span></span></i>
       <span>{{ptext}}</span>
     </div>
   </keep-alive>
@@ -40,6 +40,10 @@
       },
       text: {
         default: '加载中...'
+      },
+      // circle | line
+      type: {
+        default: 'circle'
       }
     },
     watch: {
