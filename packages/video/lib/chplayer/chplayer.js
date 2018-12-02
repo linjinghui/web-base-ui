@@ -444,7 +444,7 @@
 			var i = 0;
 
 			this.CD = this.getByElement(v['container']);
-			volume = v['volume'];
+			var volume = v['volume'];
 			if(!this.CD) {
 				this.eject(this.errorList[6], v['container']);
 				return false;
@@ -461,14 +461,15 @@
 			this.PD = this.getByElement(playerID); //PD:定义播放器容器对象全局变量
 			this.css(this.CD, {
 				backgroundColor: '#000000',
-				overflow: 'hidden',
-				position: 'relative'
+				overflow: 'hidden'
+				// position: 'relative'
 			});
 			this.css(this.PD, {
 				backgroundColor: '#000000',
 				width: '100%',
 				height: '100%',
-				fontFamily: '"Microsoft YaHei", YaHei, "微软雅黑", SimHei,"\5FAE\8F6F\96C5\9ED1", "黑体",Arial'
+				// fontFamily: '"Microsoft YaHei", YaHei, "微软雅黑", SimHei,"\5FAE\8F6F\96C5\9ED1", "黑体",Arial'
+				fontFamily: ''
 			});
 
 			if(this.html5Video) { //如果支持HTML5-VIDEO则默认使用HTML5-VIDEO播放器
@@ -2088,7 +2089,8 @@
 					height: '30px',
 					lineHeight: '30px',
 					margin: '0px',
-					fontFamily: '"Microsoft YaHei", YaHei, "微软雅黑", SimHei,"\5FAE\8F6F\96C5\9ED1", "黑体",Arial',
+					// fontFamily: '"Microsoft YaHei", YaHei, "微软雅黑", SimHei,"\5FAE\8F6F\96C5\9ED1", "黑体",Arial',
+					fontFamily: '',
 					fontSize: '12px',
 					paddingLeft: '10px',
 					paddingRight: '30px'
@@ -3396,7 +3398,8 @@
 						text: arr[i],
 						fontColor: '#FFFFFF',
 						fontSize: 16,
-						fontFamily: '"Microsoft YaHei", YaHei, "微软雅黑", SimHei,"\5FAE\8F6F\96C5\9ED1", "黑体",Arial',
+						// fontFamily: '"Microsoft YaHei", YaHei, "微软雅黑", SimHei,"\5FAE\8F6F\96C5\9ED1", "黑体",Arial',
+						fontFamily: '',
 						lineHeight: 30,
 					}],
 					position: [1, 2, null, -(arr.length - i) * 30 - 50]
@@ -3916,7 +3919,8 @@
 								text: '', //文本内容
 								fontColor: '#FFFFFF',
 								fontSize: 14,
-								fontFamily: '"Microsoft YaHei", YaHei, "微软雅黑", SimHei,"\5FAE\8F6F\96C5\9ED1", "黑体",Arial',
+								// fontFamily: '"Microsoft YaHei", YaHei, "微软雅黑", SimHei,"\5FAE\8F6F\96C5\9ED1", "黑体",Arial',
+								fontFamily: '',
 								lineHeight: 0,
 								alpha: 1, //透明度
 								paddingLeft: 0, //左边距离
@@ -4973,7 +4977,7 @@
 			var chars = 'abcdefghijklmnopqrstuvwxyz';
 			var maxPos = chars.length;　　
 			var val = '';
-			for(i = 0; i < len; i++) {
+			for(var i = 0; i < len; i++) {
 				val += chars.charAt(Math.floor(Math.random() * maxPos));
 			}
 			return 'ch' + val;
@@ -5116,7 +5120,7 @@
 		supportVideo: function() {
 			if(!!document.createElement('video').canPlayType) {
 				var vidTest = document.createElement("video");
-				oggTest = vidTest.canPlayType('video/ogg; codecs="theora, vorbis"');
+				var oggTest = vidTest.canPlayType('video/ogg; codecs="theora, vorbis"');
 				if(!oggTest) {
 					h264Test = vidTest.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"');
 					if(!h264Test) {
