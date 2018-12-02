@@ -4,7 +4,9 @@
  -->
 
 <template>
-  <div class="wrap-gd-map" :id="id" v-if="value"></div>
+  <transition name="slide-fade">
+    <div class="wrap-gd-map" :id="id" v-if="value!==''" v-show="value"></div>
+  </transition>
 </template>
 
 <script type="text/babel">
@@ -23,7 +25,9 @@
       };
     },
     props: {
-      value: '',
+      value: {
+        default: ''
+      },
       // 地图初始化配置参数
       option: {
         default: function () {
@@ -32,7 +36,11 @@
       }
     },
     watch: {
-      // 
+      value: function (val, val2) {
+        if (val && val2 === '') {
+          this.includeGd();
+        }
+      }
     },
     computed: {
       // 
@@ -42,7 +50,7 @@
       this.map.destroy();
     },
     mounted: function () {
-      this.includeGd();
+      // 
     },
     methods: {
       includeGd: function () {
@@ -149,8 +157,30 @@
 
 <style scoped lang="scss">
   .wrap-gd-map {
+    position: fixed;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     width: 800px;
     height: 600px;
-    border: solid 1px;
+    background-color: #fff;
+    z-index: 3;
+  }
+
+  @keyframes zoomIn{0%{opacity:0;transform:scale3d(.3,.3,.3)}50%{opacity:1}}
+  @keyframes zoomOut{0%{opacity:1}50%{opacity:0;transform:scale3d(.3,.3,.3)}to{opacity:0}}
+  
+  .slide-fade-enter-active {
+    animation: zoomIn .5s;
+  }
+
+  .slide-fade-leave-active {
+    animation: zoomOut .5s;
+  }
+
+  .slide-fade-enter, .slide-fade-leave-to {
+    // right: -410px;
   }
 </style>

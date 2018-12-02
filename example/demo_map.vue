@@ -1,6 +1,7 @@
 <template>
   <div>
     <cmp-map ref="vmap" v-model="optMap.show" @click="clkMap"></cmp-map>
+    <button @click="toggle">显示、隐藏</button>
     <button @click="addMark">添加标记</button>
   </div>
 </template>
@@ -13,7 +14,7 @@ export default {
   data: function () {
     return {
       optMap: {
-        show: false
+        show: ''
       }
     };
   },
@@ -33,6 +34,9 @@ export default {
       console.log('======click======');
       console.log(data);
     },
+    toggle: function () {
+      this.optMap.show = !this.optMap.show;
+    },
     addMark: function () {
       this.$refs.vmap.addMark(119.302355, 26.110384, {
         // 自定义窗体
@@ -44,6 +48,9 @@ export default {
 };
 </script>
 
-<style scoped>
-
+<style>
+  .wrap-gd-map {
+    width: 80%!important;
+    height: 100%!important;
+  }
 </style>
