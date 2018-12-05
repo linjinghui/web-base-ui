@@ -5,8 +5,14 @@
 
 <template>
   <transition name="slide-fade">
-    <div class="wrap-gd-map" :id="id" v-if="value!==''" v-show="value">
-      <loading class="map-loading" v-model="optionLoading.show" v-bind="optionLoading"></loading>
+    <div class="wrap-gd-map" v-if="value!==''" v-show="value">
+      <header>
+        <span>{{title}}</span>
+        <i class="cicon-cross-cpt-chr" @click="clkClose"></i>
+      </header>
+      <section :id="id">
+        <loading class="map-loading" v-model="optionLoading.show" v-bind="optionLoading"></loading>
+      </section>
     </div>
   </transition>
 </template>
@@ -19,7 +25,8 @@
         optionLoading: {
           show: true,
           text: '地图资源加载中...',
-          modal: false
+          modal: false,
+          type: 'line'
         },
         id: 'map_' + new Date().getTime() + parseInt(Math.random() * 100),
         gdmap: {
@@ -35,6 +42,13 @@
       value: {
         default: ''
       },
+      // 是否模态，即是否产生遮罩效果
+      modal: {
+        default: true
+      },
+      title: {
+        default: '地图'
+      },
       // 地图初始化配置参数
       option: {
         default: function () {
@@ -46,6 +60,11 @@
       value: function (val, val2) {
         if (val && val2 === '') {
           this.includeGd();
+        }
+        if (val + '' === 'true') {
+          this.creatZz();
+        } else {
+          this.removeZz();
         }
       }
     },
@@ -159,6 +178,24 @@
         var themes = ['normal', 'macaron', 'graffiti', 'whitesmoke', 'dark', 'fresh', 'darkblue', 'blue', 'light', 'grey'];
         
         this.map.setMapStyle('amap://styles/' + ((type && themes.indexOf(type)) ? type : 'normal'));
+      },
+      clkClose: function () {
+        this.$emit('input', false);
+      },
+      creatZz: function () {
+        if (this.modal + '' === 'true' && this.value + '' === 'true') {
+          var dom = document.createElement('div');
+
+          dom.setAttribute('id', 'vdzz_' + this.id);
+          dom.setAttribute('class', 'center-hv');
+          dom.setAttribute('style', 'position: fixed;background-color: rgba(0, 0, 0, 0.1);z-index: ' + this.zIndex);
+          document.body.appendChild(dom);
+        }
+      },
+      removeZz: function () {
+        var dom = document.getElementById('vdzz_' + this.id);
+
+        dom && (document.body.removeChild(dom));
       }
     }
   };
@@ -185,6 +222,32 @@
     height: 600px;
     background-color: #fff;
     z-index: 3;
+
+    > header {
+      height: 45px;
+      border-bottom: solid 1px #eee;
+
+      > span {
+        float: left;
+        margin-left: 10px;
+        line-height: 45px;
+        font-size: 16px;
+        color: #333;
+      }
+
+      > .cicon-cross-cpt-chr {
+        float: right;
+        margin-top: 7.5px;
+        margin-right: 7.5px;
+        font-size: 30px;
+        color: #999;
+        // background-color: red;
+      }
+    }
+
+    > section {
+      height: calc(100% - 45px);
+    }
   }
 
   @keyframes zoomIn{0%{opacity:0;transform:scale3d(.3,.3,.3)}50%{opacity:1}}
@@ -199,6 +262,6 @@
   }
 
   .slide-fade-enter, .slide-fade-leave-to {
-    // right: -410px;
+    //  right: -410px;
   }
 </style>

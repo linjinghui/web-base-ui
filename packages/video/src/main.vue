@@ -119,6 +119,8 @@ https://github.com/niandeng-ckplayer/chplayer
           this.creatZz();
         } else {
           this.removeZz();
+          // this.player.stop();
+          this.player.pause();
         }
       },
       'opt.video': {
@@ -200,24 +202,26 @@ https://github.com/niandeng-ckplayer/chplayer
     left: 0;
     width: 800px;
     height: 600px;
-    background-color: #ddd;
+    background-color: #fff;
     z-index: 3;
 
     > header {
       height: 45px;
-      border-bottom: solid 1px #ddd;
+      border-bottom: solid 1px #eee;
 
       > span {
         float: left;
         margin-left: 10px;
         line-height: 45px;
+        font-size: 16px;
+        color: #333;
       }
 
       > .cicon-cross-cpt-chr {
         float: right;
-        margin-top: 5px;
-        margin-right: 5px;
-        font-size: 34px;
+        margin-top: 7.5px;
+        margin-right: 7.5px;
+        font-size: 30px;
         color: #999;
         // background-color: red;
       }

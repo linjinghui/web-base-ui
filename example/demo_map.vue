@@ -51,6 +51,6 @@ export default {
 <style>
   .wrap-gd-map {
     width: 80%!important;
-    height: 100%!important;
+    height: 80%!important;
   }
 </style>
