@@ -15,6 +15,12 @@
   window.Quill = Quill;
   Quill.register('modules/imageResize', require('quill-image-resize-module').default);
 
+  // 将自定义字体加入到白名单 
+  var Font = Quill.import('formats/font');  
+  
+  Font.whitelist = ['serif', 'monospace', 'Microsoft-YaHei', 'Sim-Sun', 'Kai-Ti', 'Sim-Hei', 'Li-Shu', 'Andale-Mono', 'Arial', 'Arial-Black', 'Comic-Sons-Ms', 'Impact', 'Times-New-Roman', 'Sans-Serif'];
+  Quill.register(Font, true);
+
   export default { 
     components: { 
       quillEditor,
@@ -126,6 +132,7 @@
     },
     mounted: function () {
       this.resize();
+      this.addBtnTitle();
       window.addEventListener('resize', this.resize);
     },
     methods: { 
@@ -189,6 +196,44 @@
         var domToolbar = domWrap.querySelector('.ql-toolbar');
         
         domWrap.style.height = 'calc(100% - ' + domToolbar.offsetHeight + 'px)';
+      },
+      addBtnTitle: function () {
+        var titleConfig = {
+          'ql-bold': '加粗',
+          'ql-color': '字体颜色',
+          'ql-font': '字体',
+          'ql-code': '插入代码',
+          'ql-italic': '斜体',
+          'ql-link': '添加链接',
+          'ql-background': '背景颜色',
+          'ql-size': '字体大小',
+          'ql-strike': '删除线',
+          'ql-script[value="super"]': '上标',
+          'ql-script[value="sub"]': '下标',
+          'ql-underline': '下划线',
+          'ql-blockquote': '引用',
+          'ql-header': '标题',
+          'ql-header[value="1"]': '标题1',
+          'ql-header[value="2"]': '标题2',
+          'ql-indent[value="-1"]': '向左缩进',
+          'ql-indent[value="+1"]': '向右缩进',
+          'ql-list[value="ordered"]': '有序列表',
+          'ql-list[value="bullet"]': '无序列表',
+          'ql-align': '文本对齐',
+          'ql-direction': '文本方向',
+          'ql-code-block': '代码块',
+          'ql-formula': '公式',
+          'ql-image': '图片',
+          'ql-video': '视频',
+          'ql-clean': '清除字体样式'
+        };
+
+        for (let key in titleConfig) { 
+          let frag = document.querySelector('.quill-editor .' + key);
+
+          if (!frag) continue;
+          frag.setAttribute('title', titleConfig[key]);
+        }
       }
     } 
   }; 
@@ -260,6 +305,91 @@
     .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=monospace]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=monospace]::before { 
       content: '等宽字体'; 
     }  
+
+    // 微软雅黑
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Microsoft-YaHei]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Microsoft-YaHei]::before { 
+      content: '微软雅黑'; 
+    }  
+    .ql-font-Microsoft-YaHei {
+      font-family: 微软雅黑, 'Microsoft YaHei';
+    }
+    // 宋体
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Sim-Sun]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Sim-Sun]::before { 
+      content: '宋体'; 
+    } 
+    .ql-font-Sim-Sun {
+      font-family: 宋体, SimSun;
+    }
+    // 楷体
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Kai-Ti]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Kai-Ti]::before { 
+      content: '楷体'; 
+    } 
+    .ql-font-Kai-Ti {
+      font-family: 楷体, 楷体_GB2312, SimKai;
+    }
+    // 黑体
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Sim-Hei]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Sim-Hei]::before { 
+      content: '黑体'; 
+    } 
+    .ql-font-Sim-Hei {
+      font-family: 黑体, SimHei;
+    }
+    // 隶书
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Li-Shu]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Li-Shu]::before { 
+      content: '隶书'; 
+    } 
+    .ql-font-Li-Shu {
+      font-family: 隶书, SimLi;
+    }
+    // andale mono
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Andale-Mono]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Andale-Mono]::before { 
+      content: 'andale mono'; 
+    } 
+    .ql-font-Andale-Mono {
+      font-family: 'andale mono';
+    }
+    // arial
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Arial]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Arial]::before { 
+      content: 'arial'; 
+    } 
+    .ql-font-Arial {
+      font-family: arial, helvetica, sans-serif;
+    }
+    // arial black
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Arial-Black]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Arial-Black]::before { 
+      content: 'arial black'; 
+    } 
+    .ql-font-Arial-Black {
+      font-family: 'arial black', 'avant garde';
+    }
+    // comic sons ms
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Comic-Sons-Ms]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Comic-Sons-Ms]::before { 
+      content: 'comic sons'; 
+    } 
+    .ql-font-Comic-Sons-Ms {
+      font-family: 'comic sans ms';
+    }
+    // impact
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Impact]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Impact]::before { 
+      content: 'impact'; 
+    } 
+    .ql-font-Impact {
+      font-family: impact, chicago;
+    }
+    // times new roman
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Times-New-Roman]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Times-New-Roman]::before { 
+      content: 'times roman'; 
+    } 
+    .ql-font-Times-New-Roman {
+      font-family: 'times new roman';
+    }
+    // sans-serif
+    .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Sans-Serif]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Sans-Serif]::before { 
+      content: 'sans-serif'; 
+    } 
+    .ql-font-Sans-Serif {
+      font-family: sans-serif;
+    }
   } 
     
 </style>
