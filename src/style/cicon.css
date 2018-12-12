@@ -68,7 +68,7 @@
 [class^=cicon-plus]:after,
 [class^=cicon-cross]:before,
 [class^=cicon-cross]:after {
-	width: 0.7em;
+	width: 0.5em;
 	height: 0;
 	border-top-width: 2px;
 }
@@ -105,8 +105,8 @@
 [class^=cicon-tick]:before {
   top: -0.2em;
   /* 3/4 */
-	width: 0.45em;
-	height: 0.225em;
+	width: 0.4em;
+	height: 0.22em;
 	border-width: 2px;
 	border-top-color: transparent!important;
 	border-right-color: transparent!important;

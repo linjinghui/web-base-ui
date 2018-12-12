@@ -10,14 +10,7 @@ export default {
   name: 'demoTip',
   data: function () {
     return {
-      show: false,
-      option: {
-        full: '',
-        // left|center
-        textAlign: '',
-        // primary|success|info|warning|danger|自定义
-        theme: 'success'
-      }      
+      // 
     };
   },
   watch: {
@@ -26,10 +19,12 @@ export default {
   methods: {
     toggle: function () {
       this.$tip({
-        full: true,
+        text: '点点滴滴',
         show: true,
         // left|center
-        textAlign: ''
+        textAlign: '',
+        // success|info|warning|danger, 移动端不支持：info
+        theme: 'success'
       });
     }
   }
