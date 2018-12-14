@@ -1,5 +1,5 @@
 <template>
-  <transition name="slide-fade">
+  <transition name="slide-fade-sidebar">
     <div class="wrap-aside"
       v-if="(value !== '')"
       v-show="(value + '' === 'true')">
@@ -98,15 +98,15 @@
     }
   }
 
-  .slide-fade-enter-active {
+  .slide-fade-sidebar-enter-active {
     transition: right .3s ease-in;
   }
 
-  .slide-fade-leave-active {
+  .slide-fade-sidebar-leave-active {
     transition: right .3s ease-out;
   }
 
-  .slide-fade-enter, .slide-fade-leave-to {
+  .slide-fade-sidebar-enter, .slide-fade-sidebar-leave-to {
     right: -410px;
   }
 </style>

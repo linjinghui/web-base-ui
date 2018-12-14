@@ -1,5 +1,6 @@
 <template> 
   <div :id="id" class="wrap-qll-editor">
+    <cmp-map ref="vmap" v-model="optMap.show" @click="clkMap"></cmp-map>
     <cmp-button class="btn-upfile" style="display:none;" :fileoption="fileOption" @cbk_file="cbk_file">选择文件</cmp-button>
     <quill-editor class="qll-editor" v-model="content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" 
     @focus="onEditorFocus($event)" @change="onEditorChange($event)"></quill-editor>
@@ -10,10 +11,13 @@
   import Button from '../../button/index.js';
   import Quill from 'quill';
   import { quillEditor } from 'vue-quill-editor'; 
-
+  import Map from '../../map/index.js';
+  
   // 注入图片大小伸缩功能
   window.Quill = Quill;
   Quill.register('modules/imageResize', require('quill-image-resize-module').default);
+
+  // Quill.register(Position, true);
 
   // 将自定义字体加入到白名单 
   var Font = Quill.import('formats/font');  
@@ -24,7 +28,8 @@
   export default { 
     components: { 
       quillEditor,
-      'cmpButton': Button
+      'cmpButton': Button,
+      'cmpMap': Map
     }, 
     props: { 
       // 编辑器的内容 
@@ -72,13 +77,17 @@
             // 对齐方式 
             ['clean'], 
             // 清除文本格式 
-            ['link', 'image', 'video'] 
+            ['link', 'image', 'video'], 
             // 链接、图片、视频 
+            ['map', 'position']
+            // 地图
           ];
         }
       }
     }, 
     data () {
+      var _this = this;
+
       return { 
         id: 'editor_' + new Date().getTime() + parseInt(Math.random() * 100),
         content: this.value, 
@@ -101,16 +110,15 @@
                   } else {
                     this.quill.format('image', false); 
                   } 
+                },
+                position: function (value) {
+                  _this.optMap.show = true;
+                  _this.insertPositionMessage({
+                    text: '福州市鼓楼区五四路310号省体育中心西二5楼',
+                    longitude: '1',
+                    latitude: '2'
+                  });
                 }
-                // ,link: function (value) { 
-                //   if (value) { 
-                //     var href = prompt('请输入url');
-
-                //     this.quill.format('link', href); 
-                //   } else { 
-                //     this.quill.format('link', false); 
-                //   } 
-                // } 
               } 
             } 
           } 
@@ -119,6 +127,9 @@
           accept: 'image/*',
           // 'image/gif, image/jpeg',
           multiple: false
+        },
+        optMap: {
+          show: ''
         }
       }; 
     }, 
@@ -144,7 +155,9 @@
         // 获得焦点事件 
         this.$emit('focus');
       }, 
-      onEditorChange () { 
+      onEditorChange (data) { 
+        console.log('====onEditorChange===');
+        console.log(data);
         // 内容改变事件 
         this.$emit('input', this.content); 
       }, 
@@ -225,7 +238,8 @@
           'ql-formula': '公式',
           'ql-image': '图片',
           'ql-video': '视频',
-          'ql-clean': '清除字体样式'
+          'ql-clean': '清除字体样式',
+          'ql-position': '位置'
         };
 
         for (let key in titleConfig) { 
@@ -234,6 +248,35 @@
           if (!frag) continue;
           frag.setAttribute('title', titleConfig[key]);
         }
+      },
+      // 插入位置信息
+      insertPositionMessage: function (param) { 
+        // 获取富文本组件实例 
+        let quill = this.$refs.myQuillEditor.quill; 
+        // 获取光标所在位置 
+        let length = quill.getSelection().index; 
+        
+        // 插入位置节点
+        quill.insertEmbed(length, 'image', 'map');
+        // 获取插入的位置信息节点
+        var dom = quill.container.querySelector('img[src="map"]');
+        var posDom = document.createElement('em');
+
+        posDom.setAttribute('class', 'ql-position-content');
+        posDom.innerHTML = ' ';
+        posDom.setAttribute('data-position-text', param.text);
+        posDom.setAttribute('data-position-longitude', param.longitude);
+        posDom.setAttribute('data-position-latitude', param.latitude);
+        dom.parentNode.replaceChild(posDom, dom);
+        
+        // 插入空字符串用以触发change
+        quill.insertText(length + param.text.length + 1, '');
+        // 调整光标到最后 
+        quill.setSelection(length + param.text.length + 1); 
+      },
+      clkMap: function (data) {
+        console.log('======click======');
+        console.log(data);
       }
     } 
   }; 
@@ -306,6 +349,7 @@
       content: '等宽字体'; 
     }  
 
+    // ---------------自定义字体v----------------------
     // 微软雅黑
     .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=Microsoft-YaHei]::before, .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=Microsoft-YaHei]::before { 
       content: '微软雅黑'; 
@@ -390,6 +434,57 @@
     .ql-font-Sans-Serif {
       font-family: sans-serif;
     }
+    // ---------------自定义字体∧----------------------
+
+    // ---------------自定义位置 按钮v----------------------
+    .ql-position {
+      background-image: url(../images/icon_gps.png)!important;
+      background-position: center 0!important;
+      background-repeat: no-repeat!important;
+      background-size: contain!important;
+    }
+    .ql-position-content {
+      position: relative;
+      font-style: normal;
+      background-image: url(../images/gps.png);
+      background-position: 0 0;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    .ql-position-content.ql-size-huge {
+      padding-left: 40px;
+    }
+    .ql-position-content:before {
+      content: attr(data-position-text);
+      margin-left: 16px;
+    }
+    .ql-position-content.ql-size-large:before {
+      margin-left: 22px;
+    }
+    .ql-position-content.ql-size-huge:before {
+      margin-left: 6px;
+    }
+    h1 {
+      .ql-position-content:before {
+        margin-left: 34px;
+      }
+      .ql-position-content.ql-size-huge:before {
+        margin-left: 50px;
+      }
+      .ql-position-content.ql-size-large:before {
+        margin-left: 44px;
+      }
+    }
+    h2 {
+      .ql-position-content:before {
+        margin-left: 24px;
+      }      
+      .ql-position-content.ql-size-large:before {
+        margin-left: 34px;
+      }
+    }
+    
+    // ---------------自定义位置 按钮∧----------------------
   } 
     
 </style>

@@ -73,7 +73,7 @@
     },
     beforeDestroy: function () {
       // 销毁地图，并清空地图容器
-      this.map.destroy();
+      this.map && this.map.destroy();
     },
     mounted: function () {
       // 
@@ -117,11 +117,67 @@
         this.map.on('click', function (ev) {
           _this.$emit('click', ev);
         });
-
-
+        // this.map.on('moveend', function (ev) {
+        //   console.log('===moveend===');
+        //   console.log(_this.map.getCenter());
+        // });
         this.setMapTheme();
         // 删除加载动画
         this.optionLoading.show = false;
+
+        this.map.plugin('AMap.Geolocation', function () {
+          var geolocation = new window.AMap.Geolocation({
+            // 是否使用高精度定位，默认:true
+            enableHighAccuracy: true,
+            // 超过10秒后停止定位，默认：无穷大
+            timeout: 10000,          
+            // 定位结果缓存0毫秒，默认：0
+            maximumAge: 0,           
+            // 自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+            convert: true,           
+            // 显示定位按钮，默认：true
+            showButton: true,        
+            // 定位按钮停靠位置，默认：'LB'，左下角
+            buttonPosition: 'LB',    
+            // 定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            buttonOffset: new window.AMap.Pixel(10, 20),
+            // 定位成功后在定位到的位置显示点标记，默认：true
+            showMarker: true,        
+            // 定位成功后用圆圈表示定位精度范围，默认：true
+            showCircle: true,        
+            // 定位成功后将定位到的位置作为地图中心点，默认：true
+            panToLocation: true,     
+            // 定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            zoomToAccuracy: true      
+          });
+
+          _this.map.addControl(geolocation);
+          geolocation.getCurrentPosition();
+          // 返回定位信息
+          window.AMap.event.addListener(geolocation, 'complete', function (data) {
+            console.log('=========complete======');
+            console.log(data);
+          });
+          // 返回定位出错信息
+          window.AMap.event.addListener(geolocation, 'error', function (data) {
+            console.log('=========error======');
+            console.log(data);
+          });
+        });
+
+        var marker2 = new window.AMap.Marker({
+          map: this.map,
+          draggable: true,
+          animation: 'AMAP_ANIMATION_DROP'
+        });
+
+        marker2.on('dragend', function (e) {
+          console.log('===marker2 dragend===');
+          console.log(e);
+          _this.aMapSearchNearBy([e.lnglat.lng, e.lnglat.lat], '');
+        });
+
+        console.log(marker2);
       },
       // 添加实时路况图层
       addLayer: function () {
@@ -172,6 +228,31 @@
       setMapZoom: function (zoom) {
         this.map.setZoom(zoom || 13); 
         // 获取地图级别 map.getZoom(); 
+      },
+      // 高德地图查询周边
+      aMapSearchNearBy: function (centerPoint, city) {
+        window.AMap.service(['AMap.PlaceSearch'], function () {
+          var placeSearch = new window.AMap.PlaceSearch({
+            pageSize: 50,
+            pageIndex: 1,
+            city: city
+          });
+
+          // 第一个参数是关键字，这里传入的空表示不需要根据关键字过滤
+          // 第二个参数是经纬度，数组类型
+          // 第三个参数是半径，周边的范围
+          // 第四个参数为回调函数
+          placeSearch.searchNearBy('', centerPoint, 1000, function (status, result) {
+            if (result.info === 'OK') {
+              // 周边地标建筑列表
+              var locationList = result.poiList.pois;
+              
+              console.log(locationList);
+            } else {
+              console.log('获取位置信息失败!');
+            }
+          });
+        });
       },
       // 设置地图主题 normal macaron graffiti whitesmoke dark fresh darkblue blue light grey
       setMapTheme: function (type) {

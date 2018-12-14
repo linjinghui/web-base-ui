@@ -42,8 +42,9 @@ export default {
           // 对齐方式 
           ['clean'], 
           // 清除文本格式 
-          ['link', 'image', 'video'] 
+          ['link', 'image', 'video'], 
           // 链接、图片、视频 
+          ['position']
         ],
         upImage: this.upImage
       }

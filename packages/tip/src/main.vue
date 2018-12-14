@@ -5,7 +5,7 @@
 
 <template>
   <transition name="slide-fade">
-    <div class="wrap-tip"
+    <div class="wrap-tip" :id="id"
       :style="{'background-color': _theme, 'text-align': textAlign, 
       'top': full+''==='true'&&'0', 'width': full+''==='true'&&'100%'}" v-show="value">
       <i class="cicon-cross-crle" v-if="theme==='danger'" :style="{'color': _theme}"></i>
@@ -22,7 +22,8 @@
     name: 'Tip',
     data: function () {
       return {
-        timer: ''
+        timer: '',
+        id: 'tip_' + new Date().getTime() + parseInt(Math.random() * 100)
       };
     },
     props: {
@@ -60,8 +61,10 @@
           }, this.time);
           // 计算长度
           setTimeout(function () {
-            var dom = document.querySelector('.wrap-tip'); 
+            // var dom = document.getElementById(_this.id);
+            var dom = document.querySelector('#' + _this.id); 
             
+            console.log(dom.innerText);
             dom.style.marginLeft = '-' + ((dom.offsetWidth || dom.clientWidth) / 2) + 'px';
             _this.$nextTick(function () {
               dom.style.marginLeft = '-' + ((dom.offsetWidth || dom.clientWidth) / 2) + 'px';
