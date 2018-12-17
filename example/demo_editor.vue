@@ -15,6 +15,15 @@ export default {
       optionEditor: {
         placeholder: '请输入内容...',
         toolbar: [
+          // 标题 
+          [{ color: [] }, { background: [] }], 
+          // 字体颜色、字体背景颜色 
+          // [{ font: ['serif', 'monospace'] }], 
+          [{ font: ['Microsoft-YaHei', 'Sim-Sun', 'Kai-Ti', 'Sim-Hei', 'Li-Shu', 'Andale-Mono', 'Arial', 'Arial-Black', 'Comic-Sons-Ms', 'Impact', 'Times-New-Roman', 'Sans-Serif'] }], 
+          // 文本方向 
+          [{ size: ['small', false, 'large', 'huge'] }], 
+          // 字体大小 
+          [{ header: [1, 2, 3, 4, 5, 6, false] }], 
           ['bold', 'italic', 'underline', 'strike'], 
           // 加粗 斜体 下划线 删除线
           ['blockquote', 'code-block'], 
@@ -28,23 +37,14 @@ export default {
           [{ indent: '-1' }, { indent: '+1' }], 
           // 缩进
           // [{'direction': 'rtl'}], 
-          // 文本方向 
-          [{ size: ['small', false, 'large', 'huge'] }], 
-          // 字体大小 
-          [{ header: [1, 2, 3, 4, 5, 6, false] }], 
-          // 标题 
-          [{ color: [] }, { background: [] }], 
-          // 字体颜色、字体背景颜色 
-          // [{ font: ['serif', 'monospace'] }], 
-          [{ font: ['Microsoft-YaHei', 'Sim-Sun', 'Kai-Ti', 'Sim-Hei', 'Li-Shu', 'Andale-Mono', 'Arial', 'Arial-Black', 'Comic-Sons-Ms', 'Impact', 'Times-New-Roman', 'Sans-Serif'] }], 
           // 字体种类 
           [{ align: [] }], 
           // 对齐方式 
           ['clean'], 
           // 清除文本格式 
-          ['link', 'image', 'video'], 
+          ['link', 'image', 'video']
           // 链接、图片、视频 
-          ['position']
+          // ['position']
         ],
         upImage: this.upImage
       }
