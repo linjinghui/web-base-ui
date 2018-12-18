@@ -350,7 +350,7 @@
       content: '32px'; 
     } 
     .ql-snow .ql-picker.ql-header .ql-picker-label::before, .ql-snow .ql-picker.ql-header .ql-picker-item::before { 
-      content: '文本'; 
+      content: '正文'; 
     } 
     .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="1"]::before, .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="1"]::before { 
       content: '标题1'; 
