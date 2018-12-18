@@ -18,7 +18,7 @@ export default {
     return {
       imgs: [],
       imgOption: {
-        button: false,
+        button: true,
         show: function () {
           alert('show'); 
         }
@@ -32,9 +32,14 @@ export default {
     //
   },
   mounted: function () {
-    this.$nextTick(function () {
-      this.imgs = ['http://www.w3school.com.cn/ui2017/compatible_firefox.png', 'https://ss3.baidu.com/-rVXeDTa2gU2pMbgoY3K/it/u=2192674209,2157056795&fm=202&mola=new&crop=v1'];
-    });
+    var _this = this;
+
+    setTimeout(function () {
+      _this.imgs = ['http://www.w3school.com.cn/ui2017/compatible_firefox.png', 'https://ss3.baidu.com/-rVXeDTa2gU2pMbgoY3K/it/u=2192674209,2157056795&fm=202&mola=new&crop=v1'];
+    }, 3000);
+    // this.$nextTick(function () {
+    //   this.imgs = ['http://www.w3school.com.cn/ui2017/compatible_firefox.png', 'https://ss3.baidu.com/-rVXeDTa2gU2pMbgoY3K/it/u=2192674209,2157056795&fm=202&mola=new&crop=v1'];
+    // });
   },
   methods: {
     //
