@@ -39,6 +39,7 @@ import DemoMap from '../../example/demo_map.vue';
 import DemoSwapSort from '../../example/demo_swap_sort.vue';
 import DemoDivEditor from '../../example/demo_div_editor.vue';
 import DemoVideo from '../../example/demo_video.vue';
+import DemoImg from '../../example/demo_img.vue';
 
 
 Vue.use(Router);
@@ -235,6 +236,11 @@ export default new Router({
       path: '/demoVideo',
       name: 'demoVideo',
       component: DemoVideo
+    },
+    {
+      path: '/demoImg',
+      name: 'demoImg',
+      component: DemoImg
     }
   ]
 });
