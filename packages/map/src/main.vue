@@ -117,10 +117,6 @@
         this.map.on('click', function (ev) {
           _this.$emit('click', ev);
         });
-        // this.map.on('moveend', function (ev) {
-        //   console.log('===moveend===');
-        //   console.log(_this.map.getCenter());
-        // });
         this.setMapTheme();
         // 删除加载动画
         this.optionLoading.show = false;
@@ -155,13 +151,11 @@
           geolocation.getCurrentPosition();
           // 返回定位信息
           window.AMap.event.addListener(geolocation, 'complete', function (data) {
-            console.log('=========complete======');
-            console.log(data);
+            // 
           });
           // 返回定位出错信息
           window.AMap.event.addListener(geolocation, 'error', function (data) {
-            console.log('=========error======');
-            console.log(data);
+            // 
           });
         });
 
@@ -172,12 +166,8 @@
         });
 
         marker2.on('dragend', function (e) {
-          console.log('===marker2 dragend===');
-          console.log(e);
           _this.aMapSearchNearBy([e.lnglat.lng, e.lnglat.lat], '');
         });
-
-        console.log(marker2);
       },
       // 添加实时路况图层
       addLayer: function () {
@@ -245,11 +235,7 @@
           placeSearch.searchNearBy('', centerPoint, 1000, function (status, result) {
             if (result.info === 'OK') {
               // 周边地标建筑列表
-              var locationList = result.poiList.pois;
-              
-              console.log(locationList);
-            } else {
-              console.log('获取位置信息失败!');
+              // var locationList = result.poiList.pois;
             }
           });
         });

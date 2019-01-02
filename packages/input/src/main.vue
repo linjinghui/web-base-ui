@@ -154,6 +154,7 @@
         }
       },
       addDomChange: function (cbk) {
+        var target = document.getElementById(this.id);
         var callback = function (records) {
           records.map(function (record) {
             cbk && cbk();
@@ -165,7 +166,9 @@
           'subtree': true
         };
 
-        mo.observe(document.getElementById(this.id), option);
+        if (target) {
+          mo.observe(target, option);
+        }
       }
     }
   };

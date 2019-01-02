@@ -5528,7 +5528,7 @@
 		*/
 		log: function(val) {
 			try {
-				console.log(val);
+				// 
 			} catch(e) {}
 		},
 		/*

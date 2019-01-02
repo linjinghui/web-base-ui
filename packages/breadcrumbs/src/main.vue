@@ -73,7 +73,9 @@
     }
 
     > li:after {
-      content: ' > ';
+      content: '>';
+      margin-left: 4px;
+      margin-right: 4px;
     }
     > li:last-of-type {
       color: inherit;

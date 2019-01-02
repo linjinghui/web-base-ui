@@ -53,7 +53,8 @@
       this.$nextTick(function () {
         var dom = this.slotDom.dom;
         var isonlyone = dom.querySelectorAll('img').length === 0;
-        var viewer = new Viewer(dom, Object.assign({
+        
+        this.viewer = new Viewer(dom, Object.assign({
           inline: false,
           // 显示右上角关闭按钮（jQuery 版本无效）
           button: true, 
@@ -117,8 +118,6 @@
             // 
           }
         }, this.opt));
-
-        console.log(viewer);
       });
     },
     methods: {

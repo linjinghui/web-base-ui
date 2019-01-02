@@ -154,8 +154,6 @@
         this.$emit('focus');
       }, 
       onEditorChange (data) { 
-        console.log('====onEditorChange===');
-        console.log(data);
         // 内容改变事件 
         this.$emit('input', this.content); 
       }, 
@@ -273,8 +271,7 @@
         quill.setSelection(length + param.text.length + 1); 
       },
       clkMap: function (data) {
-        console.log('======click======');
-        console.log(data);
+        // 
       }
     } 
   }; 

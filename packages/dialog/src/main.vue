@@ -170,10 +170,10 @@
 
     >.cicon-cross-chr {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 0px;
+      right: 0px;
       color: #999;
-      font-size: 20px;
+      font-size: 30px;
       cursor: pointer;
     }
 

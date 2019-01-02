@@ -82,7 +82,7 @@
       //
     },
     mounted: function () {
-      console.log(jstree);
+      this.jstree = jstree;
     },
     methods: {
       getTreeDom: function () {
@@ -144,8 +144,6 @@
             if (_this.isCheckBox) {
               return;
             }
-            // console.log('======select_node.jstree============');
-            // console.log(data);
             var instance = _this.getTreeDom().jstree(true);
             var parentIds = data.node.parents;
             var parentsArr = [];
@@ -219,9 +217,7 @@
         } else {
           searchFun(data['children']);
         }
-        // console.log('======getChildrenById============');
-        // console.log(result);
-        // console.log(resultData);
+        
         return resultData;
       },
       getAllChecked: function () {

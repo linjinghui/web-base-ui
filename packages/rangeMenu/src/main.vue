@@ -119,7 +119,7 @@
 
       .cross {
         color: inheirt;
-        font-size: 14px;
+        font-size: 16px;
         vertical-align: 4px;
       }
 

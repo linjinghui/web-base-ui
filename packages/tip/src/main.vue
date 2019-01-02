@@ -64,7 +64,6 @@
             // var dom = document.getElementById(_this.id);
             var dom = document.querySelector('#' + _this.id); 
             
-            console.log(dom.innerText);
             dom.style.marginLeft = '-' + ((dom.offsetWidth || dom.clientWidth) / 2) + 'px';
             _this.$nextTick(function () {
               dom.style.marginLeft = '-' + ((dom.offsetWidth || dom.clientWidth) / 2) + 'px';
