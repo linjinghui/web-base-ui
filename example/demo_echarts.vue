@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import {Echarts, EchartsPie} from '../packages/index.js';
+import {Echarts} from '../packages/index.js';
 
 export default {
   name: 'demoEcharts',
@@ -33,8 +33,7 @@ export default {
     };
   },
   components: {
-    'cmpEcharts': Echarts,
-    'cmpEchartsPie': EchartsPie
+    'cmpEcharts': Echarts
   },
   mounted: function () {
 
@@ -164,7 +163,7 @@ export default {
       };
     },
     setMapOption: function () {
-      var map = require('../packages/echarts/map/fujian.js').default;
+      var map = require('../static/map/fujian.js').default;
 
       this.optionMap = {
         title: {

@@ -3,7 +3,7 @@
 </template>
 
 <script type="text/babel">
-  import Echarts from 'echarts';
+  // import Echarts from 'echarts';
 
   export default {
     name: 'Echarts',
@@ -40,7 +40,7 @@
     mounted: function () {
       let _this = this;
 
-      this.myChart = Echarts.init(document.getElementById(this.id));
+      this.myChart = window.echarts.init(document.getElementById(this.id));
       (this.loading + '' === 'true') && this.myChart.showLoading();
       this.$nextTick(function () {
         this.setOption();
@@ -59,7 +59,7 @@
     methods: {
       setOption: function () {
         if (JSON.stringify(this.map) !== '{}') {
-          Echarts.registerMap(this.option.series[0].map, this.map);
+          window.echarts.registerMap(this.option.series[0].map, this.map);
           this.myChart.hideLoading();
         }
         if (JSON.stringify(this.option) !== '{}') {

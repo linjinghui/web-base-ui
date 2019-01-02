@@ -11,6 +11,10 @@ module.exports = {
     'babel-polyfill': 'babel-polyfill',
     client: './src/index.js'
   },
+  // 不打包以下资源
+  externals: {
+    'echarts': 'echarts'
+  },
   output: {
     path: path.join(__dirname, '../dist'),
     filename: '[name].js',
