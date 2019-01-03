@@ -114,7 +114,7 @@
       // 初始化剪贴板
       this.init_copy_btn();
       if (this.prnt) {
-        window.$ = require('jquery');
+        // window.$ = require('jquery');
         require('../../../static/print/jquery.PrintArea.js');
       }
     },

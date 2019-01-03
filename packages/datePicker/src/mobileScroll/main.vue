@@ -15,6 +15,8 @@
   import Input from '../../../input/index.js';
   import './js/mobiscroll.custom-2.16.1.min.js';
 
+  const $ = window.$;
+  
   export default {
     name: 'MobileScrollDatePicker',
     components: {
@@ -58,7 +60,7 @@
       var _this = this;
 
       if (!this.disabled) {
-        var $ = window.jQuery;
+        // var $ = window.jQuery;
         var client = this.browerVersion();
 
         this.isMobile = (client.ios || client.android);
@@ -118,16 +120,16 @@
         };
       },
       clkIcon: function () {
-        window.jQuery('#' + this.id).click();
+        $('#' + this.id).click();
       },
       setValue: function (val) {
         if (val) {
-          window.jQuery('#' + this.id).mobiscroll('setVal', new Date(isNaN(val) ? val : parseInt(val)));
+          $('#' + this.id).mobiscroll('setVal', new Date(isNaN(val) ? val : parseInt(val)));
           this.time = val; 
         }
       },
       destroy: function () {
-        window.jQuery('.mbsc-mobiscroll').remove();
+        $('.mbsc-mobiscroll').remove();
       }
     }
   };
