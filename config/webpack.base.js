@@ -13,8 +13,7 @@ module.exports = {
   },
   // 不打包以下资源
   externals: {
-    'echarts': 'echarts',
-    'jquery': '$'
+    'echarts': 'echarts'
   },
   output: {
     path: path.join(__dirname, '../dist'),
