@@ -16,8 +16,9 @@
 </template>
 
 <script type="text/babel">
-  import flatpickr from 'flatpickr';
-  import { Mandarin } from 'flatpickr/dist/l10n/zh.js';
+  // import flatpickr from 'flatpickr';
+  import flatpickr from '../flatpickr/flatpickr.min.js';
+  import { Mandarin } from '../flatpickr/l10n/zh.js';
   import Input from '../../input/index.js';
 
   export default {
@@ -90,7 +91,8 @@
 </script>
 
 <style lang="scss">
-  @import "../../../node_modules/flatpickr/dist/flatpickr.min.css";
+  // @import "../../../node_modules/flatpickr/dist/flatpickr.min.css";
+  @import "../flatpickr/flatpickr.min.css";
 </style>
 <style scoped lang="scss">
   [class^=cicon-calendar] {
