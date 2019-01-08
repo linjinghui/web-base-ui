@@ -64,9 +64,9 @@
             // var dom = document.getElementById(_this.id);
             var dom = document.querySelector('#' + _this.id); 
             
-            dom.style.marginLeft = '-' + ((dom.offsetWidth || dom.clientWidth) / 2) + 'px';
+            dom.style.marginLeft = '-' + parseInt((dom.offsetWidth || dom.clientWidth) / 2) + 'px';
             _this.$nextTick(function () {
-              dom.style.marginLeft = '-' + ((dom.offsetWidth || dom.clientWidth) / 2) + 'px';
+              dom.style.marginLeft = '-' + parseInt((dom.offsetWidth || dom.clientWidth) / 2) + 'px';
             });
           }, 30);
         } else {

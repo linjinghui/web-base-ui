@@ -19,12 +19,12 @@ export default {
   methods: {
     toggle: function () {
       this.$tip({
-        text: '点点滴滴',
+        text: '点点滴滴点点滴',
         show: true,
         // left|center
         textAlign: '',
         // success|info|warning|danger, 移动端不支持：info
-        theme: 'success'
+        theme: 'danger'
       });
     }
   }
