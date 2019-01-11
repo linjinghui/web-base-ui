@@ -1,21 +1,21 @@
 <template>
-  <div class="pagebar-wrapper" :class="theme" v-if="totalPage > 0">
-    <span :disabled="active === 1" @click="goIndex('prev')">
+  <div class="pagebar-wrapper" :class="theme">
+    <span :disabled="value<=1" @click="value>1&&clkItem(value-1)">
       <i class="cicon-arrow-left"></i>
       <small>上一页</small>
     </span>
-    <template v-for="(i,index) in arr">
-      <span :key="'it_'+index" v-if="typeof i==='object'" @click="showIpt(i)">
-        <template v-if="i.type === 1">
-          <input type="text" v-model="value1" v-show="display1" @keyup="fun_keyup(i, $event)">{{i.name}}
-        </template>
-        <template v-else>
-          <input type="text" v-model="value2" v-show="display2" @keyup="fun_keyup(i, $event)">{{i.name}}
-        </template>
-      </span>
-      <span :key="'it_'+index" v-else :class="{'active': i === active}" @click="goIndex(i)">{{i}}</span>
-    </template>
-    <span :disabled="active === totalPage" @click="goIndex('next')">
+    <span :class="{'active':value===1}" @click="clkItem(1)">1</span>
+    <span v-if="arr[0]-1>1">
+      <label v-if="!dspIpt1" @click="dspIpt1=true">...</label>
+      <input v-else type="text" v-model="value1" @keyup.enter="entIpt1">
+    </span>
+    <span v-for="(i,idx) in arr" :key="'it_'+idx" :class="{'active':value===i}" @click="clkItem(i)">{{i}}</span>
+    <span v-if="totalPage-arr[arr.length-1]>1">
+      <label v-if="!dspIpt2" @click="dspIpt2=true">...</label>
+      <input v-else type="text" v-model="value2" @keyup.enter="entIpt2">
+    </span>
+    <span :class="{'active':value===totalPage}" @click="clkItem(totalPage)">{{totalPage}}</span>
+    <span :disabled="value>=totalPage" @click="value<totalPage&&clkItem(value+1)">
       <i class="cicon-arrow-right"></i>
       <small>下一页</small>
     </span>
@@ -28,11 +28,10 @@
     name: 'Pagebar',
     data: function () {
       return {
-        display1: false,
-        display2: false,
+        dspIpt1: false,
+        dspIpt2: false,
         value1: '',
-        value2: '',
-        active: 0
+        value2: ''
       };
     },
     props: {
@@ -41,143 +40,70 @@
         default: ''
       },
       'lenth': {
-        default: 5
+        default: 6
       },
-      'asideLenth': {
-        default: 2
+      'value': {
+        default: 10
       },
-      'index': {
-        default: 0
+      // 每页显示记录数
+      'pageSize': {
+        default: 8
       },
-      'totalPage': {
-        default: 0
-      },
+      // 总记录数
       'totalSize': {
-        default: 0
+        default: 100
       }
     },
     mounted: function () {
-      this.active = this.index;
+      // 
     },
     computed: {
-      'arr': function () {
-        var fh = '...';
-        // 构造两边数据
-        var leftAsid = [];
-        var rightAsid = [];
-        var middleMin = '';
-        var middleMax = '';
+      // 计算总页数
+      totalPage: function () {
+        return parseInt((this.totalSize - 1) / this.pageSize) + 1;
+      },
+      arr: function () {
+        // let index = this.value <= 1 ? 2 : this.value;
+        // let index = this.value;
+        // let num = 2 + ((parseInt((index + 1) / (this.lenth - 2)) - 1) < 0 ? 0 : (parseInt((index + 1) / (this.lenth - 2)) - 1)) * (this.lenth - 2);
+        let num = 2 + (this.lenth - 2) * parseInt((this.value - 2) / (this.lenth - 2));
+        let array = [];
 
-        for (let i = 1;i <= this.asideLenth;i++) {
-          if (i <= this.totalPage && i > 0) {
-            leftAsid.push(i);
-          }
+        for (let i = num;(i < (this.lenth - 2 + num)) && (i < this.totalPage);i++) {
+          array[array.length] = i;
         }
-        middleMin = leftAsid[leftAsid.length - 1];
-        for (let i = this.asideLenth - 1;i > -1;i--) {
-          let val = this.totalPage - i;
-
-          if (val <= this.totalPage && val > 0) {
-            rightAsid.push(val);
-          }
-        }
-        middleMax = rightAsid[0];
-
-        // 构造中间数据
-        var arr = [];
-        var num = this.active - parseInt(this.lenth / 2);
-
-        if (num - middleMin <= 2) {
-          num = middleMin + 1;
-        } else {
-          this.value1 = middleMin + 1;
-          leftAsid.push({'name': fh, 'type': 1});
-        }
-
-        if ((num + this.lenth) >= middleMax && middleMax - (num + this.lenth) < 2) {
-          num = middleMax - this.lenth;
-        } else {
-          this.value2 = middleMax - 1;
-          rightAsid.unshift({'name': fh, 'type': 2});
-        }
-
-        for (let i = 0;i < this.lenth;i++) {
-          let val = num++;
-
-          if (val <= this.totalPage && val > 0) {
-            arr.push(val);
-          }
-        }
-
-        if (arr.indexOf(1) === -1) {
-          arr = leftAsid.concat(arr);
-        }
-
-        if (arr.indexOf(this.totalPage) === -1) {
-          arr = arr.concat(rightAsid);
-        }
-
-        return arr;
+        // 2 + (parseInt(11+1/3) - 1) * 3
+        // 2 + (this.lenth - 2) * parseInt((13 - 2) / (this.lenth - 2))
+        return array;
       }
     },
     watch: {
-      'value1': function (val1, val2) {
-        if (isNaN(val1) || val1 < 1 || val1 > this.totalPage || (val1 + '').indexOf('.') >= 0) {
-          this.value1 = val2;
-        }
-      },
-      'value2': function (val1, val2) {
-        if (isNaN(val1) || val1 < 1 || val1 > this.totalPage || (val1 + '').indexOf('.') >= 0) {
-          this.value2 = val2;
-        }
-      },
-      'index': function (val1) {
-        this.active = val1;
-      },
-      'active': function (val1) {
-        if (isNaN(val1) || val1 < 1 || val1 > this.totalPage || (val1 + '').indexOf('.') >= 0) {
-          this.active = 1;
-        }
-        this.$emit('callback', this.active);
+      value: function (val) {
+        console.log('=watch:===' + val);
       }
     },
     methods: {
-      'goIndex': function (index) {
-        if (index === 'prev') {
-          if (this.active > 1) {
-            this.active -= 1;
-          }
-        } else if (index === 'next') {
-          if (this.active < this.totalPage) {
-            this.active += 1;
-          }
-        } else {
-          this.active = index;
-        }
+      clkItem: function (item) {
+        this.$emit('input', item);
       },
-      'fun_keyup': function (info, event) {
-        if (event.keyCode === 13) {
-          let value = '';
-
-          if (info.type === 1) {
-            value = this.value1;
-          } else {
-            value = this.value2;
-          }
-          value = parseInt(value);
-          if (!isNaN(value)) {
-            this.display1 = false;
-            this.display2 = false;
-            this.goIndex(value);
-          }
-        }
+      entIpt1: function () {
+        this.dspIpt1 = false;
+        this.value1 = this.parseIptValue(this.value1);
+        this.clkItem(this.value1);
       },
-      'showIpt': function (info) {
-        if (info.type === 1) {
-          this.display1 = true;
-        } else {
-          this.display2 = true;
+      entIpt2: function () {
+        this.dspIpt2 = false;
+        this.value2 = this.parseIptValue(this.value2);
+        this.clkItem(this.value2);
+      },
+      parseIptValue: function (val) {
+        val = parseInt(val) || 1;
+        if (val < 1) {
+          val = 1;
+        } else if (val > this.totalPage) {
+          val = this.totalPage;
         }
+        return val;
       }
     }
   };
@@ -211,6 +137,13 @@
       text-align: center;
       vertical-align: middle;
       cursor: pointer;
+
+      label {
+        display: block;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
 
       input {
         position: absolute;

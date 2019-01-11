@@ -1,8 +1,8 @@
 <template>
   <div>
-    <cmp-pagebar v-bind="option" @callback="callback"></cmp-pagebar>
-    <br>=====================================================================<br>
-    <cmp-pagebar-pagesize v-bind="optionPagebarPagesize" @callback="callback2"></cmp-pagebar-pagesize>
+    <cmp-pagebar v-model="option.index"></cmp-pagebar>
+    <!-- <br>=====================================================================<br> -->
+    <!-- <cmp-pagebar-pagesize v-bind="optionPagebarPagesize" @callback="callback2"></cmp-pagebar-pagesize> -->
   </div>
 </template>
 
@@ -22,7 +22,7 @@ export default {
         // 当期页
         index: 1,
         // 总页数
-        totalPage: 10,
+        totalPage: 8,
         // 总记录数
         totalSize: 101
       },
@@ -31,7 +31,7 @@ export default {
         // 当期页
         index: 1,
         // 总页数
-        totalPage: 10,
+        totalPage: 8,
         pagesizes: [
           100, 200, 300
         ],
