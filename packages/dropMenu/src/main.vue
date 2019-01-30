@@ -103,18 +103,30 @@
     },
     mounted: function () {
       window.addEventListener('click', this.clk_hide);
-      this.$refs.dmIpt.$el.addEventListener('click', this.clk_arrow);
+      this.$refs.dmIpt.$el.addEventListener('click', this.toggleDropmenu);
       this.setIptValue();
     },
     methods: {
       clk_arrow: function () {
-        if (this.disabled + '' !== 'true') {
-          this.show = !this.show;
-        }
+        // if (this.disabled + '' !== 'true') {
+        //   this.show = !this.show;
+        // }
+        this.toggleDropmenu();
+        this.result = '';
       },
       clk_hide: function () {
-        if (this.disabled + '' !== 'true') {
-          this.show = false;
+        // if (this.disabled + '' !== 'true') {
+        //   this.show = false;
+        // }
+        this.toggleDropmenu(false);
+      },
+      toggleDropmenu: function (status) {
+        if (typeof status === 'undefined') {
+          if (this.disabled + '' !== 'true') {
+            this.show = !this.show;
+          }
+        } else {
+          this.show = status;
         }
       },
       cbkClkItem: function (data) {

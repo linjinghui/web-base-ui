@@ -79,7 +79,10 @@ export default {
     'cmpDropMenu': DropMenu
   },
   watch: {
-    //
+    'option.result': function (val) {
+      console.log('====option.result===');
+      console.log(val);
+    }
   },
   mounted: function ()　{
     var _this = this;
