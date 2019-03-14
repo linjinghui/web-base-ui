@@ -1,6 +1,6 @@
 {
   "name": "web-base-ui",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "基础组件模块",
   "main": "libs/common.js",
   "files": [
