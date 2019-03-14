@@ -6,11 +6,13 @@
     <cmp-flat-date-picker v-model="dateStr2" @callback="callback"></cmp-flat-date-picker>
     <br>DEMO3:<br>
     <cmp-mobile-scroll-date-picker v-model="dateStr3"></cmp-mobile-scroll-date-picker>
+    <br>DEMO4:<br>
+    <cmp-laydate v-model="dateStr4" :option="option"></cmp-laydate>
   </div>
 </template>
 
 <script>
-import {DatePicker, FlatDatePicker, MobileScrollDatePicker} from '../packages/index.js';
+import {DatePicker, FlatDatePicker, MobileScrollDatePicker, Laydate} from '../packages/index.js';
 
 export default {
   name: 'demoDatePicker',
@@ -18,13 +20,42 @@ export default {
     return {
       dateStr: '',
       dateStr2: '',
-      dateStr3: ''
+      dateStr3: '',
+      dateStr4: '123',
+      // 参考API https://www.layui.com/laydate/
+      option: {
+        // year month time date datetime
+        type: 'datetime',
+        // 范围选择
+        range: false,
+        // 日期匹配
+        format: 'yyyy-MM-dd HH:mm:ss',
+        // 开启公历节日
+        calendar: true,
+        // 自定义主题色
+        theme: '#ff9c23',
+        // 自定义节日
+        mark: {
+          '0-10-14': '生日',
+          // 每年的日期
+          '0-12-31': '跨年',
+          // 每月某天
+          '0-0-10': '工资', 
+          '0-0-15': '月中',
+          // 如果为空字符，则默认显示数字+徽章
+          '2017-8-15': '', 
+          '2099-10-14': '呵呵'
+        },
+        min: -7,
+        max: 7
+      }
     };
   },
   components: {
     'cmpDatePicker': DatePicker,
     'cmpFlatDatePicker': FlatDatePicker,
-    'cmpMobileScrollDatePicker': MobileScrollDatePicker
+    'cmpMobileScrollDatePicker': MobileScrollDatePicker,
+    'cmpLaydate': Laydate
   },
   watch: {
     dateStr: function (val) {
@@ -35,6 +66,9 @@ export default {
     },
     dateStr3: function (val) {
       console.log('dateStr3=' + val);
+    },
+    dateStr4: function (val) {
+      console.log('dateStr4=' + val);
     }
   },
   mounted: function () {

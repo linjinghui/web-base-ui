@@ -7,7 +7,7 @@ import Tooltip from './tooltip/index';
 import Loading from './loading/index';
 import Progress from './progress/index';
 import Slider from './slider/index';
-import {DatePicker, FlatDatePicker, MobileScrollDatePicker} from './datePicker/index';
+import {DatePicker, FlatDatePicker, MobileScrollDatePicker, Laydate} from './datePicker/index';
 import RangeMenu from './rangeMenu/index';
 import Shuttle from './shuttle/index';
 import {Pagebar, PagebarPagesize} from './pagebar/index';
@@ -40,4 +40,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, RangeMenu, Shuttle, Pagebar, PagebarPagesize, Echarts, ImageCrop, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, ImageViewer, Map, SwapSort, DivEditor, Video, Img};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, FlatDatePicker, MobileScrollDatePicker, Laydate, RangeMenu, Shuttle, Pagebar, PagebarPagesize, Echarts, ImageCrop, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, ImageViewer, Map, SwapSort, DivEditor, Video, Img};
