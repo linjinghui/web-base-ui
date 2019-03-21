@@ -164,7 +164,6 @@
   .wrap-confirm {
     position: fixed;
     margin: auto;
-    padding-bottom: 14px;
     top: 0;
     right: 0;
     bottom: 0;
@@ -200,7 +199,7 @@
 
     >section {
       padding: 0 10px;
-      height: calc(100% - 50px - 40px);
+      height: calc(100% - 50px - 50px);
       word-break: break-all;
 
       // >.title {
@@ -228,7 +227,7 @@
 
     >footer {
       padding: 0 10px;
-      height: 40px;
+      height: 50px;
       line-height: 50px;
 
       >.button {

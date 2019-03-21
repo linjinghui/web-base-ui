@@ -14,7 +14,10 @@
         <slot name="content"></slot>
       </vperfect-scrollbar>
       <footer :style="cstl.footer" v-if="buttons&&buttons.length>0">
-        <cmp-button v-for="info in buttons" :theme="info.theme" :prnt="info.prnt" :key="info.id" @click="clk_btn(info)">{{info.text}}</cmp-button>
+        <template v-for="info in buttons">
+          <cmp-button v-if="JSON.stringify(info.fileOption)" :key="info.id" :theme="info.theme" :fileoption="info.fileOption" @cbk_file="clk_btn">{{info.text}}</cmp-button>
+          <cmp-button v-else :key="info.id" :theme="info.theme" :prnt="info.prnt" @click="clk_btn(info)">{{info.text}}</cmp-button>
+        </template>
       </footer>
     </div>
   </transition>
@@ -155,7 +158,6 @@
   .wrap-dialog {
     position: fixed;
     margin: auto;
-    padding-bottom: 10px;
     top: 0;
     right: 0;
     bottom: 0;
@@ -191,7 +193,7 @@
 
     >section {
       padding: 0 10px;
-      height: calc(100% - 50px - 40px);
+      height: calc(100% - 50px - 50px);
       word-break: break-all;
 
       >[class^="cicon"] {
@@ -215,7 +217,7 @@
 
     >footer {
       padding: 0 10px;
-      height: 40px;
+      height: 50px;
       line-height: 50px;
 
       >.button {
