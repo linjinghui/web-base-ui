@@ -97,7 +97,7 @@ export default {
 
       // formData.append('name', this.name);
       // formData.append('age', this.age);
-      // formData.append('file', data.file);
+      // formData.append('datafile', this.file, 'avant_' + new Date().getTime() + '.png');
 
       // let config = {
       //   headers: {

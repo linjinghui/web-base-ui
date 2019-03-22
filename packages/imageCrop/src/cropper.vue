@@ -1,6 +1,6 @@
 <template>
   <cmp-dialog class="wrap-cropper" v-model="optionDialog.show" v-bind="optionDialog" @callback="callbackDialog">
-    <span slot="title">自定义标题</span>
+    <span slot="title">{{title}}</span>
     <div slot="content">
       <div class="p-l">
         <div class="wrap-select" v-if="!imgUrl">
@@ -14,12 +14,10 @@
         <p>预览</p>
         <div class="preview s-30">
           <div></div>
-          <!-- <img src="https://fengyuanchen.github.io/cropperjs/images/picture.jpg" width="100%" height="100%"> -->
         </div>
         <span>30*30</span>
         <div class="preview s-100">
           <div></div>
-          <!-- <img src="https://fengyuanchen.github.io/cropperjs/images/picture.jpg" width="100%" height="100%"> -->
         </div>
         <span>100*100</span>
       </div>
@@ -42,7 +40,10 @@
       value: {
         'default': false
       },
-      url: ''
+      url: '',
+      title: {
+        'default': '自定义标题'
+      }
     },
     data: function () {
       let fileOption = {
@@ -81,7 +82,8 @@
           }]
         },
         imgUrl: this.url,
-        baseData: ''
+        baseData: '',
+        fileName: ''
       };
     },
     watch: {
@@ -186,7 +188,8 @@
           this.baseData = this.cropper.getCroppedCanvas().toDataURL();
           this.$emit('callback', {
             dataUrl: this.baseData,
-            file: this.utl_data2blob(this.baseData)
+            file: this.utl_data2blob(this.baseData),
+            fileName: this.fileName
           });
           this.$emit('input', false);
         } else {
@@ -194,6 +197,7 @@
         }
       },
       cbk_file: function (data) {
+        this.fileName = data[0].name;
         this.imgUrl = this.utl_getfileurl(data[0].el);
         this.$nextTick(function () {
           this.init();
@@ -259,7 +263,7 @@
         }
         // canvas.toDataURL 返回的默认格式就是 image/png
         return new Blob([ia], {
-          type: mime
+          type: 'image/png'
         });
       }
     }
