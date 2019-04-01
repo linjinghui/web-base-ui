@@ -133,7 +133,8 @@
 </template>
 
 <script>
-import {Button, Dialog} from '../packages/index.js';
+import Button from '../libs/Button.js';
+import {Dialog} from '../packages/index.js';
 
 export default {
   name: 'demoButton',
