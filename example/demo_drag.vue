@@ -107,10 +107,12 @@ export default {
       this.option.dragoverIndex = '';
     },
     dragstart: function (index, e) {
+      let _this = this;
+
       e.dataTransfer.setData('infoName',' ');
-      this.option.dragIndex = index;
-      // console.log('====开始拖拽====' + index);
-      // console.log(e);
+      setTimeout(function () {
+        _this.option.dragIndex = index;
+      }, 50);
     },
     dragend: function () {
       console.log('==dragend==');

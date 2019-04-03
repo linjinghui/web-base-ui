@@ -10,11 +10,9 @@
 </template>
 
 <script type="text/babel">
-  // import $ from 'jquery';
-  import jstree from 'jstree';
+  import $ from 'jquery';
+  import 'jstree';
   import VuePerfectScrollbar from 'vue-perfect-scrollbar';
-
-  const $ = window.$;
 
   export default {
     name: 'Tree',
@@ -84,7 +82,7 @@
       //
     },
     mounted: function () {
-      this.jstree = jstree;
+      // 
     },
     methods: {
       getTreeDom: function () {

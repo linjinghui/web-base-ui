@@ -3,7 +3,7 @@
  -->
 
 <template>
-  <div :id="id" contenteditable="true" class="wrap-divEditor" :placeholder="placeholder" @keydown="enterkey"></div>
+  <div :id="id" contenteditable="true" class="wrap-divEditor" :maxlength="maxlength" :placeholder="placeholder" @input="aipt($event)"></div>
 </template>
 
 <script type="text/babel">
@@ -16,7 +16,10 @@
     },
     props: {
       placeholder: {
-        default: '可以在任意文字后面插入图片或者文字哦！'
+        default: '请输入内容'
+      },
+      maxlength: {
+        default: 20
       }
     },
     watch: {
@@ -32,6 +35,7 @@
       // 
     },
     methods: {
+      // @keydown="enterkey"
       enterkey: function (e) { 
         e = e || window.event;
         var keyCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
@@ -54,6 +58,16 @@
             range.collapse(false);
           }
         }
+      },
+      aipt: function (event) {
+        let tar = event.target;
+        let len = tar.getAttribute('maxlength');
+        let val = tar.innerText;
+        
+        if (val.length > len) {
+          tar.innerText = val.slice(0, len); 
+          window.getSelection().removeAllRanges();
+        }
       }
     }
   };
@@ -64,7 +78,7 @@
     position: relative;
     padding: 5px;
     width: 100%;
-    min-height: 300px;
+    min-height: 100px;
     border-style: solid;
     border-width: 1px;
     border-color: #ddd;

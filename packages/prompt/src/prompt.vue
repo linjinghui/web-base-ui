@@ -16,7 +16,7 @@
 </template>
 
 <script type="text/babel">
-  import Confirm from './main.vue';
+  import Confirm from '../../confirm/src/confirm.vue';
   import Input from '../../input/index.js';
 
   export default {

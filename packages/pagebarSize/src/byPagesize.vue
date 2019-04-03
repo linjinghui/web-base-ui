@@ -8,7 +8,7 @@
 </template>
 
 <script type="text/babel">
-  import Pagebar from './main.vue';
+  import Pagebar from '../../pagebar/src/main.vue';
   import DropMenu from '../../dropMenu/src/main.vue';
 
   export default {

@@ -7,11 +7,12 @@
 
   <title><%= htmlWebpackPlugin.options.title %></title>
   <link type="favicon" rel="shortcut icon" href="<%= htmlWebpackPlugin.options.icon %>">
+  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+  <!-- 需要使用echart组件的话，请引入下面的cdn -->
+  <script src="https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts-en.min.js"></script>
 </head>
 <body>
   <div id="app"></div>
-  <script async="async" src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-  <!-- 需要使用echart组件的话，请引入下面的cdn -->
-  <script async="async" src="https://cdn.bootcss.com/echarts/4.2.0-rc.2/echarts-en.min.js"></script>
 </body>
 </html>

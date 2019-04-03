@@ -21,7 +21,7 @@
 
 <script type="text/babel">
   import Input from '../../input/index.js';
-  import {Menu} from '../../menu/index.js';
+  import Menu from '../../menu/index.js';
 
   export default {
     name: 'DropMenu',

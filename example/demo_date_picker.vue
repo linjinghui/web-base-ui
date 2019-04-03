@@ -1,18 +1,20 @@
 <template>
   <div>
-    DEMO1:<br>
+    <!-- DEMO1:<br>
     <cmp-date-picker v-model="dateStr"></cmp-date-picker>
     <br>DEMO2:<br>
     <cmp-flat-date-picker v-model="dateStr2" @callback="callback"></cmp-flat-date-picker>
     <br>DEMO3:<br>
-    <cmp-mobile-scroll-date-picker v-model="dateStr3"></cmp-mobile-scroll-date-picker>
-    <br>DEMO4:<br>
+    <cmp-mobile-scroll-date-picker v-model="dateStr3"></cmp-mobile-scroll-date-picker> -->
+    <!-- <br> -->
+    DEMO4:<br>
     <cmp-laydate v-model="dateStr4" :option="option"></cmp-laydate>
   </div>
 </template>
 
 <script>
-import {DatePicker, FlatDatePicker, MobileScrollDatePicker, Laydate} from '../packages/index.js';
+// import {DatePicker, FlatDatePicker, MobileScrollDatePicker, Laydate} from '../packages/index.js';
+import {Laydate} from '../packages/index.js';
 
 export default {
   name: 'demoDatePicker',
@@ -52,9 +54,9 @@ export default {
     };
   },
   components: {
-    'cmpDatePicker': DatePicker,
-    'cmpFlatDatePicker': FlatDatePicker,
-    'cmpMobileScrollDatePicker': MobileScrollDatePicker,
+    // 'cmpDatePicker': DatePicker,
+    // 'cmpFlatDatePicker': FlatDatePicker,
+    // 'cmpMobileScrollDatePicker': MobileScrollDatePicker,
     'cmpLaydate': Laydate
   },
   watch: {

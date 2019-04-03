@@ -10,7 +10,7 @@ const entries = require('./entries.js');
 base.entry = entries || {};
 base.entry['web-base-ui.common'] = path.resolve(__dirname, '../packages/index.js');
 
-base.output.path = path.join(__dirname, '../libs');
+base.output.path = path.join(__dirname, '../lib');
 // base.output.filename = 'common.js'
 base.output.filename = '[name].js'
 base.output.library = 'ComponentBaseUI'

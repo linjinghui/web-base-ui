@@ -53,7 +53,9 @@
         default: true
       },
       // error|success|warning|bigsuccess
-      type: '',
+      type: {
+        default: ''
+      },
       stl: {
         type: Object,
         default: function (data) {
@@ -302,8 +304,8 @@
         > .button {
           margin: 0;
           width: 50%;
-          height: 40px;
-          line-height: 40px;
+          height: 50px;
+          line-height: 50px;
           border: 0!important;
           border-top: solid 1px #ddd!important;
           color: inherit!important;
@@ -312,6 +314,12 @@
         > .button:nth-of-type(2) {
           border-left: solid 1px #ddd!important;
         }
+      }
+    }
+
+    .wrap-confirm.big {
+      > section {
+        height: calc(100% - 40px - 50px);
       }
     }
   }

@@ -13,6 +13,7 @@ module.exports = {
   },
   // 不打包以下资源
   externals: {
+    'vue': 'Vue',
     'echarts': 'echarts'
   },
   output: {

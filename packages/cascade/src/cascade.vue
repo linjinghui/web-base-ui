@@ -8,7 +8,7 @@
 </template>
 
 <script type="text/babel">
-  import Menu from './main.vue';
+  import Menu from '../../menu/src/main.vue';
 
   export default {
     name: 'Cascade',

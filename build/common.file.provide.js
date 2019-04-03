@@ -56,7 +56,7 @@ function copyFolder (fromPath, toPath) {
 
 var path = require('path');
 
-// copyFolder(path.join(__dirname, '../src/fonts'), path.join(__dirname, '../libs/fonts'));
-copyFolder(path.join(__dirname, '../src/style'), path.join(__dirname, '../libs/style'));
-// copyFolder(path.join(__dirname, '../src/util'), path.join(__dirname, '../libs/util'));
+// copyFolder(path.join(__dirname, '../src/fonts'), path.join(__dirname, '../lib/fonts'));
+copyFolder(path.join(__dirname, '../src/style'), path.join(__dirname, '../lib/style'));
+// copyFolder(path.join(__dirname, '../src/util'), path.join(__dirname, '../lib/util'));
 // module.exports=copyFolder;
