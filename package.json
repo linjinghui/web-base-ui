@@ -2,9 +2,9 @@
   "name": "web-base-ui",
   "version": "2.0.1",
   "description": "基础组件",
-  "main": "libs/web-base-ui.common.js",
+  "main": "lib/web-base-ui.common.js",
   "files": [
-    "libs",
+    "lib",
     "packages",
     "example",
     "LICENCE",
@@ -13,7 +13,7 @@
   "author": "'linjinghui' <'852530363@qq.com'>",
   "scripts": {
     "prebuild": "rimraf ./dist",
-    "clean": "rimraf ./libs",
+    "clean": "rimraf ./lib",
     "cleanlocal": "rimraf ./lib",
     "build": "webpack --config build/webpack.prod.js",
     "dev": "nodemon build/server.js",
