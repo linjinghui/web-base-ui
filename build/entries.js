@@ -8,7 +8,7 @@ var reg = /import ([\S]+) from '([\S]+)'/;
 var result = {};
 fileContent.match(new RegExp(reg, 'g')).forEach(function (item) {
   var r = item.match(reg);
-  var key = r[1].replace(/[{}]/g, '');
+  var key = r[1].replace(/[{}]/g, '').toLowerCase();
   var src = '../packages' + r[2].replace('.', '');
   result[key] = path.resolve(__dirname, src);
 });
