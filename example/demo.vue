@@ -38,6 +38,7 @@
     <a href="#/demoDivEditor">divEditor</a>
     <a href="#/demoVideo">video</a>
     <a href="#/demoImg">img</a>
+    <a href="#/demoFlowtree">flowtree</a>
   </div>
 </template>
 

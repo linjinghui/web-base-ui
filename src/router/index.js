@@ -40,6 +40,7 @@ import DemoSwapSort from '../../example/demo_swap_sort.vue';
 import DemoDivEditor from '../../example/demo_div_editor.vue';
 import DemoVideo from '../../example/demo_video.vue';
 import DemoImg from '../../example/demo_img.vue';
+import DemoFlowtree from '../../example/demo_flow_tree.vue';
 
 
 Vue.use(Router);
@@ -241,6 +242,11 @@ export default new Router({
       path: '/demoImg',
       name: 'demoImg',
       component: DemoImg
+    },
+    {
+      path: '/demoFlowtree',
+      name: 'demoFlowtree',
+      component: DemoFlowtree
     }
   ]
 });

@@ -566,6 +566,14 @@ div[placeholder]:empty:before {
     margin: auto;
 }
 
+/*flex 水平、垂直居中, 给父元素添加此样式*/
+.center-hv-f {
+    display: inline-flex;
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+
 /*垂直居中*/
 .center-v {
     position: absolute;
