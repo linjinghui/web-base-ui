@@ -4,8 +4,12 @@
  -->
 
  <template>
-  <div class="wrap-flowtree">
-    <cmp-flowtreebox :stdata="tdata"></cmp-flowtreebox>
+  <div class="wrap-flowtree" @click="wrapBtn.display=false">
+    <cmp-flowtreebox :stdata="tdata" @cbkClkAddBtn="cllbackClkAddBtn"></cmp-flowtreebox>
+    <ul class="wrap-add-btn" v-if="wrapBtn.display" :style="{'top':wrapBtn.top,'left':wrapBtn.left}">
+      <li @click="clkNew">普通流程</li>
+      <li @click="clkNewCondition">条件</li>
+    </ul>
   </div>
 </template>
 
@@ -20,22 +24,20 @@
     data: function () {
       return {
         id: 'flowtree_' + new Date().getTime() + parseInt(Math.random() * 100),
-        tdata1: [
+        tdata: [
           {
             title: '发起人',
-            content: '请选择',
-            root: true
+            content: '请选择'
           },
           {
             title: 'end',
             content: 'end'
           }
         ],
-        tdata: [
+        tdata1: [
           {
             title: '发起人',
-            content: '请选择',
-            root: true
+            content: '请选择'
           },
           [
             [
@@ -108,7 +110,14 @@
             title: 'end',
             content: 'end'
           }
-        ]
+        ],
+        wrapBtn: {
+          display: false,
+          top: 0,
+          left: 0,
+          current: '',
+          parent: ''
+        }
       };
     },
     props: {
@@ -127,7 +136,40 @@
       // 
     },
     methods: {
-      // 
+      // 添加节点按钮点击
+      cllbackClkAddBtn: function (data) {
+        this.$set(this.wrapBtn, 'top', data.target.top + 'px');
+        this.$set(this.wrapBtn, 'left', data.target.left + data.target.width + 'px');
+        this.$set(this.wrapBtn, 'current', data.current);
+        this.$set(this.wrapBtn, 'parent', data.parent);
+        this.$set(this.wrapBtn, 'display', true);
+      },
+      // 新增流程节点
+      clkNew: function () {
+        let index = this.wrapBtn.parent.indexOf(this.wrapBtn.current);
+
+        this.wrapBtn.parent.splice(index + 1, 0, {
+          title: '添加x',
+          content: '请选择'
+        });
+        console.log(this.tdata);
+      },
+      // 新增条件节点
+      clkNewCondition: function () {
+        let index = this.wrapBtn.parent.indexOf(this.wrapBtn.current);
+
+        this.wrapBtn.parent.splice(index + 1, 0, [
+          [{
+            title: '添加条件1',
+            content: '请选择'
+          }], 
+          [{
+            title: '添加条件2',
+            content: '请选择'
+          }]
+        ]);
+        console.log(this.tdata);
+      }
     }
   };
 </script>
@@ -158,7 +200,7 @@
       display: flex;
       justify-content: center;
       padding: 30px 20px;
-      overflow: hidden;
+      // overflow: hidden;
 
       .node {
         position: relative;
@@ -196,6 +238,7 @@
       background-color: #3296fa;
       z-index: 2;
       cursor: pointer;
+
     }
     // 添加条件按钮
     .btn-add-condition {
@@ -260,6 +303,20 @@
       width: 50%;
       right: unset;
       left: 0;
+    }
+
+    // 浮动按钮集合
+    .wrap-add-btn {
+      position: absolute;
+      z-index: 3;
+
+      > li {
+        float: left;
+        padding: 4px;
+        border: solid 1px;
+        cursor: pointer;
+        background-color: #fff;
+      }
     }
   }
 </style>
