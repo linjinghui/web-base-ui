@@ -39,6 +39,8 @@
     <a href="#/demoVideo">video</a>
     <a href="#/demoImg">img</a>
     <a href="#/demoFlowtree">flowtree</a>
+    <a href="#/demoScrollFullPage">scrollFullPage</a>
+    
   </div>
 </template>
 

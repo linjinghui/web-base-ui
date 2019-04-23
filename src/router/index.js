@@ -41,6 +41,7 @@ import DemoDivEditor from '../../example/demo_div_editor.vue';
 import DemoVideo from '../../example/demo_video.vue';
 import DemoImg from '../../example/demo_img.vue';
 import DemoFlowtree from '../../example/demo_flow_tree.vue';
+import DemoScrollFullPage from '../../example/demo_scroll_full_page.vue';
 
 
 Vue.use(Router);
@@ -247,6 +248,11 @@ export default new Router({
       path: '/demoFlowtree',
       name: 'demoFlowtree',
       component: DemoFlowtree
+    },
+    {
+      path: '/demoScrollFullPage',
+      name: 'demoScrollFullPage',
+      component: DemoScrollFullPage
     }
   ]
 });
