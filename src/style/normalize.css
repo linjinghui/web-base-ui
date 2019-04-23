@@ -533,10 +533,10 @@ div[placeholder]:empty:before {
 /*text-shadow: none;*/
 /*}*/
 
-/*chorm滚动条样式*/
+/*chorm滚动条样式 v */
 ::-webkit-scrollbar {
-    width: 6px;/*竖 滚动条宽度*/
-    height: 6px;/*横 滚动条高度*/
+    width: 8px;/*竖 滚动条宽度*/
+    height: 8px;/*横 滚动条高度*/
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -545,7 +545,7 @@ div[placeholder]:empty:before {
 
 ::-webkit-scrollbar-thumb:vertical,
 ::-webkit-scrollbar-thumb:horizontal {
-    -webkit-border-radius: 12px;/*横、竖滚动条倒角*/
+    /*-webkit-border-radius: 12px;横、竖滚动条倒角*/
     background-color: #cccccc;/*横、竖滚动条 滚动条的颜色*/
 }
 
@@ -553,7 +553,28 @@ div[placeholder]:empty:before {
 ::-webkit-scrollbar-thumb:horizontal:hover {
     background-color:#a6a6a6;/*横、竖滚动条划过颜色*/
 }
-/*-chorm滚动条样式*/
+/*-chorm滚动条样式 ∧ */
+
+/* perfect-scrollbar滚动条插件样式 v */
+/* .ps__scrollbar-y-rail {
+    opacity: 1!important;
+} */
+.ps__scrollbar-y-rail > div {
+    width: 8px!important;
+    border-radius: 0!important;
+    background-color: #ccc!important;
+}
+.ps__scrollbar-y-rail:hover,
+.ps--in-scrolling > .ps__scrollbar-y-rail {
+    background-color: transparent!important;
+}
+.ps__scrollbar-y-rail:hover > div,
+.ps--in-scrolling > .ps__scrollbar-y-rail > div {
+    width: 8px!important;
+    background-color: #a6a6a6!important;;
+}
+/* perfect-scrollbar滚动条插件样式 ∧ */
+
 /* -----------------------------------------------------[常用的一些样式]----------------------------------------------------- */
 
 /*水平、垂直居中*/
