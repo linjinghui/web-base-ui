@@ -40,6 +40,7 @@ import DivEditor from './divEditor/index';
 import Video from './video/index';
 import Img from './img/index';
 import Flowtree from './flowtree/index';
+import TimeTurntable from './timeTurntable/index';
 
 const components = [Loading, Tip, Confirm, Prompt];
 const install = function (Vue) {
@@ -49,4 +50,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, Laydate, RangeMenu, Shuttle, Pagebar, PagebarPagesize, Echarts, ImageCrop, Cropper, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, ImageViewer, Map, SwapSort, DivEditor, Video, Img, Flowtree};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, Laydate, RangeMenu, Shuttle, Pagebar, PagebarPagesize, Echarts, ImageCrop, Cropper, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, ImageViewer, Map, SwapSort, DivEditor, Video, Img, Flowtree, TimeTurntable};

@@ -40,6 +40,7 @@
     <a href="#/demoImg">img</a>
     <a href="#/demoFlowtree">flowtree</a>
     <a href="#/demoScrollFullPage">scrollFullPage</a>
+    <a href="#/demoTimeTurntable">timeTurntable</a>
     
   </div>
 </template>
