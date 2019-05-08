@@ -43,6 +43,8 @@ import DemoImg from '../../example/demo_img.vue';
 import DemoFlowtree from '../../example/demo_flow_tree.vue';
 import DemoScrollFullPage from '../../example/demo_scroll_full_page.vue';
 import DemoTimeTurntable from '../../example/demo_time_turntable.vue';
+import DemoSelector from '../../example/demo_selector.vue';
+import DemoList from '../../example/demo_list.vue';
 
 
 Vue.use(Router);
@@ -259,6 +261,16 @@ export default new Router({
       path: '/demoTimeTurntable',
       name: 'demoTimeTurntable',
       component: DemoTimeTurntable
+    },
+    {
+      path: '/demoSelector',
+      name: 'demoSelector',
+      component: DemoSelector
+    },
+    {
+      path: '/demoList',
+      name: 'demoList',
+      component: DemoList
     }
   ]
 });

@@ -78,6 +78,7 @@
           if (this.beforeclk) {
             if (this.beforeclk()) {
               this.emt(this.val);
+              this.$emit('click');
             }
           } else {
             this.emt(this.val);

@@ -559,18 +559,34 @@ div[placeholder]:empty:before {
 /* .ps__scrollbar-y-rail {
     opacity: 1!important;
 } */
+.ps__scrollbar-x-rail,
+.ps__scrollbar-y-rail {
+    z-index: 11;
+}
 .ps__scrollbar-y-rail > div {
     width: 8px!important;
     border-radius: 0!important;
     background-color: #ccc!important;
 }
+.ps__scrollbar-x-rail > div {
+    height: 8px!important;
+    border-radius: 0!important;
+    background-color: #ccc!important;
+}
 .ps__scrollbar-y-rail:hover,
-.ps--in-scrolling > .ps__scrollbar-y-rail {
+.ps--in-scrolling > .ps__scrollbar-y-rail,
+.ps__scrollbar-x-rail:hover,
+.ps--in-scrolling > .ps__scrollbar-x-rail {
     background-color: transparent!important;
 }
 .ps__scrollbar-y-rail:hover > div,
 .ps--in-scrolling > .ps__scrollbar-y-rail > div {
     width: 8px!important;
+    background-color: #a6a6a6!important;;
+}
+.ps__scrollbar-x-rail:hover > div,
+.ps--in-scrolling > .ps__scrollbar-x-rail > div {
+    height: 8px!important;
     background-color: #a6a6a6!important;;
 }
 /* perfect-scrollbar滚动条插件样式 ∧ */
