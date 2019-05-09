@@ -22,7 +22,8 @@
           <div class="loading" v-show="showLoading">{{loading}}</div>
           <vperfect-scrollbar class="wrap-tree" :settings="{wheelSpeed:0.5}" :style="{height:'calc(100% - 34px - 20px - '+(navData?'32px - 10px':'0px')+' - 2px)'}">
             <ul>
-              <cmp-li v-for="(itemData,index) in treeData" :key="itemData.id+'_'+index" :data="itemData" :avatar="avatar" :maxCount="maxCount" :checkedCount="results.length"></cmp-li>
+              <li class="tree-title" v-if="treeTitle">{{treeTitle}}</li>
+              <cmp-li v-for="(itemData,index) in treeData" :key="itemData.id+'_'+index" :data="itemData" :avatar="avatar" :maxCount="maxCount" :checkedCount="results.length" :returnType="returnType"></cmp-li>
             </ul>
           </vperfect-scrollbar>
         </section>
@@ -40,7 +41,7 @@
         </section>
       </div>
       <footer>
-        <cmp-button class="confirm">确认</cmp-button>
+        <cmp-button class="confirm" @click="clkConfirm">确认</cmp-button>
         <cmp-button theme="line" @click="clkCancel">取消</cmp-button>
       </footer>
     </div>
@@ -105,7 +106,7 @@
       },
       // 最大选择数量
       maxCount: {
-        default: 10
+        default: 100
       },
       // 返回类型 1: 全部返回 2: 只返还回子节点
       returnType: {
@@ -121,6 +122,12 @@
       treeTitle: {
         default: ''
       },
+      // 已选中结果
+      result: {
+        default: function () {
+          return [];
+        }
+      },
       funSearch: {
         default: function () {
           return function () {
@@ -130,13 +137,16 @@
       }
     },
     watch: {
-      // 
+      result: function (val) {
+        this.emitResultEvent(val);
+      }
     },
     computed: {
       // 
     },
     beforeDestroy: function () {
-      // 
+      window.initResult = null;
+      window.EVENTBUS.$off('checked', this.toggleResult);
     },
     mounted: function () {
       let _this = this;
@@ -145,7 +155,9 @@
       this.showLoading = true;
       this.active = 0;
       setTimeout(function () {
-        _this.clkSearch();
+        _this.clkSearch(function () {
+          _this.emitResultEvent(_this.result);
+        });
         _this.showLoading = false;
       }, 0);
       // 监听
@@ -162,12 +174,16 @@
       clkCancel: function () {
         this.$emit('input', false);
       },
+      clkConfirm: function () {
+        this.$emit('callback', JSON.parse(this.utlRemoveCustChart(JSON.stringify(this.resultSources))));
+        this.clkCancel();
+      },
       clkNav: function (index) {
         this.search = '';
         this.active = index;
         this.clkSearch();
       },
-      clkSearch: function () {
+      clkSearch: function (callback) {
         let _this = this;
 
         this.funSearch({ search: this.search, navIndex: this.active }, function (result) {
@@ -176,6 +192,7 @@
             _this.treeData = result.treeData;
             _this._treeData = JSON.parse(JSON.stringify(result.treeData));
           }
+          callback && callback();
         });
       },
       toggleResult: function (data) {
@@ -188,7 +205,7 @@
           return;
         }
         // 去除checked、opened字段
-        _data = _data.replace(/,"checked":true/g, '').replace(/,"checked":false/g, '').replace(/,"opened":true/g, '').replace(/,"opened":false/g, '');
+        _data = this.utlRemoveCustChart(_data);
         
         let index = this.results.indexOf(_data);
         
@@ -217,7 +234,7 @@
             setTimeout(function () { 
               _this.clkDelItem(0); 
               if (arr.length <= 1) {
-                console.log('清除完成');
+                // console.log('清除完成');
               }
             }, 10);
           }
@@ -230,6 +247,25 @@
             this.treeData = JSON.parse(JSON.stringify(this._treeData));
           });
         }
+      },
+      // 用户自定义结果集
+      emitResultEvent: function (data) {
+        if (data && data.length > 0) {
+          // 控制最大数量
+          if (data.length > this.maxCount) {
+            data.splice(this.maxCount);
+          }
+          let itv = setInterval(function () {
+            if (window.initResult === 'received') {
+              clearInterval(itv);
+            } else {
+              window.EVENTBUS.$emit('initResult', data);
+            }
+          }, 1000);
+        }
+      },
+      utlRemoveCustChart: function (str) {
+        return str.replace(/,"checked":true/g, '').replace(/,"checked":false/g, '').replace(/,"opened":true/g, '').replace(/,"opened":false/g, '');
       }
     }
   };
@@ -557,7 +593,8 @@
   }
   // 左侧样式 - 树形标题
   .wrap-selector > div > .p-l .tree-title {
-    margin-bottom: 5px;
+    height: 30px;
+    line-height: 30px;
     white-space: nowrap;
   }
   // 左侧样式 - 列表样式

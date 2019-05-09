@@ -10,7 +10,7 @@
     <img class="wrap-avator" :src="data.img||avatar">
     <span class="wrap-text">{{data.name}}</span>
     <ul v-if="data.children" v-show="data.opened">
-      <item v-for="(itemData,index) in data.children" :key="itemData.id+'_'+index+'_children'" :data="itemData" :pdata="data" :avatar="avatar" :maxCount="maxCount" :checkedCount="checkedCount"></item>
+      <item v-for="(itemData,index) in data.children" :key="itemData.id+'_'+index+'_children'" :data="itemData" :pdata="data" :avatar="avatar" :maxCount="maxCount" :checkedCount="checkedCount" :returnType="returnType"></item>
     </ul>
   </li>
 </template>
@@ -44,7 +44,9 @@
       // 最大选择数量
       maxCount: '',
       // 已选中数量
-      checkedCount: ''
+      checkedCount: '',
+      // 返回类型 1: 全部返回 2: 只返还回子节点
+      returnType: ''
     },
     watch: {
       'data.checked': {
@@ -75,10 +77,23 @@
       // 
     },
     beforeDestroy: function () {
-      // 
+      window.EVENTBUS.$off('initResult');
     },
     mounted: function () {
-      // 
+      let _this = this;
+
+      window.EVENTBUS.$on('initResult', function (data) {
+        // 标注已接收到
+        window.initResult = 'received';
+        let str = JSON.stringify(data);
+        let id = _this.data.id;
+        let regstr = '"id":' + (typeof id === 'string' ? '"' + id + '"' : id);
+
+        if (str.indexOf(regstr) >= 0) {
+          _this.$set(_this.data, 'checked', true);
+          _this.clkCheck(_this.data);
+        }
+      });
     },
     methods: {
       // 开关子节点
@@ -87,9 +102,10 @@
       },
       // 点击复选框之前
       clkBeforeCheck: function () {
-        return this.maxCount > this.checkedCount;
+        return this.data.checked || (this.maxCount > this.checkedCount);
       },
       clkCheck: function (info) {
+        // let _this = this;
         let str = JSON.stringify(info.children);
         // 剩余可选中的节点数量
         let sy = this.maxCount - this.checkedCount;
@@ -97,15 +113,52 @@
         // 设置所有子节点状态，控制最大选择数量
         str = str.replace(/,"checked":true/g, '').replace(/,"checked":false/g, '');
         if (info.checked && info.children && info.children.length > sy) {
-          str = str.replace(/}/g, function (match, pos, originalText) {
-            let res = ',"checked":' + info.checked + '}';
+          
+          // 方式一：正则
+          // str = str.replace(/}/g, function (match, pos, originalText) {
+          //   console.log(str.substring(pos - 4, pos));
+          //   let fontChart = str.substring(pos - 4, pos);
 
-            if (sy <= 1) {
-              res = '}';
+          //   // 返回类型 1: 全部返回 2: 只返还回子节点
+          //   if (_this.returnType === 2 && fontChart === 'null') {
+          //     --sy;
+          //   } 
+          //   if (_this.returnType !== 2) {
+          //     --sy;
+          //   }
+          //   let res = ',"checked":' + info.checked + '}';
+
+          //   if (sy <= (_this.returnType === 2 ? -1 : 0)) {
+          //     res = '}';
+          //   }
+          //   return res;
+          // });
+          // 方式二：循环
+          let darrs = JSON.parse(str);
+          let returnType = this.returnType;
+          let dp = function (arr) {
+            for (let i = 0;i < arr.length;i++) {
+              if (sy < -1) {
+                break;
+              }
+              if (returnType === 2 && (!arr[i].children || arr[i].children.length === 0)) {
+                --sy;
+              } 
+              if (returnType !== 2) {
+                --sy;
+              }
+              
+              if (sy > (returnType === 2 ? -1 : 0)) {
+                arr[i].checked = info.checked;
+              }
+              if (arr[i].children && arr[i].children.length > 0) {
+                dp(arr[i].children);
+              }
             }
-            --sy;
-            return res;
-          });
+          };
+
+          dp(darrs);
+          str = JSON.stringify(darrs);
         } else {
           str = str.replace(/}/g, ',"checked":' + info.checked + '}');
         }
