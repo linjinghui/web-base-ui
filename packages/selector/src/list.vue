@@ -4,13 +4,13 @@
  -->
 
 <template>
-  <li :class="{open:data.opened}">
-    <span class="wrap-arrow" @click="clkToggle(data)"><i class="cicon-triangle" v-if="data.children"></i></span>
-    <cmp-checkbox class="wrap-check" v-model="data.checked" :beforeclk="clkBeforeCheck" @click="clkCheck(data)"></cmp-checkbox>
-    <img class="wrap-avator" :src="data.img||avatar">
+  <li :class="{open:data.opened,active:!multiple&&data.checked}" @click.stop="clkLi">
+    <span class="wrap-arrow" @click.stop="clkToggle(data)"><i class="cicon-triangle" v-if="data.children"></i></span>
+    <cmp-checkbox class="wrap-check" v-if="multiple&&!(checkType===2&&data.children&&data.children.length>0)" v-model="data.checked" :beforeclk="clkBeforeCheck" @click="clkCheck(data)"></cmp-checkbox>
+    <img class="wrap-avator" v-if="data.img" :src="data.img">
     <span class="wrap-text">{{data.name}}</span>
     <ul v-if="data.children" v-show="data.opened">
-      <item v-for="(itemData,index) in data.children" :key="itemData.id+'_'+index+'_children'" :data="itemData" :pdata="data" :avatar="avatar" :maxCount="maxCount" :checkedCount="checkedCount" :returnType="returnType"></item>
+      <item v-for="(itemData,index) in data.children" :key="itemData.id+'_'+index+'_children'" :data="itemData" :pdata="data" :maxCount="maxCount" :checkedCount="checkedCount" :returnType="returnType" :checkType="checkType" :multiple="multiple"></item>
     </ul>
   </li>
 </template>
@@ -40,19 +40,22 @@
           return {};
         }
       },
-      avatar: '',
       // 最大选择数量
       maxCount: '',
       // 已选中数量
       checkedCount: '',
       // 返回类型 1: 全部返回 2: 只返还回子节点
-      returnType: ''
+      returnType: '',
+      // 勾选类型 1: 允许勾选父节点(默认) 2: 只允许勾选子节点
+      checkType: '',
+      // 是否多选 true: 是多选(默认) false: 单选
+      multiple: ''
     },
     watch: {
       'data.checked': {
         deep: true,
         handler: function (val) {
-          if (typeof val !== 'undefined') {
+          if (this.multiple && typeof val !== 'undefined') {
             if (!val) {
               // 取消勾选，也要取消父节点的勾选
               this.$set(this.pdata, 'checked', val);
@@ -90,12 +93,30 @@
         let regstr = '"id":' + (typeof id === 'string' ? '"' + id + '"' : id);
 
         if (str.indexOf(regstr) >= 0) {
-          _this.$set(_this.data, 'checked', true);
-          _this.clkCheck(_this.data);
+          if (_this.multiple) {
+            _this.$set(_this.data, 'checked', true);
+            _this.clkCheck(_this.data);
+          } else {
+            _this.clkLi();
+          }
         }
       });
     },
     methods: {
+      // 行点击 
+      clkLi: function () {
+        let hasChildren = this.data.children && this.data.children.length > 0;
+
+        // 勾选类型 1: 允许勾选父节点(默认) 2: 只允许勾选子节点
+        if (this.checkType === 2 && hasChildren) {
+          return;
+        }
+
+        if (!this.multiple) {
+          this.$set(this.data, 'checked', !this.data.checked);
+          window.EVENTBUS.$emit('checked', this.data);
+        }
+      },
       // 开关子节点
       clkToggle: function (info) {
         this.$set(info, 'opened', !info.opened);

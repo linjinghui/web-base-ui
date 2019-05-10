@@ -7,12 +7,12 @@
   <transition name="slide-fade">
     <div class="wrap-selector" :id="id" v-if="value!==''" v-show="value">
       <header>
-        选择成员
+        {{headTitle}}
         <i class="cicon-cross-chr" @click="clkCancel"></i>
       </header>
       <div>
         <section class="p-l">
-          <cmp-input v-model="search" clear="false" :maxlength="maxlength" :placeholder="placeholder">
+          <cmp-input v-model="search" clear="false" :maxlength="maxlength" :placeholder="placeholder" @enter="clkSearch">
             <i class="btn-search" slot="right" @click="clkSearch"><i class="cicon-search-cpt-chr" slot="right"></i></i>
           </cmp-input>
           <ul class="nav" v-if="navData">
@@ -20,10 +20,15 @@
           </ul>
           <div class="empty" v-show="showEmpty"><img :src="empty"><br>没有找到相关数据</div>
           <div class="loading" v-show="showLoading">{{loading}}</div>
-          <vperfect-scrollbar class="wrap-tree" :settings="{wheelSpeed:0.5}" :style="{height:'calc(100% - 34px - 20px - '+(navData?'32px - 10px':'0px')+' - 2px)'}">
-            <ul>
+          <vperfect-scrollbar class="wrap-tree" v-show="showTree||showSearchData" :settings="{wheelSpeed:0.5}" :style="{height:'calc(100% - 34px - 20px - '+(navData?'32px - 10px':'0px')+' - 2px)'}">
+            <!-- 树形数据展示 -->
+            <ul v-show="showTree">
               <li class="tree-title" v-if="treeTitle">{{treeTitle}}</li>
-              <cmp-li v-for="(itemData,index) in treeData" :key="itemData.id+'_'+index" :data="itemData" :avatar="avatar" :maxCount="maxCount" :checkedCount="results.length" :returnType="returnType"></cmp-li>
+              <cmp-li v-for="(itemData,index) in treeData" :key="itemData.id+'_'+index" :data="itemData" :maxCount="maxCount" :checkedCount="results.length" :returnType="returnType" :checkType="checkType" :multiple="multiple"></cmp-li>
+            </ul>
+            <!-- 搜索结果展示 -->
+            <ul class="wrap-seach" v-show="showSearchData">
+              <cmp-li v-for="(itemData,index) in searchData" :key="itemData.id+'_'+index+'_shd'" :data="itemData" :maxCount="maxCount" :checkedCount="results.length" :returnType="returnType" :checkType="checkType" :multiple="multiple"></cmp-li>
             </ul>
           </vperfect-scrollbar>
         </section>
@@ -32,7 +37,7 @@
           <vperfect-scrollbar :settings="{wheelSpeed:0.5,suppressScrollX:true}">
             <ul class="lst-1"> 
               <li v-for="(item,index) in results" :key="JSON.parse(item).id+'_'+index+'_rst'">
-                <img :src="JSON.parse(item).img||avatar">
+                <img v-if="JSON.parse(item).img" :src="JSON.parse(item).img">
                 <span>{{JSON.parse(item).name}}</span>
                 <i class="cicon-cross-chr" @click="clkDelItem(index)"></i>
               </li>
@@ -81,6 +86,10 @@
         showLoading: false,
         // 是否显示空展示
         showEmpty: false,
+        // 是否显示树形
+        showTree: false,
+        // 是否显示搜索内容
+        showSearchData: false,
         // 选中结果
         results: [],
         resultSources: []
@@ -90,10 +99,13 @@
       value: {
         default: ''
       },
-      // 默认头像
-      avatar: {
-        default: require('./images/avatar.png')
+      headTitle: {
+        default: '选择器'
       },
+      // // 默认头像
+      // avatar: {
+      //   default: require('./images/avatar.png')
+      // },
       // 空列表展示图片
       empty: {
         default: require('./images/empty.png')
@@ -111,6 +123,14 @@
       // 返回类型 1: 全部返回 2: 只返还回子节点
       returnType: {
         default: 2
+      },
+      // 勾选类型 1: 允许勾选父节点(默认) 2: 只允许勾选子节点
+      checkType: {
+        default: 1
+      },
+      // 是否多选 true: 是多选(默认) false: 单选
+      multiple: {
+        default: true
       },
       navData: {
         default: ''
@@ -146,22 +166,20 @@
     },
     beforeDestroy: function () {
       window.initResult = null;
-      window.EVENTBUS.$off('checked', this.toggleResult);
+      window.EVENTBUS.$off('checked', this.multiple ? this.toggleResult : this.toggleOneResult);
     },
     mounted: function () {
       let _this = this;
 
       this.initEventbus();
-      this.showLoading = true;
       this.active = 0;
       setTimeout(function () {
         _this.clkSearch(function () {
           _this.emitResultEvent(_this.result);
-        });
-        _this.showLoading = false;
+        }, 'nav');
       }, 0);
       // 监听
-      window.EVENTBUS.$on('checked', this.toggleResult);
+      window.EVENTBUS.$on('checked', this.multiple ? this.toggleResult : this.toggleOneResult);
     },
     methods: {
       initEventbus: function () {
@@ -180,19 +198,49 @@
       },
       clkNav: function (index) {
         this.search = '';
+        this.results = [];
+        this.resultSources = [];
+        this.searchData = [];
         this.active = index;
-        this.clkSearch();
+        this.clkSearch('', 'nav');
       },
-      clkSearch: function (callback) {
+      clkSearch: function (callback, from) {
         let _this = this;
 
+        this.showLoading = true;
+        this.showTree = false;
+        this.showSearchData = false;
+        this.showEmpty = false;
+        // this.searchData = [];
+
+        if (from !== 'nav' && !this.search) {
+          // 还原， 隐藏搜索结果，显示树形数据
+          this.showLoading = false;
+          this.showEmpty = false;
+          this.showSearchData = false;
+          this.showTree = true;
+          return;
+        }
+
         this.funSearch({ search: this.search, navIndex: this.active }, function (result) {
-          result.searchData && (_this.searchData = result.searchData);
+          _this.showLoading = false;
+          if (result.searchData) {
+            _this.searchData = result.searchData;
+            _this.showSearchData = true;
+          }
           if (result.treeData) {
             _this.treeData = result.treeData;
             _this._treeData = JSON.parse(JSON.stringify(result.treeData));
+            _this.showTree = true;
           }
-          callback && callback();
+          if (_this.search && (!result.searchData || result.searchData.length === 0)) {
+            // 搜索结果是空
+            _this.showEmpty = true;
+          } else if (!_this.search && (!result.treeData || result.treeData.length === 0)) {
+            // 树形数据是空
+            _this.showEmpty = true;
+          }
+          (typeof callback === 'function') && callback();
         });
       },
       toggleResult: function (data) {
@@ -219,10 +267,48 @@
           this.resultSources.splice(index, 1);
         }
       },
+      // 单选结果
+      toggleOneResult: function (data) {
+        let _this = this;
+        let checked = data.checked;
+        let _data = JSON.stringify(data);
+
+        // 去除checked、opened字段
+        _data = this.utlRemoveCustChart(_data);
+        
+        let index = this.results.indexOf(_data);
+        
+        if (checked && index < 0) {
+          // 添加 this.maxCount  保留最后面n个，其他全部设置checked=false 并移除
+          
+          this.results.push(_data);
+          this.resultSources.push(data);
+
+          let _index = this.results.length - this.maxCount;
+
+          if (_index > 0) {
+            this.results.splice(0, _index);
+            let delArr = this.resultSources.splice(0, _index);
+            
+            for (let i = 0;i < delArr.length;i++) {
+              _this.$set(delArr[i], 'checked', false);
+            }
+          }
+        } else if (!checked && index >= 0) {
+          // 删除
+          this.results.splice(index, 1);
+          this.resultSources.splice(index, 1);
+        }
+      },
       clkDelItem: function (index) {
         let itemSource = this.resultSources[index];
 
         this.$set(itemSource, 'checked', false);
+
+        // if (!this.multiple) {
+        this.results.splice(index, 1);
+        this.resultSources.splice(index, 1);
+        // }
       },
       clkClearTreeItem: function () {
         if (this.results.length < 40) {
@@ -344,31 +430,31 @@
     text-indent: 0px;
     // 第2层
     > ul > li { 
-      text-indent: 20px; 
+      text-indent: 14px; 
       // 第3层
       > ul > li { 
-        text-indent: 40px; 
+        text-indent: calc(14px * 2);
         // 第4层
         > ul > li { 
-          text-indent: 60px; 
+          text-indent: calc(14px * 3);
           // 第5层
           > ul > li { 
-            text-indent: 80px; 
+            text-indent: calc(14px * 4);
             // 第6层
             > ul > li { 
-              text-indent: 100px; 
+              text-indent: calc(14px * 5);
               // 第7层
               > ul > li { 
-                text-indent: 120px; 
+                text-indent: calc(14px * 6);
                 // 第8层
                 > ul > li { 
-                  text-indent: 140px; 
+                  text-indent: calc(14px * 7);
                   // 第9层
                   > ul > li { 
-                    text-indent: 160px; 
+                    text-indent: calc(14px * 8);
                     // 第10层
                     > ul > li { 
-                      text-indent: 180px; 
+                      text-indent: calc(14px * 9);
                     }
                   }
                 }
@@ -397,25 +483,28 @@
     vertical-align: middle;
     text-indent: 0;
     z-index: 2;
-    cursor: pointer;
-    // background-color: blueviolet;
+    
     > .cicon-triangle {
       margin-top: 8px;
       font-size: 14px;
       color: #999;
       transition: width .2s;
+      cursor: pointer;
     }
+  }
+  // 搜索内容 列表中去掉箭头样式
+  .wrap-selector > div > .p-l > .wrap-tree .wrap-seach > li > .wrap-arrow {
+    width: 1px;
   }
   .wrap-selector > div > .p-l > .wrap-tree li > .wrap-check {
     position: relative;
     display: inline-block;
     margin-right: 0;
-    width: 25px;
+    width: 22px;
     height: 16px;
     vertical-align: middle;
     text-indent: 0;
     z-index: 2;
-    // background-color: rgb(142, 235, 142);
   }
   .wrap-selector > div > .p-l > .wrap-tree li > .wrap-avator {
     position: relative;
@@ -424,6 +513,8 @@
     height: 20px;
     vertical-align: middle;
     text-indent: 0;
+    border-radius: 50%;
+    image-rendering: -webkit-optimize-contrast;
     z-index: 2;
   }
   .wrap-selector > div > .p-l > .wrap-tree li > .wrap-text {
@@ -455,8 +546,10 @@
     font-size: 12px;
     border-color: #eee;
     background-color: #fff;
-    z-index: 3;
     user-select: none;
+    // border: 1px solid #ebeef5;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    z-index: 3;
   }
 
   // 布局
