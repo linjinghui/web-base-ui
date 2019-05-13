@@ -54,6 +54,7 @@
 </template>
 
 <script type="text/babel">
+  import Vue from 'vue';
   import Button from '../../button/src/main.vue';
   import Input from '../../input/src/main.vue';
   import Checkbox from '../../checkbox/src/main.vue';
@@ -185,8 +186,6 @@
     methods: {
       initEventbus: function () {
         if (!window.EVENTBUS) {
-          let Vue = require('vue');
-          
           window.EVENTBUS = new Vue();
         }
       },
