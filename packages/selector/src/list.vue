@@ -80,27 +80,10 @@
       // 
     },
     beforeDestroy: function () {
-      window.EVENTBUS.$off('initResult');
+      window.EVENTBUS.$off('initResult', this.evntInitResult);
     },
     mounted: function () {
-      let _this = this;
-
-      window.EVENTBUS.$on('initResult', function (data) {
-        // 标注已接收到
-        window.initResult = 'received';
-        let str = JSON.stringify(data);
-        let id = _this.data.id;
-        let regstr = '"id":' + (typeof id === 'string' ? '"' + id + '"' : id);
-
-        if (str.indexOf(regstr) >= 0) {
-          if (_this.multiple) {
-            _this.$set(_this.data, 'checked', true);
-            _this.clkCheck(_this.data);
-          } else {
-            _this.clkLi();
-          }
-        }
-      });
+      window.EVENTBUS.$on('initResult', this.evntInitResult);
     },
     methods: {
       // 行点击 
@@ -184,6 +167,27 @@
           str = str.replace(/}/g, ',"checked":' + info.checked + '}');
         }
         this.$set(info, 'children', JSON.parse(str));
+      },
+      evntInitResult: function (data) {
+        // 标注已接收到
+        window.initResult = 'received';
+        let str = JSON.stringify(data);
+        let id = this.data.id;
+        let regstr = '"id":' + (typeof id === 'string' ? '"' + id + '"' : id);
+
+        if (str.indexOf(regstr) >= 0) {
+          // 当前节点存在于 结果result中
+          if (this.multiple) {
+            this.$set(this.data, 'checked', true);
+            this.clkCheck(this.data);
+          } else {
+            this.clkLi();
+          }
+        } else if (this.data.checked) {
+          // 当前节点不存在于结果中，且当前节点是已勾选状态，需要去掉勾选状态
+          this.$set(this.data, 'checked', false);
+          this.clkCheck(this.data);
+        }
       }
     }
   };

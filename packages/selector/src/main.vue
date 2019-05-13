@@ -158,6 +158,7 @@
     },
     watch: {
       result: function (val) {
+        window.initResult = null;
         this.emitResultEvent(val);
       }
     },

@@ -11,8 +11,8 @@ export default {
   data: function () {
     return {
       // 头像自定义 V
-      imgzg: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA70lEQVQ4jbWRoU5DQRBFKwp/gAaHwIFCkDzY2Z8phLQ/QBoMFkxDTR0te8fwExgsBgFVJFgMpYqDIJC2bF8WwSQrVpyz9842Gv8xB9dsR+fWxMTEXRC75fAV6yZeo8PMedsXm0UCE70FmOhgiUGRIIr7nCCKcWmCh2wC8VyWwLnIJkhcFgmqERsmJguCaRDn5rSrLs2SFKfZFF9VHs0ZLoW3xKqJs2WCb8lOn5U5cE+sRXFi4iUHhcShiaOZ+/EPbE7bxHvdq8FpBaeVFURnWgf/quA8zVUw58acjyKBGNcuMTdVl6YlOpboFH3jX+YTqWBbvoJu5FsAAAAASUVORK5CYII=',
-      imgrt: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAA3klEQVQ4jbWRsUoDURBFR6wUwdraT7CyWJG8ma+xEqzsTZkmiAiChSbxzWDnJ1lKOiEEwkmpWXb3PQsHpjxn7nBF/mPOHjlUZ2rOUoMvDSbnzkElzp46HxbQWq/Ck2MdMBYwylwUBRpM+gSWGZcFzqxX4DwVBZa57RNo5rooaF44sWDVcX2pznFRICKSgru2IGWuqmARkUvnaCe68ynOfhU8euNUnWkrwUozN4MvpAWNBu/mbHpbCL7NeU4Lmh1YM/cDUHcjwcOPwFn/WeCsfyd4LURvV7rRYF7dytBsAUlfXfF8Wwj1AAAAAElFTkSuQmCC',
+      imgzg: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAB7ElEQVQ4jZWUPWsUURSG57dlsrNgWFJqYTCms/IH2MfGRlDbFFaZO7ubkKiLBEtRxAgShDhsYxUQUggpkp1znhT3czKzRi8c5nLvmfe+7/nKUADcR5wB2tBd9l57bvzKwk4b66hNBA0gbqfpw38FlNYPCqhGHoGrWj971880s6fpZdzPz5XHH2A0ER4dwY/fTWCYPthhGKToIjieXSjrezAwUBhhWCmjifDrTyJbuqBZTEKUDsKLY6WoIK8sqLdnX9qhWQIYgbzT1nsYlsLACLmBorT24I0mj3eTk4HcYG6dHs6c3LLN8N6hREE9FLP0PC2JV8cR0NvAwPOvbZyYHLkRQ9HoqHB2IaxNIDfWCiPcmcLLb8L0p3Tj6P6Phe2la5Szc6IUJQwNNpYuQcNS2JjB9ifXBL7btHEMhdAhXvaigZ3vTuquzbgPQe7iufkWLiXSVCATnzHH7vwSXp8Idw80yF31YLtX7M9hWmtI0l6tsdjTpCyA8akyGjuAakFhxEqsLMOigoNaOZxLYDmt28lMelkYVTZmK8YyyI2NX1FasDTjuYGNGYjEGraASQ08+dguEf9dLeMDvhXvv4Onn3sL+/bls96oMK5hfLp8Kv4DoPR0xPIhezugxvm3rO//k6GfBeoGb+PO+qf2NcwFy1Bk/VL7AAAAAElFTkSuQmCC',
+      imgrt: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAB6UlEQVQ4jY2UT2vVQBTF89U0/yriQt34XVwVBRFxUTfdiFt5mUlp+x0sVSxPHgqirgUp3dlafLn35+JOJpPkveKFIZPJnTPnnHsnGWnodCqTYWsac4RpZAqoWuI6AVNVFBAdNov2J1mmqjKNLCWmG5NkYKyAdrYmyhwOslSSgYV3hesOXi2VB8fw8FDY/yRcCfH7psjiunZERYHp43dQOigXSu6h8PDkpD+8g00epib3EgVl+QvqZk3poFhA5aFuhNLB6mIrwQEwehRO3V8quTOGVWPPwkPRwuuVBtVbGPbMonrg6XvYcUrpoHbGsGpsvPwI6Bxs7GFfmPD29qt51zOsGsjDvP2esJtozwa4cVdf/IE7BwHECXmQfP9IuPyraWoSMkjWEayACm8+Bw+9gdYOjn6kiuZ0IsO+B9PmvloHhouOyiuPjoetVsR56wyAYyv4+duaunaQeyidcK+F5ptyeT33LzK0k9axbVbnsHtiUmtvRelHtegoWrh7AC8+wJfzFEwSwBB7Z2Z86eB2eNaO0I9iPjbm6a1w2N7ZlqKgVtXK2W2oG4ntUnkoGgPIw7fCW1vttOPCZCn6s1OlCszyROpN4/np+K8zqXIS2y7rJKZpmSarA+jma3Vz2E0bSU6rlc7/HxD+AURnyJUZHA/hAAAAAElFTkSuQmCC',
       imgavatar: '"+this.imgrt+"',
       // 头像自定义 ∧
       option: {
@@ -21,7 +21,7 @@ export default {
         // // 默认头像
         // avatar: '"+this.imgrt+"',
         // 导航列表
-        // navData: ['组织架构', '角色列表', '部门主管'],
+        navData: ['组织架构', '角色列表', '部门主管'],
         // 返回类型 1: 全部返回 2: 只返还回子节点(默认)
         returnType: 2,
         // 勾选类型 1: 允许勾选父节点(默认) 2: 只允许勾选子节点
@@ -134,14 +134,18 @@ export default {
           _this.$set(_this.option, 'result', [
             {"id":"357644","name":"组织根目录人员","children":null},
             {"id":"a0f0a1lsrk78vrkx","name":"其它部门4","children":null},
-            {"id":"a0f04qqqswuejkx3","name":"行政村","children":null},
-            {"id":"a0f0pt4n3nnv0eqi","name":"下级部门","children":null},
-            {"id":"a0f04sncpl1oqvmf","name":"中共苍溪县龙山镇畜牧兽医站支部委员会","children":null},
-            {"id":"a0f04v4abtt2tnp6","name":"中共苍溪县龙山镇迎宾路社区支部委员会","children":null},
-            {"id":"a0f04speplu4zf3l","name":"中共苍溪县龙山中心卫生院支部委员会","children":null},
-            {"id":"a0f04spksnnthcw8","name":"中共苍溪县龙山镇团结村支部委员会","children":null},
-            {"id":"a0f04spmy0bzopgm","name":"中共苍溪县龙山镇灵钟双山支部委员会","children":null}
+            {"id":"a0f04qqqswuejkx3","name":"行政村","children":null}
           ]);
+          setTimeout(function () {
+            _this.$set(_this.option, 'result', [
+              {"id":"a0f0pt4n3nnv0eqi","name":"下级部门","children":null},
+              {"id":"a0f04sncpl1oqvmf","name":"中共苍溪县龙山镇畜牧兽医站支部委员会","children":null},
+              {"id":"a0f04v4abtt2tnp6","name":"中共苍溪县龙山镇迎宾路社区支部委员会","children":null},
+              {"id":"a0f04speplu4zf3l","name":"中共苍溪县龙山中心卫生院支部委员会","children":null},
+              {"id":"a0f04spksnnthcw8","name":"中共苍溪县龙山镇团结村支部委员会","children":null},
+              {"id":"a0f04spmy0bzopgm","name":"中共苍溪县龙山镇灵钟双山支部委员会","children":null}
+            ]);
+          }, 3000);
           callback && callback({treeData: treeData});
         } else if (param.navIndex === 1) {
           // 角色列表
