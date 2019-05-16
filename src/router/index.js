@@ -44,8 +44,8 @@ import DemoFlowtree from '../../example/demo_flow_tree.vue';
 import DemoScrollFullPage from '../../example/demo_scroll_full_page.vue';
 import DemoTimeTurntable from '../../example/demo_time_turntable.vue';
 import DemoSelector from '../../example/demo_selector.vue';
+import RotaryTable from '../../example/demo_rotary_table.vue';
 import DemoList from '../../example/demo_list.vue';
-
 
 Vue.use(Router);
 
@@ -266,6 +266,11 @@ export default new Router({
       path: '/demoSelector',
       name: 'demoSelector',
       component: DemoSelector
+    },
+    {
+      path: '/demoRotaryTable',
+      name: 'demoRotaryTable',
+      component: RotaryTable
     },
     {
       path: '/demoList',

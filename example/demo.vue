@@ -42,6 +42,7 @@
     <a href="#/demoScrollFullPage">scrollFullPage</a>
     <a href="#/demoTimeTurntable">timeTurntable</a>
     <a href="#/demoSelector">selector</a>
+    <a href="#/demoRotaryTable">rotaryTable</a>
     <a href="#/demoList">list</a>
     
   </div>
