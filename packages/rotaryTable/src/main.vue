@@ -11,12 +11,15 @@
 </template>
 
 <script type="text/babel">
+  import {debounce} from 'web-js-tool';
+
   export default {
     name: 'RotaryTable',
     data: function () {
       return {
         id: 'rotaryTable_' + new Date().getTime() + parseInt(Math.random() * 100),
-        rotate: 0
+        rotate: 0,
+        disabled: false
       };
     },
     props: {
@@ -72,10 +75,19 @@
         this.rotate += 360 - lastDeg + deg + 360 * 10;
         // 动画停止后返回结果
         setTimeout(function () {
+          _this.disabled = false;
           _this.$emit('callback', result);
         }, 3000);
       },
       clkBtn: function () {
+        if (this.disabled) {
+          this.$emit('callback', {'error': '正在抽奖！'});
+        } else {
+          this.countDeg();
+        }
+      },
+      countDeg: debounce(function () {
+        this.disabled = true;
         let num = 0;
         let total = 0;
         let arr = JSON.parse(JSON.stringify(this.prizes));
@@ -115,7 +127,7 @@
         }
 
         this.setRotateRandom(360 - index * deg - deg / 2, tag);
-      }
+      }, 1000, true)
     }
   };
 </script>
