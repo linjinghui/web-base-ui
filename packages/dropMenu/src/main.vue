@@ -5,7 +5,8 @@
 
 <template>
   <div class="wrap-drop-menu" @click.stop>
-    <cmp-input type="text" ref="dmIpt" v-model="iptValue" :placeholder="placeholder" :disabled="disabled+''==='true'" :readonly="multi?true:readonly" @keyup="evn_keyup" @enter="evn_enter" @blur="evn_blur">
+    <cmp-input type="text" ref="dmIpt" v-model="iptValue" :placeholder="placeholder" :disabled="disabled+''==='true'" 
+    :readonly="multi?true:readonly" @keyup="evn_keyup" @enter="evn_enter" @blur="evn_blur">
         <i class="cicon-arrow-bottom center-v" v-if="!isSearch" :disabled="disabled+''==='true'" :class="{'up': show}" slot="right" @click.stop="clk_arrow"></i>
         <i class="cicon-loading move-loop center-v" v-if="isSearch" slot="right" @click.stop="clk_arrow">
           <span></span><span></span><span></span>
@@ -112,7 +113,7 @@
         //   this.show = !this.show;
         // }
         this.toggleDropmenu();
-        this.result = '';
+        // this.result = '';
       },
       clk_hide: function () {
         // if (this.disabled + '' !== 'true') {

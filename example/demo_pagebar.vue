@@ -1,8 +1,8 @@
 <template>
   <div>
-    <cmp-pagebar v-model="option.index"></cmp-pagebar>
-    <!-- <br>=====================================================================<br> -->
-    <!-- <cmp-pagebar-pagesize v-bind="optionPagebarPagesize" @callback="callback2"></cmp-pagebar-pagesize> -->
+    <cmp-pagebar v-model="option.index" v-bind="option" @callback="callback"></cmp-pagebar>
+    <br>=====================================================================<br>
+    <cmp-pagebar-pagesize v-model="optionPagebarPagesize.index" v-bind="optionPagebarPagesize" @callback="callback2"></cmp-pagebar-pagesize>
   </div>
 </template>
 
@@ -18,26 +18,23 @@ export default {
   data: function () {
     return {
       option: {
-        theme: 'simple',
+        theme: '',
         // 当期页
         index: 1,
-        // 总页数
-        totalPage: 8,
+        pageSize: 10,
         // 总记录数
         totalSize: 101
       },
       optionPagebarPagesize: {
-        // theme: 'simple',
+        theme: 'simple',
         // 当期页
         index: 1,
-        // 总页数
-        totalPage: 8,
         pagesizes: [
-          100, 200, 300
+          30, 50, 100
         ],
-        pagesize: 300,
+        pagesize: 30,
         // 总记录数
-        totalSize: 101
+        totalSize: 321
       }
     };
   },

@@ -4,15 +4,22 @@
       <i class="cicon-arrow-left"></i>
       <small>上一页</small>
     </span>
-    <template v-for="(item) in arr">
-      <span :key="item" v-if="item<=totalPage" :class="{'active':value===item}" @click="clkItem(item)">{{item}}</span>
-    </template>
+    <span :class="{'active':value===1}" @click="clkItem(1)">1</span>
+    <span v-if="arr[0]-1>1">
+      <label v-if="!dspIpt1" @click="dspIpt1=true">...</label>
+      <input v-else type="text" v-model="value1" @keyup.enter="entIpt1">
+    </span>
+    <span v-for="(i,idx) in arr" :key="'it_'+idx" :class="{'active':value===i}" @click="clkItem(i)">{{i}}</span>
+    <span v-if="totalPage-arr[arr.length-1]>1">
+      <label v-if="!dspIpt2" @click="dspIpt2=true">...</label>
+      <input v-else type="text" v-model="value2" @keyup.enter="entIpt2">
+    </span>
+    <span :class="{'active':value===totalPage}" @click="clkItem(totalPage)">{{totalPage}}</span>
     <span :disabled="value>=totalPage" @click="value<totalPage&&clkItem(value+1)">
       <i class="cicon-arrow-right"></i>
       <small>下一页</small>
     </span>
-    <label class="total">共{{totalSize}}条</label>, 
-    <label>前往<input v-model="value2" @keyup.enter="entIpt2">页</label>
+    <label class="total">共{{totalSize}}条</label>
   </div>
 </template>
 
@@ -33,9 +40,8 @@
         default: ''
       },
       'lenth': {
-        default: 5
+        default: 6
       },
-      // 当前页
       'value': {
         default: 10
       },
@@ -54,18 +60,9 @@
     computed: {
       // 计算总页数
       totalPage: function () {
-        return parseInt((this.totalSize - 1) / this.pageSize + 1);
+        return parseInt((this.totalSize - 1) / this.pageSize) + 1;
       },
       arr: function () {
-        let first = parseInt((this.value - 1) / this.lenth) * this.lenth;
-        let array = [];
-
-        for (let i = 0;i < this.lenth;i++) {
-          array[array.length] = ++first;
-        }
-        return array;
-      },
-      bfarr: function () {
         // let index = this.value <= 1 ? 2 : this.value;
         // let index = this.value;
         // let num = 2 + ((parseInt((index + 1) / (this.lenth - 2)) - 1) < 0 ? 0 : (parseInt((index + 1) / (this.lenth - 2)) - 1)) * (this.lenth - 2);
@@ -81,14 +78,13 @@
       }
     },
     watch: {
-      // value: function (val) {
-      //   this.clkItem(val);
-      // }
+      value: function (val) {
+        console.log('=watch:===' + val);
+      }
     },
     methods: {
       clkItem: function (item) {
         this.$emit('input', item);
-        this.$emit('callback', item);
       },
       entIpt1: function () {
         this.dspIpt1 = false;
@@ -130,17 +126,6 @@
       vertical-align: -3px;
     }
 
-    input {
-      display: inline-block;
-      margin-left: 5px;
-      margin-right: 5px;
-      width: 30px;
-      height: 24px;
-      padding: 0;
-      text-align: center;
-      border: solid 1px #ccc;
-    }
-
     span {
       position: relative;
       float: left;
@@ -158,6 +143,16 @@
         width: 100%;
         height: 100%;
         cursor: pointer;
+      }
+
+      input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        text-align: center;
       }
 
       .cicon-arrow-left,
