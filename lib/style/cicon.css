@@ -1,0 +1,353 @@
+/**
+* 纯css图标
+*/
+[class^=cicon-] {
+	position: relative;
+	display: inline-block;
+	font-style: normal;
+	font-size: 50px;
+	width: 1em;
+	height: 1em;
+	vertical-align: middle;
+	color: inherit;
+}
+
+[class^=cicon-] span {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1em;
+	height: 1em;
+
+}
+
+[class*=-crle] {
+	border-radius: 50%;
+}
+
+[class*=-cbdr] {
+	border-style: solid;
+	border-width: 1px;
+}
+
+[class*=-cpt] {
+	cursor: pointer;
+}
+
+[class*=-chr]:hover {
+	opacity: 0.8;
+}
+
+[class*=-cemt]:before,
+[class*=-cemt]:after {
+	width: 0!important;
+	height: 0!important;
+	border: 0!important;
+	transform: rotate(0deg)!important;
+}
+
+[class^=cicon-]:before,
+[class^=cicon-]:after,
+[class^=cicon-] span:before,
+[class^=cicon-] span:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	pointer-events: none;
+	border-style: solid;
+	border-color: inherit;
+	border-width: 0;
+}
+
+[class^=cicon-sub]:before,
+[class^=cicon-plus]:before,
+[class^=cicon-plus]:after,
+[class^=cicon-cross]:before,
+[class^=cicon-cross]:after {
+	width: 0.5em;
+	height: 0;
+	border-top-width: 2px;
+}
+
+[class^=cicon-plus]:before {
+	transform: rotate(90deg);
+}
+
+[class^=cicon-cross]:before {
+	transform: rotate(45deg);
+}
+
+[class^=cicon-cross]:after {
+	transform: rotate(-45deg);
+}
+
+/*[class^=cicon-cross-2] {
+	border-radius: 50%;
+	background-color: #c0c4cc;
+}
+
+[class^=cicon-cross-2]:before,
+[class^=cicon-cross-2]:after {
+	width: 0.6em;
+	height: 0;
+	border-top-width: 1px;
+}
+
+[class^=cicon-cross-2]:hover {
+	border-radius: 50%;
+	background-color: #999;
+}*/
+
+[class^=cicon-tick]:before {
+  top: -0.2em;
+  /* 3/4 */
+	width: 0.4em;
+	height: 0.22em;
+	border-width: 2px;
+	border-top-color: transparent!important;
+	border-right-color: transparent!important;
+  transform: rotate(-45deg);
+  transform-origin: center center;
+}
+
+[class^=cicon-search]:before {
+	top: -0.2em;
+  left: -0.2em;
+  width: 0.4em;
+  height: 0.4em;
+  border-width: 2px;
+  border-radius: 50%;
+}
+
+[class^=cicon-search]:after {
+		top: 0.35em;
+    right: 0.2em;
+    left: auto;
+	  width: 0.3em;
+    height: 0;
+    border-top-width: 4px;
+    transform: rotate(45deg);
+}
+
+
+[class^=cicon-search-2]:before {
+	top: -0.2em;
+  left: 0.2em;
+}
+
+
+[class^=cicon-search-2]:after {
+	left: -0.1em;
+  transform: rotate(-45deg);
+}
+
+[class^=cicon-play]:before {
+	width: 0;
+  height: 0;
+  border-width: 0.33em 0 0.33em 0.53em;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  left: 0.14em;
+}
+
+[class^=cicon-triangle]:before {
+	width: 0;
+	height: 0;
+	border-width: 0.4em 0 0.4em 0.64em;
+	border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+
+[class^=cicon-triangle]:before {
+	border-width: 0.4em 0 0.4em 0.44em;
+}
+
+[class^=cicon-triangle-left]:before {
+	border-width: 0.4em 0.44em 0.4em 0;
+}
+
+[class^=cicon-triangle-top]:before {
+	border-width: 0 0.4em 0.44em 0.4em;
+	border-top-color: inherit;
+  border-bottom-color: inherit;
+	border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+[class^=cicon-triangle-bottom]:before {
+	border-width: 0.44em 0.4em 0 0.4em;
+	border-top-color: inherit;
+  border-bottom-color: inherit;
+	border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+[class^=cicon-arrow]:before,
+[class^=cicon-dbarrow]:before,
+[class^=cicon-dbarrow]:after {
+  left: -0.2em;
+  width: 0.4em;
+  height: 0.4em;
+  border-width: 2px;
+  border-top: 0;
+  border-left: 0;
+  transform: rotate(-45deg);
+}
+
+[class^=cicon-arrow-bottom],
+[class^=cicon-dbarrow-bottom] {
+  transform: rotate(90deg);
+}
+
+[class^=cicon-arrow-left],
+[class^=cicon-dbarrow-left] {
+  transform: rotate(180deg);
+}
+
+[class^=cicon-arrow-top],
+[class^=cicon-dbarrow-top] {
+  transform: rotate(270deg);
+}
+
+[class^=cicon-dbarrow]:before {
+  left: calc(-0.2em - 0.3em);
+}
+
+[class^=cicon-dbarrow]:after {
+  left: calc(-0.2em + 0.3em);
+}
+
+[class^=cicon-loading]:before,
+[class^=cicon-loading]:after,
+[class^=cicon-loading] span:before,
+[class^=cicon-loading] span:after {
+	width: 0.2em;
+	height: 0;
+	border-top-width: 2px;
+}
+
+[class^=cicon-loading]:before {
+	left: 0.1em;
+	right: auto;
+}
+
+[class^=cicon-loading]:after {
+	right: 0.1em;
+	left: auto;
+}
+
+[class^=cicon-loading] > span:nth-of-type(1):before {
+	top: 0.2em;
+	bottom: auto;
+	transform: rotate(-90deg);
+}
+[class^=cicon-loading] > span:nth-of-type(1):after {
+	bottom: 0.2em;
+	top: auto;
+	transform: rotate(90deg);
+}
+
+[class^=cicon-loading] > span:nth-of-type(2):before {
+  top: 0.25em;
+  left: 0.2em;
+  right: auto;
+  bottom: auto;
+  transform: rotate(45deg);
+}
+
+[class^=cicon-loading] > span:nth-of-type(2):after {
+	bottom: 0.25em;
+  right: 0.2em;
+  left: auto;
+  top: auto;
+  transform: rotate(45deg);
+}
+
+[class^=cicon-loading] > span:nth-of-type(3):before {
+  top: 0.25em;
+  right: 0.2em;
+  left: auto;
+  bottom: auto;
+  transform: rotate(-45deg);
+}
+
+[class^=cicon-loading] > span:nth-of-type(3):after {
+  bottom: 0.25em;
+  left: 0.2em;
+  right: auto;
+  top: auto;
+  transform: rotate(-45deg);
+}
+
+[class^=cicon-exclamation]:before {
+  content: '!';
+  text-align: center;
+  font-size: 0.8em;
+  line-height: 1.2em;
+}
+
+[class^=cicon-circle-loading]:before {
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  border-width: 2px;
+}
+
+[class^=cicon-circle-loading]:after {
+  bottom: auto;
+  width: 4px;
+  height: 0.5em;
+  background-color: inherit;
+}
+
+[class^=cicon-calendar] span {
+  margin: auto;
+  bottom: 0;
+  right: 0;
+  width: 0.7em;
+  height: 0.6em;
+  border: solid 1px;
+  border-radius: 2px;
+}
+
+[class^=cicon-calendar]:before {
+  margin: unset;
+  top: 0.35em;
+  left: 0.25em;
+  width: 0.08em;
+  height: 0.08em;
+  box-shadow: inset 0 0
+  0 32px,
+  0.14em 0,
+  0.28em 0,
+  0.42em 0,
+  0 0.12em,
+  0.14em 0.12em,
+  0.28em 0.12em,
+  0.42em 0.12em,
+  0 0.24em,
+  0.14em 0.24em,
+  0.28em 0.24em,
+  0.42em 0.24em;
+}
+
+[class^=cicon-calendar]:after {
+  margin: unset;
+  top: 0.14em;
+  left: 0.31em;
+  width: 0.06em;
+  height: 0.16em;
+  box-shadow: inset 0 0 0 0.1em, 0.3em 0;
+  border-radius: 4px;
+}
+
+[class^=cicon-radio]:before {
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  background-color: #3a95de;
+}
