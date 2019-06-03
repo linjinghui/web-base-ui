@@ -1,5 +1,4 @@
-# 1.0.2 (2018-09-3)
+# 2.2.2 (2019-06-03)
 
-## INPUT, TIP, CHECKBOX ui调整
-
-*  INPUT, TIP, CHECKBOX ui调整
+## FIX 
+* 输入框新增 FLOAT 浮点型规则

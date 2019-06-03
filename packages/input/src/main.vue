@@ -127,6 +127,18 @@
 
         if (this.rule === 'number') {
           this.val = value.replace(/[\D]+/g, '');
+        } else if (this.rule === 'float') {
+          let _val = '';
+          let _i = 0;
+
+          // 删除非数字.的字符串
+          _val = value.replace(/[^0-9.]+/g, '');
+          // 去除多余的.
+          _val = _val.replace(/\./g, function (a) {
+            ++_i;
+            return _i === 1 ? a : '';
+          });
+          this.val = _val;
         } else if (this.rule === 'mobile') {
           value = value.replace(/[\D]+/g, '');
           if (value.indexOf('1') !== 0) {

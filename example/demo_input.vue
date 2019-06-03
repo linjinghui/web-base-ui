@@ -9,7 +9,7 @@
     disabled: 禁用 - 默认false|true
     readonly: 只读 - 默认false|true
     clear: 是否使用清空按钮 - 默认true|false
-    rule: number|mobile|fix|email|url|letter|chinese
+    rule: number|float|mobile|fix|email|url|letter|chinese
     @focus: 聚焦回调
     @keyup: 按起回调返回keycode
     @enter: 回车回调
@@ -42,7 +42,7 @@
     autofocus="true"
     disabled="false"
     clear="true"
-    rule="chinese"
+    rule="float"
     readonly="false"
     @focus="cbk_focus"
     @blur="cbk_blur"
