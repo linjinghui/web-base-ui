@@ -52,6 +52,7 @@
 
       this.turnPage('next');
       this.$refs.wrapScrollFullPage.addEventListener('wheel', function (e) {
+        (e || window.event).stopPropagation();
         _this.turnPage(e.deltaY > 0 ? 'next' : 'prev');
       }, false);
     },
