@@ -157,8 +157,9 @@
           position: absolute;
           top: 0;
           right: -20px;
-          padding-top: 2px;
-          padding-bottom: 2px;
+          padding: 2px 4px;
+          // padding-top: 2px;
+          // padding-bottom: 2px;
           width: 20px;
           height: 100%;
           border: 0;
