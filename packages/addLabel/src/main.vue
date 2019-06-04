@@ -1,22 +1,25 @@
 <!-- 
 功能介绍：
-1、
+添加标签组件
+1、文本为空不能添加
+2、重复文本不能添加
+3、文本颜色默认为白色
  -->
 
 <template>
   <div class="wrap-add-label" @click.stop>
     <div class="wrap-label">
       <span class="label" v-for="(info,index) in value" :key="'lbl-'+index" :style="'background-color:'+info.bgcolor+''">
-        {{info.name}}
+        {{info.text}}
         <i class="cicon-cross-cpt" @click="clkDel(info,index)"></i>
         <input type="color" v-model="info.bgcolor" @change="evtChange(info,index)"/>
       </span>
     </div>
     <div class="wrap-bottom">
-      <cmp-input v-model="name" :maxlength="maxlength" :placeholder="placeholder" :readonly="value.length>=lablength" @enter="clkConfirm" @keyup="evtKeyup"></cmp-input>
-      <cmp-button theme="success" :disabled="value.length>=lablength" @click="clkConfirm">{{btnName}}</cmp-button>
+      <cmp-input v-model="text" :maxlength="maxlength" :placeholder="placeholder" :readonly="value.length>=lablength" @enter="clkConfirm" @keyup="evtKeyup"></cmp-input>
+      <cmp-button theme="success" :disabled="btnDisabled" @click="clkConfirm">{{btnName}}</cmp-button>
       <cmp-menu :show="showMenu" :data="cmenuarr" @cbkClkItem="cbkClkItem">
-        <span class="mn-lbl" slot="line" slot-scope="props" :style="'background-color:'+props.item.bgcolor+''">{{props.item.name}}</span>
+        <span class="mn-lbl" slot="line" slot-scope="props" :style="'background-color:'+props.item.bgcolor+''">{{props.item.text}}</span>
       </cmp-menu>
     </div>
   </div>
@@ -37,7 +40,7 @@
     data: function () {
       return {
         id: 'addLabel_' + new Date().getTime() + parseInt(Math.random() * 100),
-        name: '',
+        text: '',
         showMenu: false
       };
     },
@@ -72,11 +75,14 @@
     },
     watch: {},
     computed: {
+      btnDisabled () {
+        return this.value.length >= this.lablength || this.text.length === 0 || JSON.stringify(this.value).indexOf('"' + this.text + '"') >= 0;
+      },
       cmenuarr () {
         let _this = this;
 
         return this.hisrecord.filter(function (item) {
-          return JSON.stringify(_this.value).indexOf('"' + item.name + '"') < 0 && item.name.indexOf(_this.name) >= 0;
+          return JSON.stringify(_this.value).indexOf('"' + item.text + '"') < 0 && item.text.indexOf(_this.text) >= 0;
         });
       }
     },
@@ -88,12 +94,13 @@
     },
     methods: {
       clkConfirm (info) {
-        if (this.value.length < this.lablength) {
-          let res = JSON.parse(JSON.stringify(this.value));
+        let res = JSON.stringify(this.value);
 
-          res.push(info || {name: this.name, bgcolor: '#409eff'});
+        if (this.value.length < this.lablength && this.text.length > 0 && res.indexOf('"' + this.text + '"') < 0) {
+          res = JSON.parse(res);
+          res.push(info || {text: this.text, bgcolor: '#409eff'});
           this.$emit('input', res);
-          this.name = '';
+          this.text = '';
         }
         this.hideMenu();
       },

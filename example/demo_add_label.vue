@@ -10,8 +10,8 @@ export default {
   data: function () {
     return {
       // 历史标签记录
-      allLables: [{name: 'name-1', bgcolor: 'green'}, {name: 'name-2', bgcolor: 'purple'}, {name: 'name-3', bgcolor: 'blue'}],
-      arr: [{name: 'name-1', bgcolor: 'green'}]
+      allLables: [{text: 'name-1', bgcolor: 'green'}, {text: 'name-2', bgcolor: 'purple'}, {text: 'name-3', bgcolor: 'blue'}],
+      arr: [{text: 'name-1', bgcolor: 'green'}]
     };
   },
   components: {
