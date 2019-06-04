@@ -44,6 +44,7 @@ import TimeTurntable from './timeTurntable/index';
 import Selector from './selector/index';
 import RotaryTable from './rotaryTable/index';
 import AddLabel from './addLabel/index';
+import Banner from './banner/index';
 
 const components = [Loading, Tip, Confirm, Prompt];
 const install = function (Vue) {
@@ -53,4 +54,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, Laydate, RangeMenu, Shuttle, Pagebar, PagebarPagesize, Echarts, ImageCrop, Cropper, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, ImageViewer, Map, SwapSort, DivEditor, Video, Img, Flowtree, TimeTurntable, Selector, RotaryTable, AddLabel};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, Laydate, RangeMenu, Shuttle, Pagebar, PagebarPagesize, Echarts, ImageCrop, Cropper, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, ImageViewer, Map, SwapSort, DivEditor, Video, Img, Flowtree, TimeTurntable, Selector, RotaryTable, AddLabel, Banner};

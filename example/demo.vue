@@ -39,7 +39,7 @@
     <a href="#/demoVideo">video</a>
     <a href="#/demoImg">img</a>
     <a href="#/demoFlowtree">flowtree</a>
-    <a href="#/demoScrollFullPage">scrollFullPage</a>
+    <a href="#/demoScrollBanner">scrollBanner</a>
     <a href="#/demoTimeTurntable">timeTurntable</a>
     <a href="#/demoSelector">selector</a>
     <a href="#/demoRotaryTable">rotaryTable</a>

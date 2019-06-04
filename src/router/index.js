@@ -41,7 +41,7 @@ import DemoDivEditor from '../../example/demo_div_editor.vue';
 import DemoVideo from '../../example/demo_video.vue';
 import DemoImg from '../../example/demo_img.vue';
 import DemoFlowtree from '../../example/demo_flow_tree.vue';
-import DemoScrollFullPage from '../../example/demo_scroll_full_page.vue';
+import DemoScrollBanner from '../../example/demo_scroll_banner.vue';
 import DemoTimeTurntable from '../../example/demo_time_turntable.vue';
 import DemoSelector from '../../example/demo_selector.vue';
 import RotaryTable from '../../example/demo_rotary_table.vue';
@@ -254,9 +254,9 @@ export default new Router({
       component: DemoFlowtree
     },
     {
-      path: '/demoScrollFullPage',
-      name: 'demoScrollFullPage',
-      component: DemoScrollFullPage
+      path: '/demoScrollBanner',
+      name: 'demoScrollBanner',
+      component: DemoScrollBanner
     },
     {
       path: '/demoTimeTurntable',
