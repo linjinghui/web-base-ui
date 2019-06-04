@@ -46,6 +46,7 @@ import DemoTimeTurntable from '../../example/demo_time_turntable.vue';
 import DemoSelector from '../../example/demo_selector.vue';
 import RotaryTable from '../../example/demo_rotary_table.vue';
 import DemoList from '../../example/demo_list.vue';
+import DemoAddLabel from '../../example/demo_add_label.vue';
 
 Vue.use(Router);
 
@@ -276,6 +277,11 @@ export default new Router({
       path: '/demoList',
       name: 'demoList',
       component: DemoList
+    },
+    {
+      path: '/demoAddLabel',
+      name: 'demoAddLabel',
+      component: DemoAddLabel
     }
   ]
 });

@@ -193,6 +193,7 @@
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
+      user-select: none;
 
       >.cicon-tick {
         display: none;

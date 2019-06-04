@@ -44,6 +44,7 @@
     <a href="#/demoSelector">selector</a>
     <a href="#/demoRotaryTable">rotaryTable</a>
     <a href="#/demoList">list</a>
+    <a href="#/demoAddLabel">addLabel</a>
     
   </div>
 </template>
