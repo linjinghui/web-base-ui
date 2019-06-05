@@ -22,3 +22,8 @@
 
 ## FIX 
 * banner组件 BUG更新
+
+# 2.4.3 (2019-06-05)
+
+## FIX 
+* propmt组件 BUG更新
