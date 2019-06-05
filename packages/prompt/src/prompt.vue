@@ -5,7 +5,7 @@
 
 <template>
   <!-- <cmp-confirm v-bind="option" v-model="option.show"> -->
-  <cmp-confirm v-model="show" :modal="modal" :stl="stl" :buttons="buttons" @callback="cbkClk">
+  <cmp-confirm v-model="show" :modal="modal" :stl="stl" :buttons="buttons" :callback="cbkClk">
     <template slot="title">
       <slot name="title"></slot>
     </template>
