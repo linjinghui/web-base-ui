@@ -125,6 +125,10 @@
       do_reg_value: function () {
         let value = this.val || '';
 
+        if (typeof value !== 'string') {
+          value += '';
+        }
+
         if (this.rule === 'number') {
           this.val = value.replace(/[\D]+/g, '');
         } else if (this.rule === 'float') {
