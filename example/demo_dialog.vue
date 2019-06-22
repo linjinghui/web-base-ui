@@ -109,7 +109,7 @@ export default {
         }, {
           text: '选择文件',
           theme: 'primary',
-          fileOption: {
+          fileoption: {
             multiple: true
           }
         }],

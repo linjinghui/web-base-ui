@@ -15,7 +15,7 @@
       </vperfect-scrollbar>
       <footer :style="cstl.footer" v-if="buttons&&buttons.length>0">
         <template v-for="info in buttons">
-          <cmp-button v-if="JSON.stringify(info.fileOption)" :key="info.id" :theme="info.theme" :fileoption="info.fileOption" @cbk_file="clk_btn">{{info.text}}</cmp-button>
+          <cmp-button v-if="JSON.stringify(info.fileoption)" :key="info.id" :theme="info.theme" :fileoption="info.fileoption" @cbk_file="clk_file($event,info)">{{info.text}}</cmp-button>
           <cmp-button v-else :key="info.id" :theme="info.theme" :prnt="info.prnt" @click="clk_btn(info)">{{info.text}}</cmp-button>
         </template>
       </footer>
@@ -119,6 +119,10 @@
       },
       clk_btn: function (data) {
         this.$emit('callback', data);
+      },
+      clk_file: function (files, data) {
+        data.files = files || '';
+        this.clk_btn(data);
       },
       clk_hide: function () {
         this.$emit('input', false);
