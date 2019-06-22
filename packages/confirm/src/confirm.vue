@@ -19,7 +19,11 @@
       </vperfect-scrollbar>
       <!-- </section> -->
       <footer :style="cstl.footer" v-if="buttons&&buttons.length>0">
-        <cmp-button v-for="info in buttons" :theme="info.theme" :key="info.id" @click="clk_btn(info)">{{info.text}}</cmp-button>
+        <!-- <cmp-button v-for="info in buttons" :theme="info.theme" :key="info.id" @click="clk_btn(info)">{{info.text}}</cmp-button> -->
+        <template v-for="info in buttons">
+          <cmp-button v-if="JSON.stringify(info.fileOption)" :key="info.id" :theme="info.theme" :fileoption="info.fileOption" @cbk_file="clk_btn">{{info.text}}</cmp-button>
+          <cmp-button v-else :key="info.id" :theme="info.theme" :prnt="info.prnt" @click="clk_btn(info)">{{info.text}}</cmp-button>
+        </template>
       </footer>
     </div>
   </transition>

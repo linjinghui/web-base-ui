@@ -106,6 +106,12 @@ export default {
         }, {
           text: '修改',
           theme: 'warning'
+        }, {
+          text: '选择文件',
+          theme: 'primary',
+          fileOption: {
+            multiple: true
+          }
         }],
         callback: function (data) {
           _this.$confirm({ show: false });
