@@ -43,8 +43,11 @@
     <a href="#/demoTimeTurntable">timeTurntable</a>
     <a href="#/demoSelector">selector</a>
     <a href="#/demoRotaryTable">rotaryTable</a>
-    <a href="#/demoList">list</a>
+    <a href="#/demoList2">list2</a>
     <a href="#/demoAddLabel">addLabel</a>
+    <a href="#/demoSwiper">siwper</a>
+    <a href="#/demoList">list</a>
+    <a href="#/demoMore">more</a>
     
   </div>
 </template>

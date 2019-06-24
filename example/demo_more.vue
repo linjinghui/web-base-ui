@@ -1,21 +1,21 @@
 <template>
-  <div>
-    demo
+  <div style="position:relative;width:400px;height:300px;border:solid 1px;">
+    <cmp-more></cmp-more>
   </div>
 </template>
 
 <script>
-import {Button} from '../packages/index.js';
+import {More} from '../packages/index.js';
 
 export default {
-  name: 'demoButton',
+  name: 'demoMore',
   data: function () {
     return {
       //
     };
   },
   components: {
-    'cmpButton': Button
+    'cmpMore': More
   },
   watch: {
     //

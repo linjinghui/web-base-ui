@@ -45,8 +45,11 @@ import DemoScrollBanner from '../../example/demo_scroll_banner.vue';
 import DemoTimeTurntable from '../../example/demo_time_turntable.vue';
 import DemoSelector from '../../example/demo_selector.vue';
 import RotaryTable from '../../example/demo_rotary_table.vue';
-import DemoList from '../../example/demo_list.vue';
+import DemoList2 from '../../example/demo_list_2.vue';
 import DemoAddLabel from '../../example/demo_add_label.vue';
+import DemoSwiper from '../../example/demo_swiper.vue';
+import DemoList from '../../example/demo_list.vue';
+import DemoMore from '../../example/demo_more.vue';
 
 Vue.use(Router);
 
@@ -274,14 +277,30 @@ export default new Router({
       component: RotaryTable
     },
     {
-      path: '/demoList',
-      name: 'demoList',
-      component: DemoList
+      path: '/demoList2',
+      name: 'demoList2',
+      component: DemoList2
     },
     {
       path: '/demoAddLabel',
       name: 'demoAddLabel',
       component: DemoAddLabel
+    },
+
+    {
+      path: '/demoSwiper',
+      name: 'demoSwiper',
+      component: DemoSwiper
+    },
+    {
+      path: '/demoList',
+      name: 'demoList',
+      component: DemoList
+    },
+    {
+      path: '/demoMore',
+      name: 'demoMore',
+      component: DemoMore
     }
   ]
 });
