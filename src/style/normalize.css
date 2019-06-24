@@ -539,8 +539,8 @@ div[placeholder]:empty:before {
 
 /*chorm滚动条样式 v */
 ::-webkit-scrollbar {
-    width: 0px;/*竖 滚动条宽度*/
-    height: 0px;/*横 滚动条高度*/
+    width: 8px;/*竖 滚动条宽度*/
+    height: 8px;/*横 滚动条高度*/
 }
 
 ::-webkit-scrollbar-track-piece {
