@@ -201,6 +201,7 @@ sub {
 
 img {
     border: 0;
+    object-fit: cover;
 }
 img[src=""],
 img:not([src]) {
