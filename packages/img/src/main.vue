@@ -35,6 +35,10 @@
       height: {
         default: ''
       },
+      // 自动原始宽高
+      autoWh: {
+        default: false
+      },
       // 预览功能
       preview: {
         default: true
@@ -57,6 +61,13 @@
     },
     mounted: function () {
       this.loadUrl();
+      // // 监听页面图片加载错误
+      // document.addEventListener('error', function (e) {
+      //   var elem = e.target;
+      //   if (elem.tagName.toLowerCase() === 'img') {
+      //     elem.src = './images/img-default.png';
+      //   }
+      // }, true);
     },
     methods: {
       loadUrl: function () {
@@ -69,8 +80,10 @@
           img.onload = function () {
             // 图片加载完成
             _this.$set(_this.imgInfo, 'src', img.src);
-            _this.$set(_this.imgInfo, 'width', img.width);
-            _this.$set(_this.imgInfo, 'height', img.height);
+            if (_this.autoWh) {
+              _this.$set(_this.imgInfo, 'width', img.width);
+              _this.$set(_this.imgInfo, 'height', img.height);
+            }
             // 加入查看功能
             if ((_this.preview + '') === 'true') {
               _this.$nextTick(function () {
