@@ -739,6 +739,13 @@ div[placeholder]:empty:before {
   background-color: var(--theme);
 }
 
+/* 文本省略号 */
+.text-eps {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 /* 主题色 */
 [class*=theme-c] {
     color: #E15517;
