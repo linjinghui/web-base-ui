@@ -131,7 +131,8 @@
           var options = { mode: mode, popClose: close, extraCss: extraCss, retainAttr: keepAttr, extraHead: headElements };
 
           $(this.prnt).printArea(options);
-        } else if (!this.copydata) {
+        }
+        if (!this.copydata) {
           // 控制复制和倒计时状态不允许点击
           this.$emit('click');
         }

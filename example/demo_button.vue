@@ -20,7 +20,7 @@
     <cmp-button style="width: 100px;height: 34px;" theme="primary" disabled="false" v-model="second" @click="clk_send">点击发送</cmp-button>
     <hr style="margin: 10px 0;">
     <!-- 打印按钮 -->
-    <cmp-button theme="line" prnt="#prtdiag>section">点击打印</cmp-button>
+    <cmp-button theme="line" prnt="#tbl>table" @click="clkDy">点击打印</cmp-button>
     <div id="tbl">
       <table style="table-layout:fixed;border-collapse:collapse;width:100%;">
         <thead style="font-weight:bold;">
@@ -175,6 +175,9 @@ export default {
     });
   },
   methods: {
+    clkDy: function () {
+      console.log('click 打印');
+    },
     clk: function () {
       alert('click');
     },
@@ -212,8 +215,9 @@ export default {
         _this.second = 10;
       }, 500)
     },
-    callbackDialog: function () {
+    callbackDialog: function (data) {
       this.optionDialog = false;
+      console.log(data);
     }
   }
 };
