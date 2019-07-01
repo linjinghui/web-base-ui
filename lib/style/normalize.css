@@ -201,6 +201,7 @@ sub {
 
 img {
     border: 0;
+    object-fit: cover;
 }
 img[src=""],
 img:not([src]) {
@@ -539,8 +540,8 @@ div[placeholder]:empty:before {
 
 /*chorm滚动条样式 v */
 ::-webkit-scrollbar {
-    width: 0px;/*竖 滚动条宽度*/
-    height: 0px;/*横 滚动条高度*/
+    width: 8px;/*竖 滚动条宽度*/
+    height: 8px;/*横 滚动条高度*/
 }
 
 ::-webkit-scrollbar-track-piece {
@@ -736,6 +737,13 @@ div[placeholder]:empty:before {
   border-radius: 4px;
   color: #fff;
   background-color: var(--theme);
+}
+
+/* 文本省略号 */
+.text-eps {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 /* 主题色 */
