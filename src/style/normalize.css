@@ -748,9 +748,9 @@ div[placeholder]:empty:before {
 
 /* 主题色 */
 [class*=theme-c] {
-    color: #E15517;
+    color: #E15517!important;
 }
 [class*=theme-b] {
     color: #fff;
-    background-color: #E15517;
+    background-color: #E15517!important;
 }

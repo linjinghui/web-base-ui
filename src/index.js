@@ -3,6 +3,7 @@ import Vue from 'vue';
 import VueResource from 'vue-resource';
 import router from './router';
 import App from './App';
+import directives from './directives';
 import {install} from '../packages/index.js';
 // import VueLazyload from 'vue-lazyload';
 // import './mock.js';
@@ -24,6 +25,7 @@ const app = new Vue({
 });
 
 // 用于组件通信
+Vue.prototype.$eventbus = new Vue();
 window.EVENTBUS = new Vue();
 
 app.$mount('#app');

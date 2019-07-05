@@ -1,6 +1,11 @@
 <!-- 
 功能介绍：
-1、
+opened: 隐藏、显示子节点, 
+checked: 是否勾选中, 
+nocheckbox: 是否需要复选框,
+disabled: 禁选,
+required: 必填，无法取消
+树型数据格式：{id: 'id需要保持唯一', name: '文本', img: '头像', children: [], opened: false, checked: false, nocheckbox: false, disabled: false, required: false}
  -->
 
 <template>
@@ -12,33 +17,37 @@
       </header>
       <div>
         <section class="p-l">
+          <!-- 搜索框 -->
           <cmp-input v-model="search" clear="false" :maxlength="maxlength" :placeholder="placeholder" @enter="clkSearch">
             <i class="btn-search" slot="right" @click="clkSearch"><i class="cicon-search-cpt-chr" slot="right"></i></i>
           </cmp-input>
-          <ul class="nav" v-if="navData">
-            <li v-for="(info,index) in navData" :key="'nav_'+index" :class="{'active':active===index}" @click="clkNav(index)">{{info}}</li>
+          <!-- 导航 -->
+          <ul class="nav" v-if="navData&&navData.length>1">
+            <li v-for="(info,index) in navData" :key="'nav_'+index" :class="{'theme-b':active===index}" @click="clkNav(index)">{{info.text}}</li>
           </ul>
+          <!-- 没有找到相关数据 -->
           <div class="empty" v-show="showEmpty"><img :src="empty"><br>没有找到相关数据</div>
-          <div class="loading" v-show="showLoading">{{loading}}</div>
-          <vperfect-scrollbar class="wrap-tree" v-show="showTree||showSearchData" :settings="{wheelSpeed:0.5}" :style="{height:'calc(100% - 34px - 20px - '+(navData?'32px - 10px':'0px')+' - 2px)'}">
-            <!-- 树形数据展示 -->
-            <ul v-show="showTree">
-              <li class="tree-title" v-if="treeTitle">{{treeTitle}}</li>
-              <cmp-li v-for="(itemData,index) in treeData" :key="itemData.id+'_'+index" :data="itemData" :maxCount="maxCount" :checkedCount="results.length" :returnType="returnType" :checkType="checkType" :multiple="multiple"></cmp-li>
-            </ul>
-            <!-- 搜索结果展示 -->
-            <ul class="wrap-seach" v-show="showSearchData">
-              <cmp-li v-for="(itemData,index) in searchData" :key="itemData.id+'_'+index+'_shd'" :data="itemData" :maxCount="maxCount" :checkedCount="results.length" :returnType="returnType" :checkType="checkType" :multiple="multiple"></cmp-li>
-            </ul>
+          <!-- 数据展示区 -->
+          <vperfect-scrollbar class="wrap-tree" v-show="showTree" :settings="{wheelSpeed:0.5}" :style="{height:'calc(100% - 34px - 20px - '+(navData?'32px - 10px':'0px')+' - 2px)'}">
+            <template v-for="(item,index) in navData_p">
+              <!-- 分页类型的 树形结构 -->
+              <cmp-ul v-if="item.type==='singleTree'" :key="'tree_data_'+index" v-show="!showEmpty&&active===index" :data="item.treeData" :maxCount="maxCount" :results="results" :multiple="multiple" :nextIcon="nextIcon" @callback_checkbox="callbackCheckbox"></cmp-ul>
+              <!-- 缩进类型的 树形结构 -->
+              <ul v-else :key="'tree_data_'+index" v-show="!showEmpty&&active===index">
+                <cmp-li v-for="(lineData,index) in item.treeData" :key="lineData.id+'_'+index" :data="lineData" :maxCount="maxCount" :results="results" :multiple="multiple" @callback_checkbox="callbackCheckbox"></cmp-li>
+              </ul>
+            </template>
           </vperfect-scrollbar>
         </section>
         <section class="p-r">
-          已选择 ({{results.length}}/{{maxCount}}) <span class="btn-clear" @click="clkClearTreeItem">清空</span>
+          已选择
+          <template v-if="multiple&&maxCount||maxCount===0"> ({{results.length}}/{{maxCount}}) </template>
+          <span class="btn-clear" @click="clkClearResult">清空</span>
           <vperfect-scrollbar :settings="{wheelSpeed:0.5,suppressScrollX:true}">
             <ul class="lst-1"> 
-              <li v-for="(item,index) in results" :key="JSON.parse(item).id+'_'+index+'_rst'">
-                <img v-if="JSON.parse(item).img" :src="JSON.parse(item).img">
-                <span>{{JSON.parse(item).name}}</span>
+              <li v-for="(item,index) in results" :key="item">
+                <img v-if="item.img" :src="item.img">
+                <span>{{item.name}}</span>
                 <i class="cicon-cross-chr" @click="clkDelItem(index)"></i>
               </li>
             </ul>
@@ -46,9 +55,14 @@
         </section>
       </div>
       <footer>
-        <cmp-button class="confirm" @click="clkConfirm">确认</cmp-button>
+        <cmp-button class="confirm theme-b" @click="clkConfirm">确认</cmp-button>
         <cmp-button theme="line" @click="clkCancel">取消</cmp-button>
       </footer>
+      <!-- 加载中 -->
+      <div class="loading" v-show="showLoading">
+        <i class="cicon-loading move-loop"><span /><span /><span /></i>
+        {{loading}}
+      </div>
     </div>
   </transition>
 </template>
@@ -59,6 +73,7 @@
   import Checkbox from '../../checkbox/src/main.vue';
   import VuePerfectScrollbar from 'vue-perfect-scrollbar';
   import Li from './list.vue';
+  import Ul from './singleList.vue';
 
   export default {
     name: 'Selector',
@@ -67,33 +82,8 @@
       'cmpInput': Input,
       'cmpCheckbox': Checkbox,
       'vperfect-scrollbar': VuePerfectScrollbar,
-      'cmpLi': Li
-    },
-    data: function () {
-      return {
-        id: 'selector_' + new Date().getTime() + parseInt(Math.random() * 100),
-        // 当前导航激活项
-        active: '',
-        // 搜索内容
-        search: '',
-        // 搜索结果数据
-        searchData: [],
-        // 树形数据
-        treeData: [],
-        // 树形数据 - 备份数据 
-        _treeData: [],
-        // 是否显示加载中
-        showLoading: false,
-        // 是否显示空展示
-        showEmpty: false,
-        // 是否显示树形
-        showTree: false,
-        // 是否显示搜索内容
-        showSearchData: false,
-        // 选中结果
-        results: [],
-        resultSources: []
-      };
+      'cmpLi': Li,
+      'cmpUl': Ul
     },
     props: {
       value: {
@@ -102,45 +92,43 @@
       headTitle: {
         default: '选择器'
       },
-      // // 默认头像
-      // avatar: {
-      //   default: require('./images/avatar.png')
-      // },
+      // 默认头像
+      avatar: {
+        default: require('./images/avatar.png')
+      },
       // 空列表展示图片
       empty: {
         default: require('./images/empty.png')
       },
+      // 下级按钮图标字体
+      nextIcon: '',
+      // 搜索框占位符
       placeholder: {
         default: '请输入关键字查询'
       },
+      // 搜索框长度
       maxlength: {
         default: 14
       },
-      // 最大选择数量
-      maxCount: {
-        default: 100
-      },
-      // 返回类型 1: 全部返回 2: 只返还回子节点
-      returnType: {
-        default: 2
-      },
-      // 勾选类型 1: 允许勾选父节点(默认) 2: 只允许勾选子节点
-      checkType: {
-        default: 1
+      // 最大选中结果数量
+      maxCount: '',
+      // 数据加载中 文本提示内容
+      loading: {
+        default: '加载中...'
       },
       // 是否多选 true: 是多选(默认) false: 单选
       multiple: {
         default: true
       },
+      // 导航数组，[{text: '组织架构', funSearch: ''}]
       navData: {
-        default: ''
-      },
-      loading: {
-        default: '数据载入中...'
-      },
-      // 树形标题
-      treeTitle: {
-        default: ''
+        default: function () {
+          return [{
+            text: '组织架构', 
+            // 搜索方法 - 为空则表示内部搜索
+            funSearch: ''
+          }];
+        }
       },
       // 已选中结果
       result: {
@@ -148,207 +136,130 @@
           return [];
         }
       },
-      funSearch: {
+      // 方法 - 获取树结构数据
+      funTreeData: {
         default: function () {
           return function () {
-            //
+            // 
           };
         }
       }
     },
+    data: function () {
+      return {
+        id: 'selector_' + new Date().getTime() + parseInt(Math.random() * 100),
+        navData_p: this.navData,
+        // 当前导航激活项
+        active: '',
+        // 搜索关键字
+        keyword: '',
+        // 是否显示加载中
+        showLoading: false,
+        // 是否显示空展示
+        showEmpty: false,
+        // 是否显示树形
+        showTree: true,
+        // 是否显示搜索内容
+        showSearchData: false,
+        // 选中结果
+        results: []
+      };
+    },
     watch: {
       result: function (val) {
-        window.initResult = null;
-        this.emitResultEvent(val);
+        this.results = this.filterResultData(val);
+        this.emitNodeCheckStatus(val);
       }
     },
     computed: {
       // 
     },
     beforeDestroy: function () {
-      window.initResult = null;
-      window.EVENTBUS.$off('checked', this.multiple ? this.toggleResult : this.toggleOneResult);
+      this.$eventbus.$off('clearTreeItem', this.clkClearResult);
     },
     mounted: function () {
-      let _this = this;
-
-      this.initEventbus();
-      this.active = 0;
-      setTimeout(function () {
-        _this.clkSearch(function () {
-          _this.emitResultEvent(_this.result);
-        }, 'nav');
-      }, 0);
-      // 监听
-      window.EVENTBUS.$on('checked', this.multiple ? this.toggleResult : this.toggleOneResult);
+      this.results = this.filterResultData(this.result);
+      // 设置默认导航激活项
+      this.clkNav(0);
+      this.$eventbus.$on('clearTreeItem', this.clkClearResult);
     },
     methods: {
-      initEventbus: function () {
-        return window.EVENTBUS;
-      },
+      // 关闭窗口
       clkCancel: function () {
         this.$emit('input', false);
       },
-      clkConfirm: function () {
-        this.$emit('callback', JSON.parse(this.utlRemoveCustChart(JSON.stringify(this.resultSources))));
-        this.clkCancel();
-      },
-      clkNav: function (index) {
-        this.search = '';
-        this.results = [];
-        this.resultSources = [];
-        this.searchData = [];
-        this.active = index;
-        this.clkSearch('', 'nav');
-      },
+      // 搜索
       clkSearch: function (callback, from) {
+        // 
+      },
+      // 导航点击切换
+      clkNav: function (index) {
         let _this = this;
+        let navItem = this.navData_p[index];
 
-        this.showLoading = true;
-        this.showTree = false;
-        this.showSearchData = false;
         this.showEmpty = false;
-        // this.searchData = [];
-
-        if (from !== 'nav' && !this.search) {
-          // 还原， 隐藏搜索结果，显示树形数据
-          this.showLoading = false;
-          this.showEmpty = false;
-          this.showSearchData = false;
-          this.showTree = true;
-          return;
-        }
-
-        this.funSearch({ search: this.search, navIndex: this.active }, function (result) {
-          _this.showLoading = false;
-          if (result.searchData) {
-            _this.searchData = result.searchData;
-            _this.showSearchData = true;
-          }
-          if (result.treeData) {
-            _this.treeData = result.treeData;
-            _this._treeData = JSON.parse(JSON.stringify(result.treeData));
-            _this.showTree = true;
-          }
-          if (_this.search && (!result.searchData || result.searchData.length === 0)) {
-            // 搜索结果是空
-            _this.showEmpty = true;
-          } else if (!_this.search && (!result.treeData || result.treeData.length === 0)) {
-            // 树形数据是空
-            _this.showEmpty = true;
-          }
-          (typeof callback === 'function') && callback();
-        });
-      },
-      toggleResult: function (data) {
-        let hasChildren = data.children && data.children.length > 0;
-        let checked = data.checked;
-        let _data = JSON.stringify(data);
-
-        // 返回类型 1: 全部返回 2: 只返还回子节点
-        if (this.returnType === 2 && hasChildren) {
-          return;
-        }
-        // 去除checked、opened字段
-        _data = this.utlRemoveCustChart(_data);
-        
-        let index = this.results.indexOf(_data);
-        
-        if (checked && index < 0) {
-          // 添加
-          this.results.push(_data);
-          this.resultSources.push(data);
-        } else if (!checked && index >= 0) {
-          // 删除
-          this.results.splice(index, 1);
-          this.resultSources.splice(index, 1);
-        }
-      },
-      // 单选结果
-      toggleOneResult: function (data) {
-        let _this = this;
-        let checked = data.checked;
-        let _data = JSON.stringify(data);
-
-        // 去除checked、opened字段
-        _data = this.utlRemoveCustChart(_data);
-        
-        let index = this.results.indexOf(_data);
-        
-        if (checked && index < 0) {
-          // 添加 this.maxCount  保留最后面n个，其他全部设置checked=false 并移除
-          
-          this.results.push(_data);
-          this.resultSources.push(data);
-
-          let _index = this.results.length - this.maxCount;
-
-          if (_index > 0) {
-            this.results.splice(0, _index);
-            let delArr = this.resultSources.splice(0, _index);
-            
-            for (let i = 0;i < delArr.length;i++) {
-              _this.$set(delArr[i], 'checked', false);
-            }
-          }
-        } else if (!checked && index >= 0) {
-          // 删除
-          this.results.splice(index, 1);
-          this.resultSources.splice(index, 1);
-        }
-      },
-      clkDelItem: function (index) {
-        let itemSource = this.resultSources[index];
-
-        this.$set(itemSource, 'checked', false);
-
-        // if (!this.multiple) {
-        this.results.splice(index, 1);
-        this.resultSources.splice(index, 1);
-        // }
-      },
-      clkClearTreeItem: function () {
-        if (this.results.length < 40) {
-          // 一一删除法
-          let _this = this;
-          let arr = this.resultSources;
-
-          for (let i = 0;i < arr.length;i++) {
-            setTimeout(function () { 
-              _this.clkDelItem(0); 
-              if (arr.length <= 1) {
-                // console.log('清除完成');
-              }
-            }, 10);
-          }
-        } else {
-          // 使用备份数据还原法
-          this.treeData = [];
-          this.results = [];
-          this.resultSources = [];
-          this.$nextTick(function () {
-            this.treeData = JSON.parse(JSON.stringify(this._treeData));
+        this.active = index;
+        if (navItem.treeData === null) {
+          this.showEmpty = true;
+        } else if (typeof navItem.treeData === 'undefined') {
+          // 没有数据，需要获取
+          this.showLoading = true;
+          this.funTreeData(navItem, function (data) {
+            _this.$set(_this.navData_p[index], 'treeData', data || null);
+            _this.showLoading = false;
+            setTimeout(function () {
+              _this.emitNodeCheckStatus(_this.results);
+            }, 1000);
           });
         }
       },
-      // 用户自定义结果集
-      emitResultEvent: function (data) {
-        if (data && data.length > 0) {
-          // 控制最大数量
-          if (data.length > this.maxCount) {
-            data.splice(this.maxCount);
-          }
-          let itv = setInterval(function () {
-            if (window.initResult === 'received') {
-              clearInterval(itv);
-            } else {
-              window.EVENTBUS.$emit('initResult', data);
-            }
-          }, 1000);
+      // 清空选中结果
+      clkClearResult: function () {
+        let arr = JSON.parse(JSON.stringify(this.results));
+
+        this.results = [];
+        this.emitNodeCheckStatus(arr);
+      },
+      // 删除选中结果 - 行
+      clkDelItem: function (index) {
+        let item = this.results.splice(index, 1);
+
+        this.emitNodeCheckStatus(item);
+      },
+      // 确认
+      clkConfirm: function () {
+        // 
+      },
+      // checkbox点击回调
+      callbackCheckbox: function (data) {
+        // 删除子节点
+        data = JSON.parse(JSON.stringify(data));
+        data.children = null;
+
+        if (data.checked) {
+          let has = JSON.stringify(this.results).indexOf('"id":' + ((typeof data.id === 'string') ? ('"' + data.id + '"') : data.id));
+
+          has === -1 && this.results.push(data);
+        } else {
+          this.results = this.results.filter(item => {
+            return item.id !== data.id;
+          });
         }
       },
-      utlRemoveCustChart: function (str) {
-        return str.replace(/,"checked":true/g, '').replace(/,"checked":false/g, '').replace(/,"opened":true/g, '').replace(/,"opened":false/g, '');
+      // 通知节点更新选中状态
+      emitNodeCheckStatus: function (arr) {
+        arr.forEach(item => {
+          this.$eventbus.$emit('changeResult' + item.id, this.results);
+        });
+      },
+      // 过滤选中结果数量
+      filterResultData: function (results) {
+        let ret = results;
+
+        if (!isNaN(this.maxCount)) {
+          ret = results.slice(0, this.multiple ? this.maxCount : 1);
+        }
+        return ret;
       }
     }
   };
@@ -411,7 +322,7 @@
 
   // 左侧树形列表样式
   .wrap-selector > div > .p-l > .wrap-tree {
-    white-space:nowrap;
+    // white-space:nowrap;
   }
   .wrap-selector > div > .p-l > .wrap-tree ul {
     float: left;
@@ -419,7 +330,9 @@
   }
   .wrap-selector > div > .p-l > .wrap-tree li {
     position: relative;
+    padding-right: 10px;
     // height: 30px;
+    white-space: nowrap;
     overflow: hidden;
   }
   // 层级缩进
@@ -470,7 +383,7 @@
     width: 100%;
     height: 30px;
     z-index: 1;
-    background-color: yellow;
+    background-color: #cbe3f2;
   }
   .wrap-selector > div > .p-l > .wrap-tree li > .wrap-arrow {
     position: relative;
@@ -607,9 +520,6 @@
     margin-top: 15px;
     border-radius: 2px;
   }
-  .wrap-selector > footer > .button.confirm {
-    background-color: #0079FF;
-  }
 
   // 右侧样式
   .wrap-selector > div > .p-r > .btn-clear {
@@ -673,9 +583,7 @@
     background-color: #0079FF;
   }
   // 左侧样式 - 空列表展示样式
-  // 左侧样式 - 加载动画样式
-  .wrap-selector > div > .p-l > .empty,
-  .wrap-selector > div > .p-l > .loading {
+  .wrap-selector > div > .p-l > .empty {
     margin-top: 40px;
     width: calc(100% - 20px);
     text-align: center;
@@ -688,8 +596,32 @@
     white-space: nowrap;
   }
   // 左侧样式 - 列表样式
-  .wrap-selector > div > .p-l > .ps-container {
+  .wrap-selector > div > .p-l > .ps-container > ul {
     padding-bottom: 14px;
+  }
+  // 加载动画样式
+  .wrap-selector > .loading {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+
+    > .cicon-loading {
+      display: block;
+      margin: 0 auto;
+      margin-top: 20px;
+      margin-bottom: 6px;
+      font-size: 30px;
+    }
   }
   
 

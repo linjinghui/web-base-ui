@@ -4,11 +4,19 @@
     <!-- theme: 控制选中后的背景色 -->
     <!-- disabled: 是否禁用 -->
     <!-- beforeClk: 需要二次确认操作 - true|false -->
-    <cmp-checkbox v-for="(item, index) in likes" :key="index" v-model="selected" :val="item.val" :beforeclk="beforeClk">
+    <!-- <cmp-checkbox v-for="(item, index) in likes" :key="index" v-model="selected" :val="item.val" :beforeclk="beforeClk">
       {{item.name}}
-    </cmp-checkbox>
+    </cmp-checkbox> -->
     <hr>
-    <cmp-checkbox v-model="selected2" :beforeclk="beforeClk">单选</cmp-checkbox>
+    <cmp-checkbox v-model="selected1">单选</cmp-checkbox>
+    <hr>
+    <cmp-checkbox v-model="selected2" data="555" :beforeclk="beforeClk">确认勾选</cmp-checkbox>
+    <hr>
+    <cmp-checkbox v-model="selected2" data="123" @click="clkCheckbox">点击事件</cmp-checkbox>
+    <hr>
+    <cmp-checkbox v-model="selected3" required="true">必填</cmp-checkbox>
+    <hr>
+    <cmp-checkbox v-model="selected4" disabled="true">禁用</cmp-checkbox>
   </div>
 </template>
 
@@ -33,8 +41,10 @@ export default {
           'val': 'food'
         }
       ],
-      selected: [],
-      selected2: false
+      selected1: false,
+      selected2: false,
+      selected3: false,
+      selected4: true
     };
   },
   components: {
@@ -48,12 +58,22 @@ export default {
       console.log(val);
     }
   },
+  mounted () {
+    let _this = this;
+
+    setTimeout(function () {
+      _this.selected3 = false;
+    }, 3000);
+  },
   methods: {
     // 确认点击之前 - 不支持异步
-    beforeClk: function () {
-      let result = window.confirm('确认选中？');
+    beforeClk: function (data) {
+      let result = window.confirm('确认选中？' + data);
 
       return result;
+    },
+    clkCheckbox: function (data) {
+      alert('click:' + data);
     }
   }
 };

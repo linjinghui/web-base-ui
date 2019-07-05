@@ -4,13 +4,15 @@
  -->
 
 <template>
-  <li :class="{open:data.opened,active:!multiple&&data.checked}" @click.stop="clkLi">
-    <span class="wrap-arrow" @click.stop="clkToggle(data)"><i class="cicon-triangle" v-if="data.children"></i></span>
-    <cmp-checkbox class="wrap-check" v-if="multiple&&!(checkType===2&&data.children&&data.children.length>0)" v-model="data.checked" :beforeclk="clkBeforeCheck" @click="clkCheck(data)"></cmp-checkbox>
+  <li :class="{open:data.opened,active:!multiple&&data.checked}" @click.stop="clkLine">
+    <span class="wrap-arrow"><i class="cicon-triangle" v-if="data.children" @click.stop="clkToggle"></i></span>
+    <span class="wrap-check" v-if="!data.nocheckbox&&multiple" @click.stop>
+      <cmp-checkbox class="wrap-check" v-model="data.checked" :beforeclk="clkBeforeCheck" @click="clkCheckobx"></cmp-checkbox>
+    </span>
     <img class="wrap-avator" v-if="data.img" :src="data.img">
     <span class="wrap-text">{{data.name}}</span>
-    <ul v-if="data.children" v-show="data.opened">
-      <item v-for="(itemData,index) in data.children" :key="itemData.id+'_'+index+'_children'" :data="itemData" :pdata="data" :maxCount="maxCount" :checkedCount="checkedCount" :returnType="returnType" :checkType="checkType" :multiple="multiple"></item>
+    <ul v-if="data.children&&data.children.length>0" v-show="data.opened">
+      <item v-for="(itemData,index) in data.children" :key="itemData.id+'_'+index+'_children'" :data="itemData" :maxCount="maxCount" :results="results" :multiple="multiple" @callback_checkbox="clkCheckobx"></item>
     </ul>
   </li>
 </template>
@@ -23,171 +25,73 @@
     components: {
       'cmpCheckbox': Checkbox
     },
-    data: function () {
-      return {
-        id: 'item_' + new Date().getTime() + parseInt(Math.random() * 100)
-      };
-    },
     props: {
       data: {
         default: function () {
           return [];
         }
       },
-      // 父节点
-      pdata: {
-        default: function () {
-          return {};
-        }
-      },
       // 最大选择数量
       maxCount: '',
-      // 已选中数量
-      checkedCount: '',
-      // 返回类型 1: 全部返回 2: 只返还回子节点
-      returnType: '',
-      // 勾选类型 1: 允许勾选父节点(默认) 2: 只允许勾选子节点
-      checkType: '',
       // 是否多选 true: 是多选(默认) false: 单选
-      multiple: ''
+      multiple: '',
+      // 选中的结果
+      results: ''
     },
-    watch: {
-      'data.checked': {
-        deep: true,
-        handler: function (val) {
-          if (this.multiple && typeof val !== 'undefined') {
-            if (!val) {
-              // 取消勾选，也要取消父节点的勾选
-              this.$set(this.pdata, 'checked', val);
-            } else if (this.pdata && this.pdata.children) {
-              // 选中时候，判断子节点是否全部选中，如果全部选中，则勾选父节点
-              let str = JSON.stringify(this.pdata.children);
-              // 已被选中的子节点数量，含所有子节点
-              let trueLength = str.match(/"checked":true/g).length;
-              // 子节点数量，含所有子节点
-              let subLength = str.match(/"name"/g).length;
-
-              if (trueLength === subLength) {
-                this.$set(this.pdata, 'checked', true);
-              }
-            }
-            window.EVENTBUS.$emit('checked', this.data);
-          }
-        }
-      }
+    data: function () {
+      return {
+        // lineData.
+      };
     },
+    watch: {},
     computed: {
       // 
     },
     beforeDestroy: function () {
-      window.EVENTBUS.$off('initResult', this.evntInitResult);
+      this.$eventbus.$off('changeResult' + this.data.id, this.eventChangeResult);
     },
     mounted: function () {
-      window.EVENTBUS.$on('initResult', this.evntInitResult);
+      this.$eventbus.$on('changeResult' + this.data.id, this.eventChangeResult);
     },
     methods: {
-      // 行点击 
-      clkLi: function () {
-        let hasChildren = this.data.children && this.data.children.length > 0;
-
-        // 勾选类型 1: 允许勾选父节点(默认) 2: 只允许勾选子节点
-        if (this.checkType === 2 && hasChildren) {
-          return;
-        }
-
-        if (!this.multiple) {
-          this.$set(this.data, 'checked', !this.data.checked);
-          window.EVENTBUS.$emit('checked', this.data);
-        }
+      // 显示、隐藏子节点
+      clkToggle: function () {
+        this.$set(this.data, 'opened', !this.data.opened);
       },
-      // 开关子节点
-      clkToggle: function (info) {
-        this.$set(info, 'opened', !info.opened);
-      },
-      // 点击复选框之前
+      // 点击前判断
       clkBeforeCheck: function () {
-        return this.data.checked || (this.maxCount > this.checkedCount);
+        return this.data.checked || !this.maxCount || (this.maxCount > this.results.length);
       },
-      clkCheck: function (info) {
-        // let _this = this;
-        let str = JSON.stringify(info.children);
-        // 剩余可选中的节点数量
-        let sy = this.maxCount - this.checkedCount;
-
-        // 设置所有子节点状态，控制最大选择数量
-        str = str.replace(/,"checked":true/g, '').replace(/,"checked":false/g, '');
-        if (info.checked && info.children && info.children.length > sy) {
-          
-          // 方式一：正则
-          // str = str.replace(/}/g, function (match, pos, originalText) {
-          //   console.log(str.substring(pos - 4, pos));
-          //   let fontChart = str.substring(pos - 4, pos);
-
-          //   // 返回类型 1: 全部返回 2: 只返还回子节点
-          //   if (_this.returnType === 2 && fontChart === 'null') {
-          //     --sy;
-          //   } 
-          //   if (_this.returnType !== 2) {
-          //     --sy;
-          //   }
-          //   let res = ',"checked":' + info.checked + '}';
-
-          //   if (sy <= (_this.returnType === 2 ? -1 : 0)) {
-          //     res = '}';
-          //   }
-          //   return res;
-          // });
-          // 方式二：循环
-          let darrs = JSON.parse(str);
-          let returnType = this.returnType;
-          let dp = function (arr) {
-            for (let i = 0;i < arr.length;i++) {
-              if (sy < -1) {
-                break;
-              }
-              if (returnType === 2 && (!arr[i].children || arr[i].children.length === 0)) {
-                --sy;
-              } 
-              if (returnType !== 2) {
-                --sy;
-              }
-              
-              if (sy > (returnType === 2 ? -1 : 0)) {
-                arr[i].checked = info.checked;
-              }
-              if (arr[i].children && arr[i].children.length > 0) {
-                dp(arr[i].children);
-              }
-            }
-          };
-
-          dp(darrs);
-          str = JSON.stringify(darrs);
-        } else {
-          str = str.replace(/}/g, ',"checked":' + info.checked + '}');
-        }
-        this.$set(info, 'children', JSON.parse(str));
+      // checkbox 点击 
+      clkCheckobx: function (data) {
+        this.$emit('callback_checkbox', data || this.data);
       },
-      evntInitResult: function (data) {
-        // 标注已接收到
-        window.initResult = 'received';
-        let str = JSON.stringify(data);
-        let id = this.data.id;
-        let regstr = '"id":' + (typeof id === 'string' ? '"' + id + '"' : id);
-
-        if (str.indexOf(regstr) >= 0) {
-          // 当前节点存在于 结果result中
-          if (this.multiple) {
-            this.$set(this.data, 'checked', true);
-            this.clkCheck(this.data);
-          } else {
-            this.clkLi();
+      // 点击 - 行
+      clkLine: function () {
+        if (!this.data.disabled && !this.data.nocheckbox && this.clkBeforeCheck()) {
+          this.$set(this.data, 'checked', !this.data.checked);
+          if (!this.multiple) {
+            // 单选的话，先清空已选中
+            this.$eventbus.$emit('clearTreeItem');
           }
-        } else if (this.data.checked) {
-          // 当前节点不存在于结果中，且当前节点是已勾选状态，需要去掉勾选状态
-          this.$set(this.data, 'checked', false);
-          this.clkCheck(this.data);
+          this.clkCheckobx(this.data);
         }
+      },
+      // 接收选中结果变动事件
+      eventChangeResult: function (results) {
+        let id = this.data.id;
+        let str = JSON.stringify(results);
+        let rstr = '"id":';
+
+        if (typeof id === 'string') {
+          rstr += '"' + id + '"';
+        } else {
+          rstr += id;
+        }
+        let checked = str.indexOf(rstr);
+
+        // console.log(this.data.id, checked);
+        this.$set(this.data, 'checked', checked >= 0);
       }
     }
   };
