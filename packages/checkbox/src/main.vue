@@ -2,15 +2,14 @@
 功能介绍：
 1、支持自定义背景色（theme - 'red'）
 2、禁用（disabled - true|false）
-3、确认点击前执行事件（beforeclk - function）
+3、必选（required - true|false）
+4、确认点击前执行事件（beforeclk - function）
  -->
 <template>
-  <label class="checkbox"
-    :disabled="(disabled+'')==='true'"
-    @click="clk">
-    <i
-      :class="{'cicon-tick-cbdr': _select, 'cicon-tick-cbdr-cemt': !_select}"
-      :style="_select?_style:''"></i>
+  <label class="checkbox clearfix" :disabled="disabled" :required="required" :class="{'checked':value}" @click="clkCheck">
+    <span class="wrap-tick" :class="{'theme-b':value&&!required}">
+      <i class="cicon-tick"></i>
+    </span>
     <slot></slot>
   </label>
 </template>
@@ -24,83 +23,55 @@
       };
     },
     props: {
-      disabled: '',
-      // value: {
-      //   type: Array,
-      //   default: []
-      // },
-      value: '',
-      val: '',
-      theme: {
-        type: String,
-        default: 'var(--theme)'
+      disabled: {
+        type: Boolean,
+        default: false
       },
+      value: {
+        type: Boolean,
+        default: false
+      },
+      required: {
+        type: Boolean,
+        default: false
+      },
+      // 在beforeclk和click触发的时候回传
+      data: '',
+      // 点击复选框前执行，返回true 才能继续点击
       beforeclk: {
-        type: Function
+        type: Function,
+        default: function () {
+          return function () {
+            return true;
+          };
+        }
       }
     },
     watch: {
-      // value: function (val) {
-      //   if (val && (this.disabled + '') === 'true') {
-      //     this.$emit('input', false);
-      //   }
-      // }
-    },
-    computed: {
-      _style: function () {
-        return {
-          borderColor: this.theme,
-          backgroundColor: this.theme
-        };
+      value: function () {
+        this.checkRequired();
       },
-      _select: function () {
-        let result = this.value;
-
-        if (typeof this.value === 'boolean') {
-          result = this.value;
-        } else if (this.value instanceof Array) {
-          var index = result.indexOf(this.val);
-
-          result = index >= 0 && result[index] !== '';
-          // result = result.indexOf(this.val) >= 0;
-        } else {
-          result = this.value + '' === 'true';
-        }
-        return result;
+      required: function () {
+        this.checkRequired();
       }
     },
+    computed: {},
     mounted: function () {
-      //
+      this.checkRequired();
     },
     methods: {
-      clk: function () {
-        if (this.disabled + '' !== 'true') {
-          if (this.beforeclk) {
-            if (this.beforeclk()) {
-              this.emt(this.val);
-              this.$emit('click');
-            }
-          } else {
-            this.emt(this.val);
-            this.$emit('click');
-          }
+      checkRequired: function () {
+        if (this.required) {
+          this.$emit('input', true);
+          this.$emit('click', this.data);
         }
       },
-      emt: function (val) {
-        if (typeof val === 'undefined') {
-          this.$emit('input', !this.value);
-        } else {
-          var arr = JSON.parse(JSON.stringify(this.value));
-          var index = arr.indexOf(val);
-
-          if (index >= 0) {
-            // 存在，需要删除
-            arr.splice(index, 1);
-          } else {
-            // 不存在，添加
-            arr[arr.length] = val;
+      clkCheck: function (checked) {
+        if (!this.disabled && !this.required) {
+          if (this.beforeclk(this.data)) {
+            this.$emit('input', typeof checked === 'boolean' ? checked : !this.value);
           }
-          this.$emit('input', arr);
+          this.$emit('click', this.data);
         }
       }
     }
@@ -110,28 +81,57 @@
 <style scoped lang="scss">
   .checkbox {
     display: inline-block;
-    margin-right: 10px;
+    line-height: 16px;
     user-select: none;
-    
-    >i {
-      margin-right: 6px;
-      border-radius: 2px;
-      font-size: 15px;
-      border-color: #dcdfe6;
-      background-color: #fff;
-      vertical-align: -3px;
-    }
-    >i.cicon-tick-cbdr:before,
-    >i.cicon-tick-cbdr:after {
-      border-color: #fff;
-    }
-  }
-
-  .checkbox:not([disabled]) {
+    overflow: hidden;
     cursor: pointer;
+
+    > .wrap-tick {
+      position: relative;
+      float: left;
+      margin-right: 5px;
+      width: 16px;
+      height: 16px;
+      line-height: unset;
+      border-radius: 2px;
+      border: solid 1px #ccc;
+      background-color: #f4f4f4;
+
+      > .cicon-tick {
+        position: absolute;
+        display: none;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        color: #fff;
+        font-size: 14px;
+      } 
+    }
   }
 
-  .checkbox:not([disabled]):hover > i.cicon-tick-cbdr-cemt {
-    border-color: #ccc;
+  // 选中样式
+  .checkbox.checked {
+
+    > .wrap-tick.theme-b {
+      border: 0;
+    }
+
+    .cicon-tick {
+      display: inherit;
+    }
+  }
+
+  // 必选样式
+  .checkbox[required] {
+    cursor: text;
+    > .wrap-tick {
+      background-color: #fff;
+    }
+
+    .cicon-tick {
+      color: #ccc;
+    }
   }
 </style>
