@@ -1,11 +1,12 @@
 <!-- 
 功能介绍：
+children: 如果没有子节点，最好设置为null 
 opened: 隐藏、显示子节点, 
 checked: 是否勾选中, 
 nocheckbox: 是否需要复选框,
 disabled: 禁选,
 required: 必填，无法取消
-树型数据格式：{id: 'id需要保持唯一', name: '文本', img: '头像', children: [], opened: false, checked: false, nocheckbox: false, disabled: false, required: false}
+树型数据格式：{id: 'id需要保持唯一', name: '文本', img: '头像', children: null, opened: false, checked: false, nocheckbox: false, disabled: false, required: false}
  -->
 
 <template>
@@ -18,12 +19,12 @@ required: 必填，无法取消
       <div>
         <section class="p-l">
           <!-- 搜索框 -->
-          <cmp-input v-model="search" clear="false" :maxlength="maxlength" :placeholder="placeholder" @enter="clkSearch">
+          <cmp-input v-model="keyword" clear="false" :maxlength="maxlength" :placeholder="placeholder" @enter="clkSearch">
             <i class="btn-search" slot="right" @click="clkSearch"><i class="cicon-search-cpt-chr" slot="right"></i></i>
           </cmp-input>
           <!-- 导航 -->
           <ul class="nav" v-if="navData&&navData.length>1">
-            <li v-for="(info,index) in navData" :key="'nav_'+index" :class="{'theme-b':active===index}" @click="clkNav(index)">{{info.text}}</li>
+            <li v-for="(info,index) in navData" :key="'nav_'+index" :class="{'theme-b':active===index}" @click="clkNav(index)" @dblclick="dbclkNav(index)">{{info.text}}</li>
           </ul>
           <!-- 没有找到相关数据 -->
           <div class="empty" v-show="showEmpty"><img :src="empty"><br>没有找到相关数据</div>
@@ -31,12 +32,18 @@ required: 必填，无法取消
           <vperfect-scrollbar class="wrap-tree" v-show="showTree" :settings="{wheelSpeed:0.5}" :style="{height:'calc(100% - 34px - 20px - '+(navData?'32px - 10px':'0px')+' - 2px)'}">
             <template v-for="(item,index) in navData_p">
               <!-- 分页类型的 树形结构 -->
-              <cmp-ul v-if="item.type==='singleTree'" :key="'tree_data_'+index" v-show="!showEmpty&&active===index" :data="item.treeData" :maxCount="maxCount" :results="results" :multiple="multiple" :nextIcon="nextIcon" @callback_checkbox="callbackCheckbox"></cmp-ul>
+              <cmp-ul v-if="item.type==='singleTree'" :key="'tree_data_'+index" v-show="!showEmpty&&!showSearchData&&active===index" :data="item.treeData" :maxCount="maxCount" :results="results" :multiple="multiple" :nextIcon="nextIcon" :search="item.search" :funAsynChild="item.funAsynChild" @callback_checkbox="callbackCheckbox"></cmp-ul>
               <!-- 缩进类型的 树形结构 -->
-              <ul v-else :key="'tree_data_'+index" v-show="!showEmpty&&active===index">
-                <cmp-li v-for="(lineData,index) in item.treeData" :key="lineData.id+'_'+index" :data="lineData" :maxCount="maxCount" :results="results" :multiple="multiple" @callback_checkbox="callbackCheckbox"></cmp-li>
+              <ul v-else :key="'tree_data_'+index" v-show="!showEmpty&&!showSearchData&&active===index">
+                <cmp-li v-for="(lineData,index) in item.treeData" :key="lineData.id+'_'+index" :data="lineData" :maxCount="maxCount" :results="results" :multiple="multiple" :search="item.search" @callback_checkbox="callbackCheckbox"></cmp-li>
               </ul>
             </template>
+            <!-- 搜索内容区域 <template>
+              <cmp-ul v-if="navData_p[active]&&navData_p[active].type==='singleTree'&&searchData" v-show="showSearchData" :data="searchData" :maxCount="maxCount" :results="results" :multiple="multiple" :search="navData_p[active].search" :nextIcon="nextIcon" @callback_checkbox="callbackCheckbox"></cmp-ul>
+              <ul v-else-if="searchData" v-show="showSearchData">
+                <cmp-li v-for="(lineData,index) in searchData" :key="'search_'+lineData.id+'_'+index" :data="lineData" :maxCount="maxCount" :results="results" :multiple="multiple" :search="navData_p[active].search" @callback_checkbox="callbackCheckbox"></cmp-li>
+              </ul>
+            </template> -->
           </vperfect-scrollbar>
         </section>
         <section class="p-r">
@@ -125,6 +132,8 @@ required: 必填，无法取消
         default: function () {
           return [{
             text: '组织架构', 
+            // 异步获取子节点
+            funAsynChild: '',
             // 搜索方法 - 为空则表示内部搜索
             funSearch: ''
           }];
@@ -161,6 +170,8 @@ required: 必填，无法取消
         showTree: true,
         // 是否显示搜索内容
         showSearchData: false,
+        // 搜索内容数据
+        searchData: [],
         // 选中结果
         results: []
       };
@@ -189,15 +200,93 @@ required: 必填，无法取消
         this.$emit('input', false);
       },
       // 搜索
-      clkSearch: function (callback, from) {
-        // 
+      clkSearch_bf: function () {
+        let _this = this;
+        let navItem = this.navData_p[this.active];
+
+        this.showLoading = true;
+        if (this.keyword && this.keyword.length > 0 && navItem.funSearch && typeof navItem.funSearch === 'function') {
+          // 调用搜索接口
+          navItem.funSearch(this.keyword, function (ret) {
+            _this.showLoading = false;
+            _this.showSearchData = true;
+            _this.searchData = ret;
+          });
+        } else if (this.keyword && this.keyword.length > 0) {
+          // 内部搜索
+          _this.searchData = (function (data) {
+            data = JSON.parse(JSON.stringify(data));
+            data.filter(function (item) {
+              return item.name.indexOf(_this.keyword) >= 0;
+            });
+            return data;
+          }(navItem.treeData));
+          _this.showLoading = false;
+        } else {
+          // 无关键字
+          this.keyword = '';
+          this.searchData = [];
+          this.showSearchData = false;
+          this.showEmpty = false;
+          this.showLoading = false;
+        }
+      },
+      // 搜索
+      clkSearch: function () {
+        let _this = this;
+        let navItem = this.navData_p[this.active];
+
+        this.showLoading = true;
+        this.showEmpty = false;
+        if (this.keyword && this.keyword.length > 0 && navItem.funSearch && typeof navItem.funSearch === 'function') {
+          // 调用搜索接口
+          navItem.funSearch(this.keyword, function (ret) {
+            _this.showLoading = false;
+            if (ret) {
+              // 备份数据
+              if (!navItem.hasOwnProperty('_treeData')) {
+                navItem._treeData = navItem.treeData;
+              }
+              _this.$set(navItem, 'treeData', ret);
+              _this.$set(navItem, 'search', _this.keyword);
+            } else {
+              // 没有匹配到
+              _this.showEmpty = true;
+            }
+          });
+        } else if (this.keyword && this.keyword.length > 0) {
+          // 内部搜索
+          // 先全局匹配下，有的话在进行局类搜索
+          if (new RegExp('"name":"[^"]*' + this.keyword + '[^"]*"').test(JSON.stringify(navItem.treeData))) {
+            this.$set(navItem, 'search', this.keyword);
+          } else {
+            // 没有匹配到
+            this.showEmpty = true;
+          }
+          this.showLoading = false;
+        } else {
+          // 无关键字, 还原数据
+          if (navItem.hasOwnProperty('_treeData')) {
+            this.$set(navItem, 'treeData', navItem._treeData);
+            delete navItem._treeData;
+          }          
+          this.$set(navItem, 'search', '');
+          this.keyword = '';
+          this.searchData = [];
+          this.showSearchData = false;
+          this.showLoading = false;
+          this.showEmpty = false;
+        }
       },
       // 导航点击切换
       clkNav: function (index) {
         let _this = this;
         let navItem = this.navData_p[index];
 
+        this.keyword = navItem.search || '';
+        // this.$set(navItem, 'search', '');
         this.showEmpty = false;
+        this.showSearchData = false;
         this.active = index;
         if (navItem.treeData === null) {
           this.showEmpty = true;
@@ -205,6 +294,9 @@ required: 必填，无法取消
           // 没有数据，需要获取
           this.showLoading = true;
           this.funTreeData(navItem, function (data) {
+            if (data === null || data.length === 0) {
+              _this.showEmpty = true;
+            }
             _this.$set(_this.navData_p[index], 'treeData', data || null);
             _this.showLoading = false;
             setTimeout(function () {
@@ -212,6 +304,23 @@ required: 必填，无法取消
             }, 1000);
           });
         }
+      },
+      // 双击导航，刷新数据
+      dbclkNav: function (index) {
+        let _this = this;
+        let navItem = this.navData_p[index];
+
+        this.showLoading = true;
+        this.funTreeData(navItem, function (data) {
+          if (data === null || data.length === 0) {
+            _this.showEmpty = true;
+          }
+          _this.$set(_this.navData_p[index], 'treeData', data || null);
+          _this.showLoading = false;
+          setTimeout(function () {
+            _this.emitNodeCheckStatus(_this.results);
+          }, 1000);
+        });
       },
       // 清空选中结果
       clkClearResult: function () {
@@ -614,6 +723,7 @@ required: 必填，无法取消
     font-size: 14px;
     color: #fff;
     background: rgba(0, 0, 0, 0.5);
+    z-index: 11;
 
     > .cicon-loading {
       display: block;

@@ -8,7 +8,7 @@
   <div class="wrap-single-list">
     <nav><p v-touchmove>
       <template v-for="(item,index) in nav">
-        <a :key="'nav_'+index" @click.stop="clkNav(index)">{{item.name}}</a>
+        <a class="theme-c" :key="'nav_'+index" @click.stop="clkNav(index)">{{item.name}}</a>
         <i :key="'nav_icon_'+index" v-if="index<nav.length-1" class="cicon-arrow-right"></i>
       </template>
     </p></nav>
@@ -16,19 +16,21 @@
       <ul v-if="lastNavData.children">
         <li v-if="multiple">
           <span class="wrap-check" @click="clkCheckboxFull"><cmp-checkbox class="wrap-check" v-model="full"></cmp-checkbox></span>
-          <span class="wrap-text">全选</span>
+          <span class="wrap-text" @click="clkCheckboxFullText">全选</span>
         </li>
-        <li v-for="(item,index) in lastNavData.children" :key="item.id+'_'+index" @click.stop="clkLine(item)">
-          <span class="wrap-check" v-if="!item.nocheckbox&&multiple" @click.stop>
-            <cmp-checkbox class="wrap-check" v-if="!item.disabled&&!item.nocheckbox" :required="item.required" v-model="item.checked" @click="clkCheckbox(item)"></cmp-checkbox>
-          </span>
-          <img class="wrap-avator" v-if="item.img" :src="item.img">
-          <p class="wrap-text" :disabled="item.disabled" :style="'width:calc(100% - '+(multiple?'22px':'0px')+' - 20px - 60px)'">{{item.name}}</p>
-          <span class="wrap-right theme-c" v-if="item.children&&item.children.length>0" :disabled="!item.required&&item.checked" @click.stop="clkNext(item)">
-            <i v-if="nextIcon" :class="nextIcon"></i>
-            下级
-          </span>
-        </li>
+        <template v-for="(item,index) in lastNavData.children">
+          <li :key="item.id+'_'+index" :class="{active:!multiple&&item.checked}" v-if="showBySearch(item)" @click.stop="clkLine(item)">
+            <span class="wrap-check" v-if="!item.nocheckbox&&multiple" @click.stop>
+              <cmp-checkbox class="wrap-check" v-if="!item.disabled&&!item.nocheckbox" :required="item.required" v-model="item.checked" @click="clkCheckbox(item)"></cmp-checkbox>
+            </span>
+            <img class="wrap-avator" v-if="item.img" :src="item.img">
+            <p class="wrap-text" :disabled="item.disabled" :style="'width:calc(100% - '+(multiple?'22px':'0px')+' - 20px - 60px)'" v-html="replaceNameBySearch(item.name)"></p>
+            <span class="wrap-right theme-c" v-if="item.children&&item.children.length>0" :disabled="!item.required&&item.checked" @click.stop="clkNext(item)">
+              <i v-if="nextIcon" :class="nextIcon"></i>
+              下级
+            </span>
+          </li>
+        </template>
       </ul>
     </vperfect-scrollbar>
   </div>
@@ -50,10 +52,14 @@
       maxCount: '',
       // 是否多选 true: 是多选(默认) false: 单选
       multiple: '',
+      // 搜索关键字
+      search: '',
       // 下级按钮图标字体
       nextIcon: '',
       // 选中的结果
-      results: ''
+      results: '',
+      // 异步获取子节点
+      funAsynChild: ''
     },
     data: function () {
       return {
@@ -63,7 +69,11 @@
     },
     watch: {
       data: function (val) {
-        this.nav = [val];
+        this.nav = [];
+        this.clkNext(val);
+      },
+      search: function (val) {
+        this.clkNav(0);
       }
     },
     computed: {
@@ -82,6 +92,19 @@
               rstr += item.id;
             }
             item.checked = str.indexOf(rstr) >= 0;
+
+            // 根据搜索条件判断是否可以选中
+            if (this.search) {              
+              // 备份 nocheckbox 属性
+              if (!item.hasOwnProperty('_nocheckbox')) {
+                item._nocheckbox = item.nocheckbox;
+              }
+              item.nocheckbox = this.replaceNameBySearch(item.name) === item.name;
+            } else {
+              // 还原并删除 _nocheckbox 属性
+              item.nocheckbox = item._nocheckbox;
+              delete item._nocheckbox;
+            }
           });
 
           // 判断是否全选
@@ -107,11 +130,20 @@
       },
       // 下一级
       clkNext: function (itemData) {
+        let _this = this;
+
         if (!itemData.checked || itemData.required) {
-          this.nav.push(itemData);
+          // this.nav.push(itemData);
+          this.funAsynGetChild(itemData, function (retData) {
+            _this.nav.push(retData);
+          });
         }
       },
       // checkbox 全选点击 
+      clkCheckboxFullText: function () {
+        this.full = !this.full;
+        this.clkCheckboxFull();
+      },
       clkCheckboxFull: function () {
         let _this = this;
 
@@ -137,9 +169,33 @@
       // 点击 - 行
       clkLine: function (data) {
         if (!data.disabled && !data.nocheckbox) {
+          if (!this.multiple) {
+            // 单选的话，先清空已选中
+            this.$eventbus.$emit('clearTreeItem');
+          }
           this.$set(data, 'checked', !data.checked);
           this.clkCheckbox(data);
         }
+      },
+      funAsynGetChild: function (data, callback) {
+        let _this = this;
+
+        // 搜索的时候，不允许异步取下级数据
+        if (!this.search && typeof this.funAsynChild === 'function') {
+          this.$parent.$parent.showLoading = true;
+          this.funAsynChild(data, function (ret) {
+            _this.$parent.$parent.showLoading = false;
+            callback(ret);
+          });
+        } else {
+          callback(data);
+        }
+      },
+      showBySearch: function (itemData) {
+        return !this.search || new RegExp('"name":"[^"]*' + this.search + '[^"]*"').test(JSON.stringify(itemData));
+      },
+      replaceNameBySearch: function (name) {
+        return this.search ? name.replace(this.search, '<font class="theme-c">' + this.search + '</font>') : name;
       }
     }
   };
@@ -163,8 +219,17 @@
 
         > a {
           display: inline-block;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
           vertical-align: middle;
           cursor: pointer;
+        }
+        > a:not(:first-of-type) {
+          max-width: 100px;
+        }
+        > a:last-of-type {
+          color: inherit!important;
         }
         > i {
           margin-right: 5px;
@@ -212,12 +277,13 @@
       }
 
       > .wrap-right {
-        // float: right;
+        position: relative;
         width: 60px;
         height: 20px;
         text-align: center;
         border-left: solid 1px #ccc;
         font-size: 12px;
+        z-index: 2;
         cursor: pointer;
 
         > i {

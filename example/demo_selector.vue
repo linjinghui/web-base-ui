@@ -26,6 +26,9 @@ export default {
             text: '组织架构',
             // 简单的树型
             type: 'singleTree',
+            // 异步获取子节点
+            funAsynChild: this.funAsynChild,
+            // 搜索
             funSearch: this.funSearch
           }, {
             text: '角色列表'
@@ -145,8 +148,28 @@ export default {
       console.log('==clbk==');
       console.log(result);
     },
+    // 异步获取子节点
+    funAsynChild: function (data, callback) {
+      console.log('==funAsynChild==');
+      let imgrt = this.imgrt;
+
+      setTimeout(function () {
+        let children = data.children || [];
+
+        // 需要判断重复数据
+        data.children = children.concat([
+          {"id":"b1","name":"用户1","children":null,"img":"" + imgrt + ""},
+          {"id":"b2","name":"用户2","children":null,"img":"" + imgrt + ""},
+          {"id":"b3","name":"用户3","children":null,"img":"" + imgrt + ""},
+          {"id":"b4","name":"用户4","children":null,"img":"" + imgrt + ""},
+          {"id":"b5","name":"用户5","children":null,"img":"" + imgrt + ""}
+        ]);
+        callback(data);
+      }, 1000);
+    },
     // 组织架构树 搜索
-    funSearch: function () {
+    funSearch: function (data, callback) {
+      console.log('==funSearch==');
       let searchData = [
         {"id":"b1","name":"用户1","children":null,"img":""+this.imgrt+""},
         {"id":"b2","name":"用户2","children":null,"img":""+this.imgrt+""},
@@ -163,6 +186,10 @@ export default {
         {"id":"b13","name":"用户13","children":null,"img":""+this.imgrt+""},
         {"id":"b14","name":"用户14","children":null,"img":""+this.imgrt+""}
       ];
+
+      setTimeout(function () {
+        callback({"id": "235601","name": "北京世纪奥通科技公司","children": searchData});
+      }, 1000);
 
       console.log('==funSearch==', searchData);
     },
