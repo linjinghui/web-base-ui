@@ -52,7 +52,7 @@ required: 必填，无法取消
           <span class="btn-clear" @click="clkClearResult">清空</span>
           <vperfect-scrollbar :settings="{wheelSpeed:0.5,suppressScrollX:true}">
             <ul class="lst-1"> 
-              <li v-for="(item,index) in results" :key="item">
+              <li v-for="(item,index) in results" :key="'result_'+index">
                 <img v-if="item.img" :src="item.img">
                 <span>{{item.name}}</span>
                 <i class="cicon-cross-chr" @click="clkDelItem(index)"></i>
