@@ -337,7 +337,8 @@ required: 必填，无法取消
       },
       // 确认
       clkConfirm: function () {
-        // 
+        this.$emit('callback', this.results);
+        this.clkCancel();
       },
       // checkbox点击回调
       callbackCheckbox: function (data) {
