@@ -24,10 +24,9 @@
               <cmp-checkbox class="wrap-check" v-if="!item.disabled&&!item.nocheckbox" :required="item.required" v-model="item.checked" @click="clkCheckbox(item)"></cmp-checkbox>
             </span>
             <img class="wrap-avator" v-if="item.img" :src="item.img">
-            <p class="wrap-text" :disabled="item.disabled" :style="'width:calc(100% - '+(multiple?'22px':'0px')+' - 20px - 60px)'" v-html="replaceNameBySearch(item.name)"></p>
-            <span class="wrap-right theme-c" v-if="item.children&&item.children.length>0" :disabled="!item.required&&item.checked" @click.stop="clkNext(item)">
-              <i v-if="nextIcon" :class="nextIcon"></i>
-              下级
+            <p class="wrap-text" :disabled="item.disabled" :style="'width:calc(100% - '+((multiple&&!item.nocheckbox)?'22px':'0px')+' - 20px - 60px)'" v-html="replaceNameBySearch(item.name)"></p>
+            <span class="wrap-right theme-c" v-if="item.children&&item.children.length>=0" :disabled="!item.required&&item.checked" @click.stop="clkNext(item)">
+              <i v-if="nextIcon" :class="nextIcon"></i>下级
             </span>
           </li>
         </template>
@@ -100,7 +99,7 @@
                 item._nocheckbox = item.nocheckbox;
               }
               item.nocheckbox = this.replaceNameBySearch(item.name) === item.name;
-            } else {
+            } else if (item.hasOwnProperty('_nocheckbox')) {
               // 还原并删除 _nocheckbox 属性
               item.nocheckbox = item._nocheckbox;
               delete item._nocheckbox;
@@ -210,7 +209,7 @@
     > nav {
       width: calc(100% - 20px);
       height: 30px;
-      line-height: 30px;
+      line-height: 26px;
       overflow: hidden;
       white-space:nowrap;
 
@@ -225,13 +224,16 @@
           vertical-align: middle;
           cursor: pointer;
         }
-        > a:not(:first-of-type) {
+        > a {
           max-width: 100px;
         }
         > a:last-of-type {
+          max-width: unset;
           color: inherit!important;
         }
         > i {
+          display: inline-block;
+          margin-left: 5px;
           margin-right: 5px;
           font-size: 12px;
           color: #666;

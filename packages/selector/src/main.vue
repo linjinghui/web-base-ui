@@ -29,7 +29,7 @@ required: 必填，无法取消
           <!-- 没有找到相关数据 -->
           <div class="empty" v-show="showEmpty"><img :src="empty"><br>没有找到相关数据</div>
           <!-- 数据展示区 -->
-          <vperfect-scrollbar class="wrap-tree" v-show="showTree" :settings="{wheelSpeed:0.5}" :style="{height:'calc(100% - 34px - 20px - '+(navData?'32px - 10px':'0px')+' - 2px)'}">
+          <vperfect-scrollbar class="wrap-tree" v-show="showTree" :settings="{wheelSpeed:0.5}" :style="{height:'calc(100% - 34px - 20px - '+(navData&&navData.length>1?'32px - 10px':'0px')+' - 2px)'}">
             <template v-for="(item,index) in navData_p">
               <!-- 分页类型的 树形结构 -->
               <cmp-ul v-if="item.type==='singleTree'" :key="'tree_data_'+index" v-show="!showEmpty&&!showSearchData&&active===index" :data="item.treeData" :maxCount="maxCount" :results="results" :multiple="multiple" :nextIcon="nextIcon" :search="item.search" :funAsynChild="item.funAsynChild" @callback_checkbox="callbackCheckbox"></cmp-ul>
@@ -675,6 +675,8 @@ required: 必填，无法取消
   }
   // 左侧样式 - 导航样式
   .wrap-selector > div > .p-l > .nav {
+    display: flex;
+    flex-shrink: 0;
     margin-bottom: 10px;
     width: calc(100% - 20px);
     border-radius: 4px;
@@ -682,7 +684,8 @@ required: 必填，无法取消
     overflow: hidden;
   }
   .wrap-selector > div > .p-l > .nav > li {
-    float: left;
+    flex: 1;
+    // float: left;
     padding: 8px 0;
     width: 33.33%;
     text-align: center;

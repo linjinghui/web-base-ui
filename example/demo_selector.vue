@@ -27,12 +27,14 @@ export default {
             // 简单的树型
             type: 'singleTree',
             // 异步获取子节点
-            funAsynChild: this.funAsynChild,
+            funAsynChild: this.funAsynChild
             // 搜索
-            funSearch: this.funSearch
-          }, {
+            // funSearch: this.funSearch
+          }, 
+          {
             text: '角色列表'
-          }, {
+          }, 
+          {
             text: '部门主管'
           }
         ],
@@ -158,11 +160,16 @@ export default {
 
         // 需要判断重复数据
         data.children = children.concat([
-          {"id":"b1","name":"用户1","children":null,"img":"" + imgrt + ""},
-          {"id":"b2","name":"用户2","children":null,"img":"" + imgrt + ""},
-          {"id":"b3","name":"用户3","children":null,"img":"" + imgrt + ""},
-          {"id":"b4","name":"用户4","children":null,"img":"" + imgrt + ""},
-          {"id":"b5","name":"用户5","children":null,"img":"" + imgrt + ""}
+          // {"id":"b1","name":"用户1","children":null,"img":"" + imgrt + ""},
+          // {"id":"b2","name":"用户2","children":null,"img":"" + imgrt + ""},
+          // {"id":"b3","name":"用户3","children":null,"img":"" + imgrt + ""},
+          // {"id":"b4","name":"用户4","children":null,"img":"" + imgrt + ""},
+          // {"id":"b5","name":"用户5","children":null,"img":"" + imgrt + ""}
+          // {"id":"b1","name":"用户1","img":"" + imgrt + ""},
+          // {"id":"b2","name":"用户2","img":"" + imgrt + ""},
+          // {"id":"b3","name":"用户3","img":"" + imgrt + ""},
+          // {"id":"b4","name":"用户4","img":"" + imgrt + ""},
+          // {"id":"b5","name":"用户5","img":"" + imgrt + ""}
         ]);
         callback(data);
       }, 1000);
