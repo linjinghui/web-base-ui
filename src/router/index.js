@@ -50,6 +50,7 @@ import DemoAddLabel from '../../example/demo_add_label.vue';
 import DemoSwiper from '../../example/demo_swiper.vue';
 import DemoList from '../../example/demo_list.vue';
 import DemoMore from '../../example/demo_more.vue';
+import DemoGamePt from '../../example/demo_game_pt.vue';
 
 Vue.use(Router);
 
@@ -301,6 +302,11 @@ export default new Router({
       path: '/demoMore',
       name: 'demoMore',
       component: DemoMore
+    },
+    {
+      path: '/demoGamePt',
+      name: 'demoGamePt',
+      component: DemoGamePt
     }
   ]
 });

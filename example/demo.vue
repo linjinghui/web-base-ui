@@ -48,6 +48,7 @@
     <a href="#/demoSwiper">siwper</a>
     <a href="#/demoList">list</a>
     <a href="#/demoMore">more</a>
+    <a href="#/demoGamePt">游戏-拼图</a>
     
   </div>
 </template>

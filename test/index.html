@@ -1,234 +1,126 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
-
-<html xmlns="http://www.w3.org/1999/xhtml"> 
-
-<head> 
-
-<meta http-equiv="Content-Language" content="zh-cn" /> 
-
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
-
-<title>DIV可编辑框鼠标光标处插入图片或者文字。</title>
-
-<script type="text/javascript" src="http://www.w3school.com.cn/jquery/jquery.js
-
-"></script>
-
-<script type="text/javascript">
-
-$(function(){
-
-    $(".imgbox img").click(function(){
-
-    $("#testdiv").focus();
-
-    var sy = $(".imgbox img").index(this) + 1;
-
-		// var img_url = "<img src='faceimg/"+sy+".gif'>";
-		var img_url = '<div style="font-weight:bold;">哈哈哈啊哈哈'+sy+'</div>';
-
-  
-
-/*此处如果不是插入图片可这样：
-
-var img_url = "插入测试的文字";
-
-*/
-
-    _insertimg(img_url);
-
- 
-
-    })
-
-//注：如果要插入的是那种“快捷发言，快捷留言”里的文字，只需把那些文字都分别放在A标签里即可，然后img_url=a标签里面的内容。工作中的编辑器终于搞定！能插入图片和快捷发言和表情图片等。
-
-})
-
- 
-
- 
-
-//监控粘贴(ctrl+v),如果是粘贴过来的东东，则替换多余的html代码，只保留<br>
-
-function pasteHandler(){
-
-setTimeout(function(){
-
-var content = document.getElementById("testdiv").innerHTML;
-
-valiHTML=["br"]; 
-
-content=content.replace(/_moz_dirty=""/gi, "").replace(/\[/g, "[[-").replace(/\]/g, "-]]").replace(/<\/ ?tr[^>]*>/gi, "[br]").replace(/<\/ ?td[^>]*>/gi, "&nbsp;&nbsp;").replace(/<(ul|dl|ol)[^>]*>/gi, "[br]").replace(/<(li|dd)[^>]*>/gi, "[br]").replace(/<p [^>]*>/gi, "[br]").replace(new RegExp("<(/?(?:" + valiHTML.join("|") + ")[^>]*)>", "gi"), "[$1]").replace(new RegExp('<span([^>]*class="?at"?[^>]*)>', "gi"), "[span$1]").replace(/<[^>]*>/g, "").replace(/\[\[\-/g, "[").replace(/\-\]\]/g, "]").replace(new RegExp("\\[(/?(?:" + valiHTML.join("|") + "|img|span)[^\\]]*)\\]", "gi"), "<$1>");
-
-if(!$.browser.mozilla){
-
-content=content.replace(/\r?\n/gi, "<br>");
-
-}
-
-document.getElementById("testdiv").innerHTML=content;
-
-},1)
-
-  
-
-}
-
- 
-
-//锁定编辑器中鼠标光标位置。。
-
-function _insertimg(str){
-
-var selection= window.getSelection ? window.getSelection() : document.selection;
-
-var range= selection.createRange ? selection.createRange() : selection.getRangeAt(0);
-
-if (!window.getSelection){
-
-document.getElementById('testdiv').focus();
-
-var selection= window.getSelection ? window.getSelection() : document.selection;
-
-var range= selection.createRange ? selection.createRange() : selection.getRangeAt(0);
-
-range.pasteHTML(str);
-
-range.collapse(false);
-
-range.select();
-
-}else{
-
-document.getElementById('testdiv').focus();
-
-range.collapse(false);
-
-var hasR = range.createContextualFragment(str);
-
-var hasR_lastChild = hasR.lastChild;
-
-while (hasR_lastChild && hasR_lastChild.nodeName.toLowerCase() == "br" && hasR_lastChild.previousSibling && hasR_lastChild.previousSibling.nodeName.toLowerCase() == "br") {
-
-var e = hasR_lastChild;
-
-hasR_lastChild = hasR_lastChild.previousSibling;
-
-hasR.removeChild(e)
-
-}                                
-
-range.insertNode(hasR);
-
-if (hasR_lastChild) {
-
-range.setEndAfter(hasR_lastChild);
-
-range.setStartAfter(hasR_lastChild)
-
-}
-
-selection.removeAllRanges();
-
-selection.addRange(range)
-
-}
-
-}
-
- 
-
-//监控按enter键和空格键，如果按了enter键，则取消原事件，用<BR/ >代替。此处还等待修改！！！！！！如果后端能实现各个浏览器回车键产生的P，div, br的输出问题话就无需采用这段JS、
-
-function enterkey(){ 
-
-e = event.keyCode; 
-
-if (e==13||e==32) { 
-
-   var keyCode = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;
-
-   event.returnValue = false;  // 取消此事件的默认操作 
-
-   if(document.selection && document.selection.createRange){
-
-    var myRange = document.selection.createRange();
-
-    myRange.pasteHTML('<br />');
-
-    }else if(window.getSelection){
-
-var selection = window.getSelection();
-
-var range = window.getSelection().getRangeAt(0);
-
-range.deleteContents();
-
-var newP = document.createElement('br');
-
-range.insertNode(newP);
-
-}
-
-//alert(document.getElementById("testdiv").innerHTML)
-
-} 
-
-} 
-
-</script>
-
-<style type="text/css">
-
-.editbox{width:400px;height:200px;border:1px solid #000; overflow-x:hidden; overflow-y:auto; outline:none;}
-
-.editbox img{ margin:0 3px; display:inline;}
-
-</style>
-
-</head> 
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    /* 10 * 10 */
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      tap-highlight-color: rgba(0, 0, 0, 0);
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+    .wrap-box {
+      position: absolute;
+      display: flex;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+      width: 400px;
+      height: 300px;
+      /* border: solid 1px; */
+    }
+    .wrap-box > div {
+      flex: calc(400px / 10);
+      /* width: calc(400px / 10); */
+      height: calc(300px / 7);
+      border: solid 1px;
+      border-radius: 2px;
+    }
+  </style>
+</head>
 <body>
+  
+  <div class="wrap-box">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+    <div>7</div>
+    <div>8</div>
+    <div>9</div>
+    <div>10</div>
 
-<div id="testdiv" contenteditable="true" class="editbox" onkeydown="enterkey()" >可以在任意文字后面插入图片或者文字哦！<br /></div>
+    <div>11</div>
+    <div>12</div>
+    <div>13</div>
+    <div>14</div>
+    <div>15</div>
+    <div>16</div>
+    <div>17</div>
+    <div>18</div>
+    <div>19</div>
+    <div>20</div>
 
-<div class="imgbox">
+    <div>21</div>
+    <div>22</div>
+    <div>23</div>
+    <div>24</div>
+    <div>25</div>
+    <div>26</div>
+    <div>27</div>
+    <div>28</div>
+    <div>29</div>
+    <div>30</div>
 
-  <img src="faceimg/1.gif">
+    <div>11</div>
+    <div>12</div>
+    <div>13</div>
+    <div>14</div>
+    <div>15</div>
+    <div>16</div>
+    <div>17</div>
+    <div>18</div>
+    <div>19</div>
+    <div>20</div>
 
-  <img src="faceimg/2.gif">
+    <div>21</div>
+    <div>22</div>
+    <div>23</div>
+    <div>24</div>
+    <div>25</div>
+    <div>26</div>
+    <div>27</div>
+    <div>28</div>
+    <div>29</div>
+    <div>30</div>
+    
 
-  <img src="faceimg/3.gif">
+    <div>11</div>
+    <div>12</div>
+    <div>13</div>
+    <div>14</div>
+    <div>15</div>
+    <div>16</div>
+    <div>17</div>
+    <div>18</div>
+    <div>19</div>
+    <div>20</div>
 
-  <img src="faceimg/4.gif">
-
-</div>
-
-   
-
-        
-
- 
-
-<script type="text/javascript">
-
-//此处必须防止在最下端。
-
-var edt = document.getElementById("testdiv");
-
-if(edt.addEventListener){
-
-edt.addEventListener("paste",pasteHandler,false);
-
-}else{
-
-edt.attachEvent("onpaste",pasteHandler);
-
-}
-
-</script>
+    <div>21</div>
+    <div>22</div>
+    <div>23</div>
+    <div>24</div>
+    <div>25</div>
+    <div>26</div>
+    <div>27</div>
+    <div>28</div>
+    <div>29</div>
+    <div>30</div>
+  </div>  
 
 </body>
-
 </html>
