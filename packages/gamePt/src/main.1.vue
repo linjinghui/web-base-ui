@@ -4,17 +4,23 @@
  -->
 
 <template>
+<!-- width:800px;height:600px; -->
   <div class="wrap-game-pt" :class="{'err':!checkOrder}" :style="{'width':width+'px','height':height+'px'}">
-      <div class="block" v-for="(item,index) in arr" :key="'block_'+index" :style="{
+    <template v-for="(item,index) in arr">
+      <div class="block" :key="'block_'+index+'_l'" :style="{'width':blockWh.width+'px','height':blockWh.height+'px'}" v-if="dragoverIndex===index&&dragDrct==='left'"></div>
+      <div class="block" :key="'block_'+index" :style="{
         'width':blockWh.width+'px',
         'background-image': 'url('+imgUrl+')',
         'background-size': width+'px '+height+'px',
         'background-position': blockWh.width*((item-1)%h)*-1+'px '+blockWh.height*parseInt((item-1)/h)*-1+'px',
         'height':blockWh.height+'px'}"
         :draggable="draggable"
+        v-show="dragIndex!==index"
         @dragstart="dragstart(index,$event)"
         @dragend="dragend"
         @dragover="dragover(index,$event)">{{item}}</div>
+      <div class="block" :key="'block_'+index+'_r'" :style="{'width':blockWh.width+'px','height':blockWh.height+'px'}" v-if="dragoverIndex===index&&dragDrct==='right'"></div>
+    </template>
   </div>
 </template>
 
@@ -26,6 +32,8 @@
         width: 800,
         height: 600,
         arr: [],
+        imgUrl: 'https://up.enterdesk.com/edpic_source/ce/2e/81/ce2e811fa84d37c64e30777e70f6f614.jpg',
+        // 'http://www.gjlysy.com/upload/image/20180713/15314762498593031.jpg',
         draggable: true,
         dragIndex: '',
         dragoverIndex: '',
@@ -42,14 +50,7 @@
       // 垂直方向个数
       v: {
         default: 2
-      },
-      maxWitdh: {
-        default: 1000
-      },
-      maxHeight: {
-        default: 900
-      },
-      imgUrl: ''
+      }
     },
     watch: {
       h: function () {
@@ -60,10 +61,7 @@
       },
       dragX: function (val1, val2) {
         this.dragDrct = (val1 > val2) ? 'right' : 'left';
-        // console.log('==watch dragX==', this.dragDrct);
-      },
-      imgUrl: function () {
-        this.loadImg();
+        console.log('==watch dragX==', this.dragDrct);
       }
     },
     computed: {
@@ -84,7 +82,6 @@
             break;
           }
         }
-        this.$emit('callback', ret);
         return ret;
       }
     },
@@ -95,9 +92,22 @@
       this.initArr();
       let _this = this;
 
-      this.loadImg(function () {
+      setTimeout(function () {
         _this.randomSort();
-      });
+      }, 3000);
+      // setTimeout(function () {
+      //   _this.randomSort();
+      // }, 6000);
+
+      // setTimeout(function () {
+      //   // 5 -> 15
+      //   _this.moveTo(4, 14);
+      // }, 3000);
+      // setTimeout(function () {
+      //   // 11 -> 45
+      //   _this.moveTo(9, 44);
+      // }, 6000);
+      this.loadImg();
     },
     methods: {
       initArr: function () {
@@ -123,7 +133,7 @@
         }); 
       },
       // 加载背景图片
-      loadImg: function (callback) {
+      loadImg: function () {
         var _this = this;
 
         if (this.imgUrl) {
@@ -136,15 +146,14 @@
 
             _this.width = wh.width;
             _this.height = wh.height;
-            callback && callback();
           };
           // img.onerror = function () {};
         }
       },
       // 设置图片最大宽高
       maxWidthHeight: function (width, height) {
-        let maxWidth = this.maxWitdh;
-        let maxHeight = this.maxHeight;
+        let maxWidth = 1600;
+        let maxHeight = 900;
         let w = '';
         let h = '';
 
@@ -170,16 +179,16 @@
         }, 50);
       },
       dragend: function () {
-        // console.log('==dragend==' + this.dragIndex, this.dragoverIndex);
-        // 会将index1位置上的元素替换为index2位置的元素
-        // this.arr.splice(this.dragIndex, 1, this.arr[this.dragoverIndex]);
-        this.arr.splice(this.dragoverIndex, 1, ...this.arr.splice(this.dragIndex, 1, this.arr[this.dragoverIndex]));
-        // this.moveTo(this.dragIndex, this.dragoverIndex, this.dragDrct === 'right' ? 1 : 0);
+        console.log('==dragend==' + this.dragIndex, this.dragoverIndex);
+        // if (this.option.dragoverIndex >= 0) {
+        //   this.list = this.moveArray(this.list, this.option.dragIndex, this.option.dragoverIndex, (this.option.dragDrct === 'down') ? 1 : 0);
+        // }
+        this.moveTo(this.dragIndex, this.dragoverIndex, this.dragDrct === 'right' ? 1 : 0);
         this.dragIndex = '';
         this.dragoverIndex = '';
       },
       dragover: function (index, e) {
-        // // console.log('==dragover==', index);
+        // console.log('==dragover==', index);
         this.dragoverIndex = index;
         if (e) {
           this.dragX = e.x;
@@ -191,49 +200,3 @@
 </script>
 
 <style scoped lang="scss">
-  .wrap-game-pt {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-
-    > .block {
-      position: relative;
-      border: solid 1px #888;
-      border-radius: 4px;
-      background-repeat: no-repeat;
-      z-index: 2;
-    }
-  }
-  .wrap-game-pt:after {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    width: calc(100% + 4px);
-    height: calc(100% + 4px);
-    box-shadow: 0 0 40px #8bc34a;
-  }
-  .wrap-game-pt.err:after {
-    box-shadow: 0 0 40px #ff5722;
-  }
-
-  @keyframes zoomIn{0%{opacity:0;transform:scale3d(.3,.3,.3)}50%{opacity:1}}
-  @keyframes zoomOut{0%{opacity:1}50%{opacity:0;transform:scale3d(.3,.3,.3)}to{opacity:0}}
-  
-  .slide-fade-enter-active {
-    animation: zoomIn .5s;
-  }
-
-  .slide-fade-leave-active {
-    animation: zoomOut .5s;
-  }
-
-  .slide-fade-enter, .slide-fade-leave-to {
-    // right: -410px;
-  }
-</style>
