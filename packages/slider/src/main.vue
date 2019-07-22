@@ -10,7 +10,7 @@
     <div class="runway" ref="runway" @click="setPositionByMouse">
       <div class="bar" :style="{'width': value + '%', 'border-color': ctheme, 'background-color': ctheme}">
         <cmp-tooltip ref="ttp" :text="tipText" model="hover" position="bottom">
-          <span class="btn" @mousedown="toggleWindowEvent('add')" @touchstart="toggleWindowEvent('add')"></span>
+          <span class="btn theme-c" @mousedown="toggleWindowEvent('add')" @touchstart="toggleWindowEvent('add')"></span>
         </cmp-tooltip>
       </div>
     </div>

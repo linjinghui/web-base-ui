@@ -106,7 +106,7 @@
 <style>
   body {
     /* #0079ff */
-    --theme: purple;
+    /* --theme: purple; */
     background-color: #efefef;
   }
 </style>

@@ -6,7 +6,7 @@
         <div class="wrap-select" v-if="!imgUrl">
           <h3>SHOW TIME</h3>
           <p>您可以选择一张本地照片上传编辑</p>
-          <cmp-button theme="primary" :fileoption="fileOption" @cbk_file="cbk_file">本地照片</cmp-button>
+          <cmp-button :fileoption="fileOption" @cbk_file="cbk_file">本地照片</cmp-button>
         </div>
         <img :id="id" :src="imgUrl" v-else>
       </div>
@@ -73,8 +73,8 @@
             theme: 'primary',
             fileOption: fileOption
           }, {
-            text: '确认',
-            theme: 'primary'
+            text: '确认'
+            // ,theme: 'primary'
           }, {
             text: '取消',
             // primary|success|info|warning|danger|#f56c6c

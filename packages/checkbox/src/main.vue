@@ -95,7 +95,7 @@
       line-height: unset;
       border-radius: 2px;
       border: solid 1px #ccc;
-      background-color: #f4f4f4;
+      // background-color: #f4f4f4;
 
       > .cicon-tick {
         position: absolute;

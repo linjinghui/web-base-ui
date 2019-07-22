@@ -6,7 +6,8 @@
 
 <template>
   <span class="input" :class="{'pdlt': pdlt, 'pdrt': pdrt}" :id="id">
-    <input autoComplete="off"
+    <input :class="{'theme-bc':focus}"
+    autoComplete="off"
     ref="ipt"
     v-model.trim="val"
     :name="name"
@@ -205,7 +206,6 @@
       height: 100%;
       border-style: solid;
       border-width: 1px;
-      border-color: #ddd;
       color: inherit;
       font: inherit;
       outline: medium;
@@ -221,8 +221,8 @@
       display: none;
     }
 
-    >input:not([readonly]):focus {
-      border-color: var(--theme);
+    >input:not(.theme-bc) {
+      border-color: #ddd;
     }
 
     >i {

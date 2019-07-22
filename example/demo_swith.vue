@@ -1,11 +1,12 @@
 <!--
   功能：
-  theme: 自定义背景色 - #333|red|green, 不传默认#13ce66
+  theme: 自定义背景色 - #333|red|green
   disabled: 是否禁用 - true|false, 不传默认false
   beforeclk: 点击前执行方法，返回true才会继续点击
   -->
 <template>
-  <cmp-swith v-model="swith" theme="green" disabled="true"></cmp-swith>
+<!--  -->
+  <cmp-swith v-model="swith" disabled="true"></cmp-swith>
 </template>
 
 <script>

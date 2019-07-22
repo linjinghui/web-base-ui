@@ -1,5 +1,5 @@
 <template>
-  <div class="text-area" :class="{'focus': isFocus, 'disabled': disabled+''==='true'}">
+  <div class="text-area" :class="{'theme-bc focus': isFocus, 'disabled': disabled+''==='true'}">
     <textarea :placeholder="placeholder" :rows="rows" :maxlength="maxlength" v-model="pvalue" :onpaste="noPaste ? 'return false' : ''" :disabled="disabled+''==='true'" @focus="fun_focus" @blur="fun_blur"></textarea>
     <p v-if="residualSize >= 0">还能输入{{residualSize}}个字</p>
   </div>
@@ -75,7 +75,6 @@
     width: 100%;
     border-style: solid;
     border-width: 1px;
-    border-color: #dadada;
     color: inherit;
     border-radius: 4px;
     background-color: #fff;
@@ -99,8 +98,8 @@
     }
   }
 
-  .text-area.focus {
-    border-color: var(--theme);
+  .text-area:not(.focus) {
+    border-color: #dadada;
   }
 
   .text-area.disabled {

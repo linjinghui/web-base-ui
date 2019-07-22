@@ -9,13 +9,27 @@
  -->
 
 <template>
-  <button class="button theme-b" :class="theme" v-if="typeof fileoption==='undefined'" :id="id" :disabled="pdisabled" :data-clipboard-text="copydata" @click="clk">
-    <template v-if="value>0"><span style="font-size: 14px;">{{value}}</span> s</template>
+  <button class="button" v-if="typeof fileoption==='undefined'"
+    :style="cstl" 
+    :id="id"
+    :disabled="pdisabled"
+    :data-clipboard-text="copydata"
+    @click="clk">
+    <template v-if="value > 0"><span style="font-size: 14px;">{{value}}</span> s</template>
     <slot v-else></slot>
   </button>
   <!-- 选择文件专用∨ -->
-  <label class="button theme-b" :class="theme" :id="id" :disabled="pdisabled" :for="'file_'+id" v-else>
-      <input type="file" :id="'file_'+id" :disabled="pdisabled" :accept="fileoption.accept" :multiple="fileoption.multiple" @change="file_change">
+  <label class="button" v-else
+    :style="cstl" 
+    :id="id"
+    :disabled="pdisabled"
+    :for="'file_' + id">
+      <input type="file" 
+        :id="'file_' + id" 
+        :disabled="pdisabled"
+        :accept="fileoption.accept"
+        :multiple="fileoption.multiple"
+        @change="file_change">
       <slot></slot>
   </label>
   <!-- 选择文件专用∧ -->
@@ -62,7 +76,36 @@
         }
       }
     },
-    computed: {},
+    computed: {
+      backColor: function () {
+        let obj = {
+          primary: '#409eff',
+          success: '#67c23a',
+          info: '#909399',
+          warning: '#e6a23c',
+          danger: '#f56c6c',
+          line: '#fff'
+        };
+
+        return obj[this.theme] || this.theme;
+      },
+      cstl: function () {
+        let obj = {
+          primary: '#409eff',
+          success: '#67c23a',
+          info: '#909399',
+          warning: '#e6a23c',
+          danger: '#f56c6c',
+          line: '#fff'
+        };
+
+        return {
+          'border-color': this.theme === 'line' ? '#ddd' : '',
+          'color': this.theme === 'line' ? 'inherit' : '',
+          'background-color': obj[this.theme] || this.theme
+        };
+      }
+    },
     beforeDestroy: function () {
       // 
     },
@@ -159,6 +202,7 @@
     display: inline-block;
     padding: 6px 15px;
     color: #fff;
+    background-color:var(--theme);
     font-size: 12px;
     text-decoration: none;
     text-align: center;
@@ -179,26 +223,6 @@
     input[type='file'] {
       display: none;
     }
-  }
-  .button.primary {
-    background-color: #409eff;
-  }
-  .button.success {
-    background-color: #67c23a;
-  }
-  .button.info {
-    background-color: #909399;
-  }
-  .button.warning {
-    background-color: #e6a23c;
-  } 
-  .button.danger {
-    background-color: #f56c6c;
-  }
-  .button.line {
-    border-color: #ddd;
-    color: inherit;
-    background-color: #fff;
   }
 
   .button[disabled] {

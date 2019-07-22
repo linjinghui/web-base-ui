@@ -72,15 +72,15 @@
 <style lang="scss">
   @import url("layui-laydate/src/theme/default/laydate.css");
 
-  .layui-laydate {
-    .layui-laydate-footer span:hover,
-    .layui-laydate-footer span[lay-type="date"] {
-      color: var(--theme);
-    }
-    .laydate-day-mark::after {
-      background-color: var(--theme);
-    }
-  }
+  // .layui-laydate {
+  //   .layui-laydate-footer span:hover,
+  //   .layui-laydate-footer span[lay-type="date"] {
+  //     color: var(--theme);
+  //   }
+  //   .laydate-day-mark::after {
+  //     background-color: var(--theme);
+  //   }
+  // }
 </style>
 <style scoped lang="scss">
   [class^=cicon-calendar] {

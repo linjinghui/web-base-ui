@@ -12,7 +12,7 @@
     v-show="show">
     <div class="line" v-for="(item, index) in data" :key="item.id"
       @mousedown="clk_item(index)"
-      :class="{'active': multi?value.indexOf(index)!==-1:value[0]===index}">
+      :class="{'theme-c active': multi?value.indexOf(index)!==-1:value[0]===index}">
       <slot name="line" :item="item">{{item}}</slot><i class="cicon-tick center-hv" v-if="multi"></i>
     </div>
   </vperfect-scrollbar>
@@ -208,7 +208,7 @@
     }
     >.line:active,
     >.line.active {
-      color: var(--theme);
+      // color: var(--theme);
       background-color: transparent;
 
       >.cicon-tick {

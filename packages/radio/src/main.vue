@@ -6,10 +6,9 @@
  -->
 
 <template>
-  <label class="radio"
-    :disabled="(disabled+'')==='true'"
-    @click="clk">
-    <i :class="{'selected': value!==''&&value===val}" :style="(value!==''&&value===val) ? _style : ''"></i>
+  <label class="radio" :disabled="(disabled+'')==='true'" @click="clk">
+    <span :class="{'theme-c':value!==''&&value===val}"><i class="theme-b"></i></span>
+    <!-- <i :class="{'selected theme-c theme-b':value!==''&&value===val}"></i> -->
     <slot></slot>
   </label>
 </template>
@@ -18,16 +17,14 @@
   export default {
     name: 'Radio',
     data: function () {
-      return {
-        id: 'btn_' + new Date().getTime() + parseInt(Math.random() * 100)
-      };
+      return {};
     },
     props: {
       disabled: '',
       value: '',
       theme: {
         type: String,
-        default: 'var(--theme)'
+        default: 'theme-b'
       },
       beforeclk: {
         type: Function
@@ -38,12 +35,12 @@
       //
     },
     computed: {
-      _style: function () {
-        return {
-          borderColor: this.theme,
-          backgroundColor: this.theme
-        };
-      }
+      // _style: function () {
+      //   return {
+      //     borderColor: this.theme,
+      //     backgroundColor: this.theme
+      //   };
+      // }
     },
     beforeDestroy: function () {
       //
@@ -64,15 +61,15 @@
     }
   };
 </script>
-
+  
 <style scoped lang="scss">
+  
   .radio {
     display: inline-block;
     margin-right: 10px;
     user-select: none;
-    
 
-    >i {
+    > span {
       position: relative;
       display: inline-block;
       margin-right: 5px;
@@ -81,25 +78,30 @@
       border-radius: 50%;
       border-width: 1px;
       border-style: solid;
-      border-color: #dcdfe6;
       vertical-align: middle;
       font-size: 16px;
-      background-color: #fff;
+
+      > i {
+        display: none;
+      }
+    }
+    > span:not(.theme-c) {
+      color: #dcdfe6;
     }
 
-    >i.selected:before {
-      content: '';
+    > span.theme-c > i {
       position: absolute;
+      display: block;
       top: 0;
       right: 0;
       bottom: 0;
       left: 0;
       margin: auto;
-      width: 0.4em;
-      height: 0.4em;
+      width: 0.5em;
+      height: 0.5em;
       border-radius: 50%;
-      background-color: #fff;
     }
+
   }
 
   .radio:not([disabled]) {

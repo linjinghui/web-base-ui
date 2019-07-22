@@ -5,7 +5,7 @@
       <small>上一页</small>
     </span>
     <template v-for="(item) in arr">
-      <span :key="item" v-if="item<=totalPage" :class="{'active':value===item}" @click="clkItem(item)">{{item}}</span>
+      <span :key="item" v-if="item<=totalPage" :class="{'theme-b active':value===item}" @click="clkItem(item)">{{item}}</span>
     </template>
     <span :disabled="value>=totalPage" @click="value<totalPage&&clkItem(value+1)">
       <i class="cicon-arrow-right"></i>
@@ -182,9 +182,9 @@
     }
 
     span.active {
-      color: #fff;
+      // color: #fff;
       border: 0;
-      background-color: var(--theme);
+      // background-color: var(--theme);
     }
 
     .total {

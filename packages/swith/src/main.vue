@@ -6,7 +6,7 @@
  -->
 
 <template>
-  <button class="swith"
+  <button class="swith theme-b"
     :disabled="(disabled+'')==='true'"
     :class="(value+'')==='true'?'on':'off'"
     :style="(value+'')==='true'?_style:''"
@@ -17,15 +17,13 @@
   export default {
     name: 'Swith',
     data: function () {
-      return {
-        id: 'btn_' + new Date().getTime() + parseInt(Math.random() * 100)
-      };
+      return {};
     },
     props: {
       disabled: '',
       value: '',
       theme: {
-        default: '#13ce66'
+        default: ''
       },
       beforeclk: {
         type: Function
