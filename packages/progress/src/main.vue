@@ -9,8 +9,8 @@
 <template>
   <div class="progress circle" v-if="type === 'circle'">
     <svg viewBox="0 0 100 100">
-      <path d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" fill="none" stroke-width="4.8" :stroke="theme"></path>
-      <path d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" stroke-linecap="round" fill="none" stroke-width="4.8" :stroke="themebar" class="pg-bar" :style="{'stroke-dashoffset': percent + 'px', 'stroke-dasharray': maxValue + 'px, ' + maxValue + 'px'}"></path>
+      <path d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" fill="none" stroke-width="6.8" :stroke="theme"></path>
+      <path d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" stroke-linecap="round" fill="none" stroke-width="6.8" :stroke="themebar" class="pg-bar" :style="{'stroke-dashoffset': percent + 'px', 'stroke-dasharray': maxValue + 'px, ' + maxValue + 'px'}"></path>
     </svg>
     <p class="text center-hv">{{checkProgressParam(progress)}}%</p>
   </div>
@@ -97,6 +97,7 @@
     position: relative;
     width: 100%;
     height: 100%;
+    overflow: hidden;
   }
 
   /*圆形进度条*/

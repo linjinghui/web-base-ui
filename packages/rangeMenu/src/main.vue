@@ -12,7 +12,7 @@
       </label>
       <i class="cicon-cross-cpt-crle-chr cross" @click="clk_del(index)"></i>
     </a>
-    <a class="add" @click="clk_add">添加</a>
+    <span class="add theme-c" @click="clk_add">添加</span>
   </vperfect-scrollbar>
 </template>
 
@@ -95,7 +95,7 @@
     font-size: 14px;
     user-select: none;
 
-    a {
+    > a, > span {
       float: left;
       margin-right: $padding;
       margin-bottom: $padding;
@@ -104,8 +104,6 @@
       padding-left: $padding;
       padding-right: $padding;
       border-radius: 4px;
-      color: #909399;
-      background-color: #f0f2f5;
       cursor: default;
 
       label {
@@ -118,6 +116,7 @@
       }
 
       .cross {
+        margin-left: 2px;
         color: inheirt;
         font-size: 16px;
         vertical-align: 4px;
@@ -128,25 +127,26 @@
         background-color: #c0c4cc;
       }
     }
+    > a {
+      color: #909399;
+      background-color: #f0f2f5;
+    }
+    > a:hover {
+      background-color: #e6e6e6;
+    }
 
-    a.add {
-      color: var(--theme);
-      background-color: transparent;
+    .add {
       cursor: pointer;
     }
 
-    a.add:hover {
-      color: var(--theme);
-      filter: sepia(80%);
+    .add:hover {
+      filter: sepia(20%);
     }
 
-    a.add:active {
-      color: var(--theme);
-      filter: sepia(50%);
+    .add:active {
+      filter: sepia(10%);
     }
 
-    a:not(.add):hover {
-      background-color: #e6e6e6;
-    }
+    
   }
 </style>
