@@ -8,7 +8,10 @@
     <cmp-mobile-scroll-date-picker v-model="dateStr3"></cmp-mobile-scroll-date-picker> -->
     <!-- <br> -->
     DEMO4:<br>
-    <cmp-laydate v-model="dateStr4" :option="option"></cmp-laydate>
+    <cmp-laydate v-model="dateStr4" :option="option">
+      <!-- 自定义日期小图标 -->
+      <i class="cicon-tick center-v" slot="right"></i>
+    </cmp-laydate>
   </div>
 </template>
 
@@ -23,7 +26,7 @@ export default {
       dateStr: '',
       dateStr2: '',
       dateStr3: '',
-      dateStr4: '123',
+      dateStr4: '',
       // 参考API https://www.layui.com/laydate/
       option: {
         // year month time date datetime

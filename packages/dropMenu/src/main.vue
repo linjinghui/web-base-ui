@@ -122,13 +122,20 @@
         this.toggleDropmenu(false);
       },
       toggleDropmenu: function (status) {
-        if (typeof status === 'undefined') {
-          if (this.disabled + '' !== 'true') {
+        if (this.disabled + '' !== 'true') {
+          if (typeof status === 'undefined') {
             this.show = !this.show;
+          } else {
+            this.show = status;
           }
-        } else {
-          this.show = status;
         }
+        // if (typeof status === 'undefined') {
+        //   if (this.disabled + '' !== 'true') {
+        //     this.show = !this.show;
+        //   }
+        // } else {
+        //   this.show = status;
+        // }
       },
       cbkClkItem: function (data) {
         this.$emit('cbkClkItem', data);

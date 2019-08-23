@@ -522,6 +522,27 @@ div[placeholder]:empty:before {
     opacity: 0.54;
 }
 
+h1, h2, h3, h4 {
+    margin: 0;
+    font-style: normal;
+    font-weight: 400;
+}
+h1 {
+    font-size: 22px;
+}
+h2 {
+    font-size: 20px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+small {
+    font-size: 12px;
+}
+
 /**
  * text selection style
  */
@@ -714,29 +735,33 @@ div[placeholder]:empty:before {
   display: inline-block;
   top: calc(100% + 10px);
   left: 10px;
-  padding: 4px 6px;
-  border: 1px solid #bbb;
-  box-shadow: 1px 2px 4px #040000;
+  padding: 2px 5px;
+  border: 1px solid #e9f7f6;
+  box-shadow: 0 0 4px #aaa;
   border-radius: 2px;
   font-size: 12px;
   white-space: pre;
   color:#333;
   background-color: #f8f8f8;
   z-index: 2;
+  overflow: hidden;
 }
 
 /* 右上角数字角标 */
-.wui-badge:after {
-  content: attr(data-num);
-  position: absolute;
-  right: 12px;
-  top: 8px;
-  padding: 0 4px;
-  line-height: normal;
-  font-size: 12px;
-  border-radius: 4px;
-  color: #fff;
-  background-color: var(--theme);
+[data-badge] {
+    position: relative;
+}
+[data-badge]:after {
+    content: attr(data-badge);
+    position: absolute;
+    right: -12px;
+    top: -5px;
+    padding: 0 4px;
+    line-height: normal;
+    font-size: 12px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #409eff;
 }
 
 /* 文本省略号 */

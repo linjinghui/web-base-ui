@@ -4,8 +4,11 @@
  -->
 
 <template>
-  <cmp-input type="text" maxlength="20" :class="id" :placeholder="placeholder" v-model="value">
-    <i class="cicon-calendar-cpt-chr center-v" slot="right" @click.stop style="font-size: 26px;">
+  <cmp-input type="text" maxlength="20" :class="id" :placeholder="placeholder+':'+$scopedSlots" v-model="value">
+    <template slot="right" v-if="$scopedSlots.right">
+      <slot name="right"></slot>
+    </template>
+    <i class="cicon-calendar-cpt-chr center-v" slot="right" @click.stop style="font-size:26px;" v-else>
       <span></span>
     </i>
   </cmp-input>
@@ -47,6 +50,7 @@
     },
     mounted: function () {
       this.initLaydate();
+      console.log(this.$scopedSlots.right);
     },
     methods: {
       initLaydate: function () {
