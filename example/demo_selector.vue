@@ -27,9 +27,9 @@ export default {
             // 简单的树型
             type: 'singleTree',
             // 异步获取子节点
-            funAsynChild: this.funAsynChild
+            funAsynChild: this.funAsynChild,
             // 搜索
-            // funSearch: this.funSearch
+            funSearch: this.funSearch
           }, 
           {
             text: '角色列表'
@@ -178,20 +178,20 @@ export default {
     funSearch: function (data, callback) {
       console.log('==funSearch==');
       let searchData = [
-        {"id":"b1","name":"用户1","children":null,"img":""+this.imgrt+""},
+        {"id":"b1","name":"用户1","subName":"部门1>部门部门部门2>部门2>部门2>部门2>部门2","children":null,"img":""+this.imgrt+""},
         {"id":"b2","name":"用户2","children":null,"img":""+this.imgrt+""},
         {"id":"b3","name":"用户3","children":null,"img":""+this.imgrt+""},
         {"id":"b4","name":"用户4","children":null,"img":""+this.imgrt+""},
-        {"id":"b5","name":"用户5","children":null,"img":""+this.imgrt+""},
+        {"id":"b5","name":"用户5","subName":"部门1>部门部门部门2>部门2>部门2>部门2>部门2","children":null,"img":""+this.imgrt+""},
         {"id":"b6","name":"用户6","children":null,"img":""+this.imgrt+""},
         {"id":"b7","name":"用户7","children":null,"img":""+this.imgrt+""},
         {"id":"b8","name":"用户8","children":null,"img":""+this.imgrt+""},
         {"id":"b9","name":"用户9","children":null,"img":""+this.imgrt+""},
         {"id":"b10","name":"用户10","children":null,"img":""+this.imgrt+""},
-        {"id":"b11","name":"用户11","children":null,"img":""+this.imgrt+""},
+        {"id":"b11","name":"用户11","subName":"部门1>部门部门部门2>部门2>部门2>部门2>部门2","children":null,"img":""+this.imgrt+""},
         {"id":"b12","name":"用户12","children":null,"img":""+this.imgrt+""},
         {"id":"b13","name":"用户13","children":null,"img":""+this.imgrt+""},
-        {"id":"b14","name":"用户14","children":null,"img":""+this.imgrt+""}
+        {"id":"b14","name":"用户14","subName":"部门1>部门部门部门2>部门2>部门2>部门2>部门2","children":null,"img":""+this.imgrt+""}
       ];
 
       setTimeout(function () {

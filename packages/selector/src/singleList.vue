@@ -24,7 +24,11 @@
               <cmp-checkbox class="wrap-check" v-if="!item.disabled&&!item.nocheckbox" :required="item.required" v-model="item.checked" @click="clkCheckbox(item)"></cmp-checkbox>
             </span>
             <img class="wrap-avator" v-if="item.img" :src="item.img">
-            <p class="wrap-text" :disabled="item.disabled" :style="'width:calc(100% - '+((multiple&&!item.nocheckbox)?'22px':'0px')+' - 20px - 60px)'" v-html="replaceNameBySearch(item.name)"></p>
+            <!-- <p class="wrap-text" :disabled="item.disabled" :style="'width:calc(100% - '+((multiple&&!item.nocheckbox)?'22px':'0px')+' - 20px - 60px)'" v-html="replaceNameBySearch(item.name)+'<p class=\'sub-name\'>xxx</p>'"></p> -->
+            <div class="wrap-text" :disabled="item.disabled" :style="'width:calc(100% - '+((multiple&&!item.nocheckbox)?'22px':'0px')+' - 20px - '+((item.children&&item.children.length>=0)?'60px':'0px')+')'">
+              <p v-html="replaceNameBySearch(item.name)"></p>
+              <p class="sub-name" v-if="item.subName" :title="item.subName" v-text="item.subName"></p>
+            </div>
             <span class="wrap-right theme-c" v-if="item.children&&item.children.length>=0" :disabled="!item.required&&item.checked" @click.stop="clkNext(item)">
               <i v-if="nextIcon" :class="nextIcon"></i>下级
             </span>
@@ -252,6 +256,7 @@
 
     li {
       display: flex;
+      align-items: center;
       padding-right: 0!important;
       padding-top: 5px;
       padding-bottom: 5px;
@@ -273,6 +278,14 @@
         height: auto!important;
         line-height: unset!important;
         font-size: 12px;
+
+        > .sub-name {
+          color: #999;
+          font-size: 10px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
       > .wrap-text:disabled {
         color: #ccc;
